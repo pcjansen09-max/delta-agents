@@ -31,12 +31,14 @@ export default function SplitScreenDemo() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [activeCard, setActiveCard] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const hasStarted = useRef(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !isRunning) {
+        if (entry.isIntersecting && !hasStarted.current) {
+          hasStarted.current = true;
           startDemo();
         }
       },
@@ -46,10 +48,13 @@ export default function SplitScreenDemo() {
     const section = document.getElementById("demo");
     if (section) observer.observe(section);
     return () => observer.disconnect();
-  }, [isRunning]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  // Scroll only the chat container, never the page
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = chatContainerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [messages]);
 
   useEffect(() => {
@@ -163,6 +168,7 @@ export default function SplitScreenDemo() {
 
               {/* Messages */}
               <div
+                ref={chatContainerRef}
                 className="px-4 py-4 space-y-3 overflow-y-auto"
                 style={{ height: 380, background: "rgba(10,15,26,0.6)" }}
               >
@@ -204,7 +210,6 @@ export default function SplitScreenDemo() {
                     </motion.div>
                   ))}
                 </AnimatePresence>
-                <div ref={bottomRef} />
               </div>
 
               {/* Input bar */}
