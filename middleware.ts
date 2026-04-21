@@ -29,6 +29,13 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const host = request.headers.get("host") ?? "";
+  const siteUrl = host.includes("deltaagents.nl")
+    ? "https://deltaagents.nl"
+    : "https://delta-agents.vercel.app";
+  const authCallbackUrl = `${siteUrl}/auth/callback`;
+  supabaseResponse.headers.set("x-auth-callback-url", authCallbackUrl);
+
   // Protect /dashboard/* — redirect to /login if not authenticated
   if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
     const loginUrl = request.nextUrl.clone();

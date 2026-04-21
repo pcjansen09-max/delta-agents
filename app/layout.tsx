@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://deltaagents.nl"),
   title: "DeltaAgents — Jouw Digitale Werknemer",
   description:
     "Een digitale werknemer die 24/7 de telefoon opneemt, offertes maakt en je WhatsApp beantwoordt. Nooit ziek, nooit vakantie.",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
     title: "DeltaAgents — Jouw Digitale Werknemer",
     description: "AI-gedreven werknemers voor Nederlandse MKB-ondernemers.",
     type: "website",
+    url: "https://deltaagents.nl",
   },
 };
 

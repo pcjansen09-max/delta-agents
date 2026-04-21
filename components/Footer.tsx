@@ -16,7 +16,9 @@ export default function Footer() {
         </div>
 
         <p className="text-slate-500 text-sm text-center">
-          © {new Date().getFullYear()} DeltaAgents · Digitale Werknemers voor het MKB ·{" "}
+          © {new Date().getFullYear()} DeltaAgents ·{" "}
+          <a href="https://deltaagents.nl" className="hover:text-slate-300 transition-colors">deltaagents.nl</a>
+          {" "}· Digitale Werknemers voor het MKB ·{" "}
           <span className="text-slate-400">Nederland</span>
         </p>
 
