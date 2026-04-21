@@ -1,6 +1,7 @@
 "use client";
 
 import { Zap } from "lucide-react";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -17,15 +18,18 @@ export default function Footer() {
 
         <p className="text-slate-500 text-sm text-center">
           © {new Date().getFullYear()} DeltaAgents ·{" "}
-          <a href="https://deltaagents.nl" className="hover:text-slate-300 transition-colors">deltaagents.nl</a>
+          <a href="https://deltaagents.nl" className="hover:text-slate-300 transition-colors">
+            deltaagents.nl
+          </a>
           {" "}· Digitale Werknemers voor het MKB ·{" "}
           <span className="text-slate-400">Nederland</span>
         </p>
 
-        <div className="flex items-center gap-4 text-sm text-slate-500">
-          <a href="#" className="hover:text-slate-300 transition-colors">Privacy</a>
-          <a href="#" className="hover:text-slate-300 transition-colors">AVG</a>
-          <a href="#" className="hover:text-slate-300 transition-colors">Contact</a>
+        <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 justify-center">
+          <Link href="/privacy" className="hover:text-slate-300 transition-colors">Privacy</Link>
+          <Link href="/algemene-voorwaarden" className="hover:text-slate-300 transition-colors">Voorwaarden</Link>
+          <Link href="/prijzen" className="hover:text-slate-300 transition-colors">Prijzen</Link>
+          <Link href="/contact" className="hover:text-slate-300 transition-colors">Contact</Link>
         </div>
       </div>
     </footer>

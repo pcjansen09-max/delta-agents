@@ -24,11 +24,24 @@ export default function Hero() {
       />
 
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+        {/* NL badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-4"
+        >
+          <span className="text-sm">🇳🇱</span>
+          <span className="text-sm text-slate-300 font-medium">
+            Gemaakt voor het Nederlandse MKB
+          </span>
+        </motion.div>
+
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.05 }}
           className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8"
         >
           <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
@@ -60,10 +73,9 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed"
         >
-          Een werknemer die 24/7 de telefoon opneemt, offertes maakt en je WhatsApp
-          beantwoordt.{" "}
-          <span className="text-slate-200">Nooit ziek, nooit vakantie.</span>{" "}
-          Test hem hieronder direct.
+          Nooit meer gemiste klanten.{" "}
+          <span className="text-slate-200">Nooit meer herhaalvragen.</span>{" "}
+          Nooit meer nachtdienst.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -98,8 +110,9 @@ export default function Hero() {
         >
           {[
             { value: "24/7", label: "Beschikbaar" },
-            { value: "€239", label: "Per maand" },
-            { value: "98%", label: "Winstmarge" },
+            { value: "€149", label: "Vanaf / maand" },
+            { value: "127", label: "MKB bedrijven" },
+            { value: "4.8/5 ⭐", label: "Beoordeling" },
             { value: "<1 week", label: "Inwerktijd" },
           ].map((stat) => (
             <div key={stat.label} className="flex flex-col items-center gap-1">

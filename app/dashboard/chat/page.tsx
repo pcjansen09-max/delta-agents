@@ -1,30 +1,32 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
-import WerknemerClient from "@/components/dashboard/WerknemerClient";
+import ChatClient from "@/components/dashboard/ChatClient";
 
-export default async function WerknemerPage() {
+export default async function ChatPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
   const { data: company } = await supabase
     .from("deltaagents_companies")
-    .select("id, industry, whatsapp_number")
+    .select("id, company_name")
     .eq("owner_email", user.email!)
     .single();
 
   const { data: agentConfig } = await supabase
     .from("deltaagents_agent_config")
-    .select("actief")
+    .select("bedrijfsinfo")
     .eq("company_id", company?.id ?? "")
     .single();
 
+  const hasBedrijfsinfo =
+    (agentConfig?.bedrijfsinfo ?? "").trim().length > 20;
+
   return (
-    <WerknemerClient
+    <ChatClient
       companyId={company?.id ?? ""}
-      industry={company?.industry ?? null}
-      actief={agentConfig?.actief ?? false}
-      whatsappNumber={company?.whatsapp_number ?? null}
+      hasBedrijfsinfo={hasBedrijfsinfo}
+      companyName={company?.company_name ?? null}
     />
   );
 }

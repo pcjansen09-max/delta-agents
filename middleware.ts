@@ -36,8 +36,8 @@ export async function middleware(request: NextRequest) {
   const authCallbackUrl = `${siteUrl}/auth/callback`;
   supabaseResponse.headers.set("x-auth-callback-url", authCallbackUrl);
 
-  // Protect /dashboard/* — redirect to /login if not authenticated
-  if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
+  // Protect /dashboard/* and /onboarding — redirect to /login if not authenticated
+  if (!user && (request.nextUrl.pathname.startsWith("/dashboard") || request.nextUrl.pathname.startsWith("/onboarding"))) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/login";
     return NextResponse.redirect(loginUrl);
@@ -54,5 +54,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login"],
+  matcher: ["/dashboard/:path*", "/onboarding/:path*", "/login"],
 };

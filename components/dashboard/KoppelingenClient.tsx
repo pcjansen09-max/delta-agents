@@ -3,6 +3,8 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Search, Plug } from "lucide-react";
+import { createClient } from "@/lib/supabase-client";
+import { logActivity } from "@/lib/activity";
 
 interface Integration {
   id: string;
@@ -183,7 +185,22 @@ export default function KoppelingenClient({ companyId, connectedServices }: Prop
                   <span className="text-green-400 text-xs font-medium">Verbonden</span>
                 </div>
               ) : integration.available ? (
-                <button className="w-full py-2 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-400 text-xs font-semibold transition-all">
+                <button
+                  onClick={async () => {
+                    const supabase = createClient();
+                    const { data: { user } } = await supabase.auth.getUser();
+                    if (!user) return;
+                    const { data: company } = await supabase
+                      .from("deltaagents_companies")
+                      .select("id")
+                      .eq("owner_email", user.email!)
+                      .single();
+                    if (company) {
+                      await logActivity(supabase, company.id, "integratie_interesse", `${integration.name} integratie aangevraagd`);
+                    }
+                  }}
+                  className="w-full py-2 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-400 text-xs font-semibold transition-all"
+                >
                   Verbinden
                 </button>
               ) : (

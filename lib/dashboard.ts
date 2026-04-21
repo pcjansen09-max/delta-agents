@@ -46,6 +46,11 @@ export const ACTIVITY_ICONS: Record<string, string> = {
   email: "📧",
   telefoon: "📞",
   geheugen: "🧠",
+  chat_bericht: "💬",
+  bedrijfsinfo_update: "📝",
+  agent_status: "⚡",
+  integratie_interesse: "🔌",
+  onboarding_voltooid: "🎉",
   default: "⚡",
 };
 

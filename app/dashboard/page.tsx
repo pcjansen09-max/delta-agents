@@ -1,8 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
-import { motion } from "framer-motion";
-import { MessageSquare, FileText, Clock, Zap } from "lucide-react";
-import { ACTIVITY_ICONS, TIER_LABELS } from "@/lib/dashboard";
+import { ACTIVITY_ICONS } from "@/lib/dashboard";
 import DashboardOverview from "@/components/dashboard/Overview";
 
 export default async function DashboardPage() {
@@ -16,44 +14,55 @@ export default async function DashboardPage() {
     .eq("owner_email", user.email!)
     .single();
 
+  if (company && !company.company_name) {
+    redirect("/onboarding");
+  }
+
   const { data: activities } = await supabase
     .from("deltaagents_activity")
     .select("*")
     .eq("company_id", company?.id ?? "")
     .order("created_at", { ascending: false })
-    .limit(10);
+    .limit(20);
 
   const { data: agentConfig } = await supabase
     .from("deltaagents_agent_config")
-    .select("*")
+    .select("actief")
     .eq("company_id", company?.id ?? "")
     .single();
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const now = new Date();
+  const startOfDay = new Date(now); startOfDay.setHours(0, 0, 0, 0);
+  const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate() - 7);
 
   const berichtenVandaag = activities?.filter(
-    (a) => new Date(a.created_at) >= today && a.type === "whatsapp"
+    (a) => new Date(a.created_at) >= startOfDay
   ).length ?? 0;
 
-  const facturenDezesMaand = activities?.filter(
-    (a) => new Date(a.created_at) >= firstOfMonth && a.type === "factuur"
+  const actiesDezeWeek = activities?.filter(
+    (a) => new Date(a.created_at) >= startOfWeek
   ).length ?? 0;
 
   const urenBespaard = ((activities?.length ?? 0) * 0.25).toFixed(1);
   const agentActief = agentConfig?.actief ?? false;
 
+  const companyCreatedAt = company?.created_at
+    ? new Date(company.created_at)
+    : null;
+  const daysSinceCreation = companyCreatedAt
+    ? Math.floor((Date.now() - companyCreatedAt.getTime()) / 86400000)
+    : null;
+
   return (
     <DashboardOverview
       companyName={company?.company_name ?? null}
-      tier={TIER_LABELS[company?.subscription_tier ?? "basis"]}
       berichtenVandaag={berichtenVandaag}
-      facturenDezesMaand={facturenDezesMaand}
+      actiesDezeWeek={actiesDezeWeek}
       urenBespaard={urenBespaard}
       agentActief={agentActief}
       activities={activities ?? []}
       activityIcons={ACTIVITY_ICONS}
+      daysSinceCreation={daysSinceCreation}
     />
   );
 }

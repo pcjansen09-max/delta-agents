@@ -276,10 +276,10 @@ function CardInner({ plan }: { plan: (typeof PLANS)[number] }) {
 
       {/* CTA */}
       <a
-        href="#contact"
+        href="/login"
         className={`w-full flex items-center justify-center py-3.5 rounded-2xl font-semibold text-sm transition-all hover:opacity-90 active:scale-[0.98] ${plan.buttonStyle}`}
       >
-        Ik wil deze werknemer
+        Start vandaag
       </a>
     </div>
   );

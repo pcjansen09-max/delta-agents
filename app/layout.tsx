@@ -3,15 +3,29 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://deltaagents.nl"),
-  title: "DeltaAgents — Jouw Digitale Werknemer",
+  title: "DeltaAgents — Jouw Digitale Werknemer voor het MKB",
   description:
-    "Een digitale werknemer die 24/7 de telefoon opneemt, offertes maakt en je WhatsApp beantwoordt. Nooit ziek, nooit vakantie.",
-  keywords: ["AI agent", "digitale werknemer", "MKB", "automatisering", "WhatsApp", "facturatie"],
+    "Nooit meer gemiste klanten. DeltaAgents geeft jouw bedrijf een AI-werknemer die 24/7 WhatsApp beantwoordt, offertes maakt en klanten helpt.",
+  keywords: [
+    "digitale werknemer",
+    "AI assistent MKB",
+    "WhatsApp bot bedrijf",
+    "AI klantenservice",
+    "automatisering MKB",
+    "digitale medewerker",
+  ],
   openGraph: {
-    title: "DeltaAgents — Jouw Digitale Werknemer",
-    description: "AI-gedreven werknemers voor Nederlandse MKB-ondernemers.",
+    title: "DeltaAgents — Jouw Digitale Werknemer voor het MKB",
+    description: "Nooit meer gemiste klanten. Een AI-werknemer die 24/7 voor jouw bedrijf klaarstaat.",
     type: "website",
     url: "https://deltaagents.nl",
+    locale: "nl_NL",
+    siteName: "DeltaAgents",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DeltaAgents — Jouw Digitale Werknemer voor het MKB",
+    description: "Nooit meer gemiste klanten. Een AI-werknemer die 24/7 voor jouw bedrijf klaarstaat.",
   },
 };
 

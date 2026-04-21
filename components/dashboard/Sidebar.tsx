@@ -6,13 +6,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, Bot, Building2, Plug, Settings,
-  LogOut, Zap, Menu, X,
+  LogOut, Zap, Menu, X, MessageSquare,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase-client";
 
 const NAV = [
   { href: "/dashboard", label: "Overzicht", icon: LayoutDashboard },
   { href: "/dashboard/werknemer", label: "Mijn Werknemer", icon: Bot },
+  { href: "/dashboard/chat", label: "Test Werknemer", icon: MessageSquare },
   { href: "/dashboard/bedrijfsinfo", label: "Bedrijfsinfo", icon: Building2 },
   { href: "/dashboard/koppelingen", label: "Koppelingen", icon: Plug },
   { href: "/dashboard/instellingen", label: "Instellingen", icon: Settings },
@@ -56,7 +57,7 @@ export default function DashboardSidebar({ companyName, userEmail }: Props) {
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-0.5">
         {NAV.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href;
+          const active = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
           return (
             <Link
               key={href}
@@ -111,7 +112,7 @@ export default function DashboardSidebar({ companyName, userEmail }: Props) {
             Delta<span className="text-blue-400">Agents</span>
           </span>
         </Link>
-        <button onClick={() => setMobileOpen(true)} className="text-slate-400 hover:text-white">
+        <button onClick={() => setMobileOpen(true)} aria-label="Menu openen" className="text-slate-400 hover:text-white">
           <Menu className="w-5 h-5" />
         </button>
       </div>
@@ -135,7 +136,7 @@ export default function DashboardSidebar({ companyName, userEmail }: Props) {
               className="md:hidden fixed left-0 top-0 h-screen w-64 glass-strong border-r border-white/[0.08] z-50 flex flex-col"
             >
               <div className="flex justify-end px-4 pt-4">
-                <button onClick={() => setMobileOpen(false)} className="text-slate-400 hover:text-white">
+                <button onClick={() => setMobileOpen(false)} aria-label="Menu sluiten" className="text-slate-400 hover:text-white">
                   <X className="w-5 h-5" />
                 </button>
               </div>
