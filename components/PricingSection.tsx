@@ -1,37 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, Shield, Clock, Zap, BookOpen, MessageSquare, Sparkles } from "lucide-react";
-
-const ONBOARDING_STEPS = [
-  {
-    icon: <BookOpen className="w-5 h-5" />,
-    step: "Stap 1",
-    title: "Bedrijfsinfo invoeren",
-    desc: "Voed je werknemer met jouw prijzen, producten, klanten en werkwijze. Hoe meer hij weet, hoe beter hij presteert.",
-    color: "text-blue-400",
-    bg: "from-blue-500/15 to-blue-600/5",
-    border: "border-blue-500/20",
-  },
-  {
-    icon: <MessageSquare className="w-5 h-5" />,
-    step: "Stap 2",
-    title: "Eerste week corrigeren",
-    desc: "Net als een echte nieuwe werknemer maakt hij soms fouten. Corrigeer hem direct via WhatsApp — hij onthoudt het voor altijd.",
-    color: "text-violet-400",
-    bg: "from-violet-500/15 to-violet-600/5",
-    border: "border-violet-500/20",
-  },
-  {
-    icon: <Sparkles className="w-5 h-5" />,
-    step: "Stap 3",
-    title: "Volledig autonoom",
-    desc: "Na de eerste week werkt hij zelfstandig. Jij hoeft er niks meer aan te doen.",
-    color: "text-emerald-400",
-    bg: "from-emerald-500/15 to-emerald-600/5",
-    border: "border-emerald-500/20",
-  },
-];
+import { Check, Shield, Clock, Zap } from "lucide-react";
 
 const PLANS = [
   {
@@ -47,10 +17,6 @@ const PLANS = [
       "Offertes & facturen genereren",
       "24/7 beschikbaar",
     ],
-    color: "text-blue-400",
-    gradientFrom: "rgba(59,130,246,0.4)",
-    gradientTo: "rgba(59,130,246,0.1)",
-    buttonStyle: "glass hover:bg-white/[0.08] text-white border border-white/10",
   },
   {
     name: "Premium Werknemer",
@@ -58,7 +24,7 @@ const PLANS = [
     period: "/ maand",
     description: "De meeste MKB-ondernemers kiezen dit. Inclusief telefoon en zelflerend geheugen.",
     highlight: true,
-    badge: "Meest populair",
+    badge: "Meest gekozen",
     features: [
       "Alles van Basis",
       "Inkomende gesprekken via AI telefoon",
@@ -66,10 +32,6 @@ const PLANS = [
       "Zelflerend geheugen",
       "Maandelijkse rapportage",
     ],
-    color: "text-blue-400",
-    gradientFrom: "rgba(59,130,246,0.5)",
-    gradientTo: "rgba(99,102,241,0.3)",
-    buttonStyle: "bg-blue-600 hover:bg-blue-500 text-white",
   },
   {
     name: "All-Round Werknemer",
@@ -85,92 +47,28 @@ const PLANS = [
       "Prioritaire ondersteuning",
       "Dedicated setup begeleiding",
     ],
-    color: "text-violet-400",
-    gradientFrom: "rgba(99,102,241,0.4)",
-    gradientTo: "rgba(139,92,246,0.1)",
-    buttonStyle: "glass hover:bg-white/[0.08] text-white border border-white/10",
   },
 ];
 
 export default function PricingSection() {
   return (
-    <section id="pricing" className="py-32 px-6 relative">
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 50% 60%, rgba(59,130,246,0.06), transparent)",
-        }}
-      />
-
-      <div className="max-w-6xl mx-auto relative">
-
-        {/* Header */}
+    <section id="pricing" className="py-24 px-6">
+      <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <span className="text-blue-400 text-sm font-semibold uppercase tracking-widest mb-4 block">
+          <span className="inline-block text-accent text-sm font-semibold uppercase tracking-widest mb-4 bg-accent-light px-3 py-1 rounded-full">
             Transparante Prijzen
           </span>
-          <h2 className="font-display text-4xl md:text-5xl font-700 tracking-tight mb-4">
-            Kies jouw{" "}
-            <span className="gradient-text">Digitale Werknemer</span>
+          <h2 className="font-display text-4xl md:text-5xl text-text-primary mb-4">
+            Kies jouw Digitale Werknemer
           </h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+          <p className="text-text-secondary text-lg max-w-2xl mx-auto">
             Geen verborgen kosten. Geen lange contracten. Maandelijks opzegbaar.
-          </p>
-        </motion.div>
-
-        {/* Onboarding steps */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="glass rounded-3xl p-8 mb-12"
-        >
-          <div className="text-center mb-8">
-            <h3 className="font-display text-2xl font-700 text-white mb-2">
-              De Inwerkfase — zo leert jouw Digitale Werknemer jouw bedrijf kennen
-            </h3>
-            <p className="text-slate-400 text-sm max-w-xl mx-auto">
-              Elke nieuwe werknemer heeft een opstarttijd nodig. Jouw digitale werknemer ook.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            {ONBOARDING_STEPS.map((s, i) => (
-              <motion.div
-                key={s.step}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
-                className={`rounded-2xl p-5 bg-gradient-to-br ${s.bg} border ${s.border} relative`}
-              >
-                {/* Connector line between steps */}
-                {i < 2 && (
-                  <div className="hidden md:block absolute -right-2 top-1/2 -translate-y-1/2 z-10">
-                    <div className="w-4 h-px bg-gradient-to-r from-white/20 to-transparent" />
-                  </div>
-                )}
-                <div className={`${s.color} mb-3 flex items-center gap-2`}>
-                  {s.icon}
-                  <span className="text-xs font-bold uppercase tracking-wider">{s.step}</span>
-                </div>
-                <h4 className="font-semibold text-white text-sm mb-1.5">{s.title}</h4>
-                <p className="text-slate-400 text-xs leading-relaxed">{s.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <p className="text-center text-slate-500 text-xs">
-            De inwerkfase is geen extra kosten — het is de normale opstarttijd van jouw Digitale Werknemer.
-            Plan op <span className="text-slate-400">3–7 dagen actief begeleiden</span>.
           </p>
         </motion.div>
 
@@ -183,26 +81,72 @@ export default function PricingSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className={`relative flex flex-col ${plan.highlight ? "md:-mt-4 md:mb-0" : ""}`}
+              className={`relative flex flex-col ${plan.highlight ? "md:-mt-4" : ""}`}
             >
-              {/* Gradient border wrapper for highlighted card */}
               {plan.highlight ? (
                 <div
-                  className="rounded-3xl p-[1px] flex flex-col flex-1"
+                  className="rounded-2xl flex flex-col flex-1 h-full relative"
                   style={{
-                    background: `linear-gradient(135deg, ${plan.gradientFrom}, ${plan.gradientTo})`,
+                    background: "#1A1A2E",
+                    boxShadow: "0 8px 32px rgba(27,79,216,0.18), 0 2px 8px rgba(0,0,0,0.12)",
                   }}
                 >
                   {plan.badge && (
-                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap z-10">
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 font-bold text-xs px-4 py-1.5 rounded-full whitespace-nowrap z-10"
+                      style={{ background: "#E8B84B", color: "#1A1A2E" }}>
                       {plan.badge}
                     </div>
                   )}
-                  <CardInner plan={plan} />
+                  <div className="p-7 flex flex-col gap-5 flex-1">
+                    <div>
+                      <h3 className="font-semibold text-white text-lg mb-1">{plan.name}</h3>
+                      <p className="text-gray-400 text-sm leading-relaxed">{plan.description}</p>
+                    </div>
+                    <div className="flex items-end gap-1.5">
+                      <span className="font-display text-4xl text-white">{plan.price}</span>
+                      <span className="text-gray-400 mb-1">{plan.period}</span>
+                    </div>
+                    <ul className="space-y-2.5 flex-1">
+                      {plan.features.map((f) => (
+                        <li key={f} className="flex items-start gap-2.5 text-sm text-gray-300">
+                          <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-accent-warm" />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <a
+                      href="/login"
+                      className="w-full flex items-center justify-center py-3.5 rounded-xl font-semibold text-sm transition-all hover:opacity-90 active:scale-[0.98]"
+                      style={{ background: "#E8B84B", color: "#1A1A2E" }}
+                    >
+                      Start vandaag
+                    </a>
+                  </div>
                 </div>
               ) : (
-                <div className="glass rounded-3xl flex flex-col flex-1 h-full">
-                  <CardInner plan={plan} />
+                <div className="card p-7 flex flex-col gap-5 flex-1 h-full">
+                  <div>
+                    <h3 className="font-semibold text-text-primary text-lg mb-1">{plan.name}</h3>
+                    <p className="text-text-secondary text-sm leading-relaxed">{plan.description}</p>
+                  </div>
+                  <div className="flex items-end gap-1.5">
+                    <span className="font-display text-4xl text-text-primary">{plan.price}</span>
+                    <span className="text-text-secondary mb-1">{plan.period}</span>
+                  </div>
+                  <ul className="space-y-2.5 flex-1">
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2.5 text-sm text-text-secondary">
+                        <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-accent" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="/login"
+                    className="w-full flex items-center justify-center py-3.5 rounded-xl font-semibold text-sm border border-border hover:border-accent hover:bg-accent-light hover:text-accent transition-all active:scale-[0.98] text-text-primary"
+                  >
+                    Start vandaag
+                  </a>
                 </div>
               )}
             </motion.div>
@@ -214,73 +158,34 @@ export default function PricingSection() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="grid grid-cols-1 sm:grid-cols-3 gap-4"
         >
           {[
             {
-              icon: <Shield className="w-5 h-5 text-blue-400" />,
+              icon: <Shield className="w-5 h-5 text-accent" />,
               title: "GDPR-compliant",
               desc: "Jouw data blijft in Nederland. Volledig AVG-proof.",
             },
             {
-              icon: <Clock className="w-5 h-5 text-violet-400" />,
+              icon: <Clock className="w-5 h-5 text-amber-600" />,
               title: "Maandelijks opzegbaar",
               desc: "Geen jaarcontract. Stop wanneer je wil.",
             },
             {
-              icon: <Zap className="w-5 h-5 text-amber-400" />,
+              icon: <Zap className="w-5 h-5 text-green-600" />,
               title: "In 1 week actief",
               desc: "Inwerkfase duurt maximaal 7 dagen.",
             },
           ].map((item) => (
-            <div key={item.title} className="glass rounded-2xl p-5 text-center">
+            <div key={item.title} className="card p-5 text-center">
               <div className="flex justify-center mb-3">{item.icon}</div>
-              <h4 className="font-semibold text-white text-sm mb-1">{item.title}</h4>
-              <p className="text-slate-400 text-xs">{item.desc}</p>
+              <h4 className="font-semibold text-text-primary text-sm mb-1">{item.title}</h4>
+              <p className="text-text-secondary text-xs">{item.desc}</p>
             </div>
           ))}
         </motion.div>
       </div>
     </section>
-  );
-}
-
-function CardInner({ plan }: { plan: (typeof PLANS)[number] }) {
-  return (
-    <div
-      className="rounded-3xl p-7 flex flex-col gap-5 flex-1 h-full"
-      style={plan.highlight ? { background: "#0d1526" } : undefined}
-    >
-      {/* Name + description */}
-      <div>
-        <h3 className="font-display text-xl font-700 text-white mb-1">{plan.name}</h3>
-        <p className="text-slate-400 text-sm leading-relaxed">{plan.description}</p>
-      </div>
-
-      {/* Price */}
-      <div className="flex items-end gap-1.5">
-        <span className="font-display text-4xl font-800 text-white">{plan.price}</span>
-        <span className="text-slate-400 mb-1">{plan.period}</span>
-      </div>
-
-      {/* Features */}
-      <ul className="space-y-2.5 flex-1">
-        {plan.features.map((f) => (
-          <li key={f} className="flex items-start gap-2.5 text-sm text-slate-300">
-            <Check className={`w-4 h-4 flex-shrink-0 mt-0.5 ${plan.color}`} />
-            {f}
-          </li>
-        ))}
-      </ul>
-
-      {/* CTA */}
-      <a
-        href="/login"
-        className={`w-full flex items-center justify-center py-3.5 rounded-2xl font-semibold text-sm transition-all hover:opacity-90 active:scale-[0.98] ${plan.buttonStyle}`}
-      >
-        Start vandaag
-      </a>
-    </div>
   );
 }

@@ -38,17 +38,17 @@ export default function DashboardSidebar({ companyName, userEmail }: Props) {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="px-5 py-5 border-b border-white/[0.06]">
+      <div className="px-5 py-5 border-b border-white/[0.08]">
         <Link href="/dashboard" className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center flex-shrink-0">
+          <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
             <Zap className="w-4 h-4 text-white" fill="currentColor" />
           </div>
           <div className="min-w-0">
-            <div className="font-display font-700 text-white text-[14px] tracking-tight leading-tight">
+            <div className="font-semibold text-white text-[14px] tracking-tight leading-tight">
               Delta<span className="text-blue-400">Agents</span>
             </div>
             {companyName && (
-              <div className="text-slate-500 text-[11px] truncate mt-0.5">{companyName}</div>
+              <div className="text-gray-400 text-[11px] truncate mt-0.5">{companyName}</div>
             )}
           </div>
         </Link>
@@ -65,8 +65,8 @@ export default function DashboardSidebar({ companyName, userEmail }: Props) {
               onClick={() => setMobileOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 active
-                  ? "bg-blue-600/20 text-blue-400"
-                  : "text-slate-400 hover:text-white hover:bg-white/[0.05]"
+                  ? "bg-blue-600/25 text-blue-400"
+                  : "text-gray-400 hover:text-white hover:bg-white/[0.05]"
               }`}
             >
               <Icon className="w-4 h-4 flex-shrink-0" />
@@ -80,13 +80,13 @@ export default function DashboardSidebar({ companyName, userEmail }: Props) {
       </nav>
 
       {/* Bottom */}
-      <div className="px-3 py-4 border-t border-white/[0.06] space-y-2">
+      <div className="px-3 py-4 border-t border-white/[0.08] space-y-2">
         <div className="px-3 py-2">
-          <p className="text-slate-500 text-xs truncate">{userEmail}</p>
+          <p className="text-gray-500 text-xs truncate">{userEmail}</p>
         </div>
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-400 hover:text-red-400 hover:bg-red-400/[0.08] transition-all"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-400 hover:text-red-400 hover:bg-red-400/[0.08] transition-all"
         >
           <LogOut className="w-4 h-4 flex-shrink-0" />
           Uitloggen
@@ -98,21 +98,27 @@ export default function DashboardSidebar({ companyName, userEmail }: Props) {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-60 flex-col glass border-r border-white/[0.06] z-40">
+      <aside
+        className="hidden md:flex fixed left-0 top-0 h-screen w-60 flex-col z-40 border-r border-white/[0.08]"
+        style={{ background: "#111827" }}
+      >
         <SidebarContent />
       </aside>
 
       {/* Mobile header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-40 glass border-b border-white/[0.06] px-4 py-3 flex items-center justify-between">
+      <div
+        className="md:hidden fixed top-0 left-0 right-0 z-40 border-b border-white/[0.08] px-4 py-3 flex items-center justify-between"
+        style={{ background: "#111827" }}
+      >
         <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center">
+          <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center">
             <Zap className="w-4 h-4 text-white" fill="currentColor" />
           </div>
-          <span className="font-display font-700 text-white text-sm">
+          <span className="font-semibold text-white text-sm">
             Delta<span className="text-blue-400">Agents</span>
           </span>
         </Link>
-        <button onClick={() => setMobileOpen(true)} aria-label="Menu openen" className="text-slate-400 hover:text-white">
+        <button onClick={() => setMobileOpen(true)} aria-label="Menu openen" className="text-gray-400 hover:text-white">
           <Menu className="w-5 h-5" />
         </button>
       </div>
@@ -133,10 +139,11 @@ export default function DashboardSidebar({ companyName, userEmail }: Props) {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: "spring", damping: 28, stiffness: 350 }}
-              className="md:hidden fixed left-0 top-0 h-screen w-64 glass-strong border-r border-white/[0.08] z-50 flex flex-col"
+              className="md:hidden fixed left-0 top-0 h-screen w-64 z-50 flex flex-col border-r border-white/[0.08]"
+              style={{ background: "#111827" }}
             >
               <div className="flex justify-end px-4 pt-4">
-                <button onClick={() => setMobileOpen(false)} aria-label="Menu sluiten" className="text-slate-400 hover:text-white">
+                <button onClick={() => setMobileOpen(false)} aria-label="Menu sluiten" className="text-gray-400 hover:text-white">
                   <X className="w-5 h-5" />
                 </button>
               </div>

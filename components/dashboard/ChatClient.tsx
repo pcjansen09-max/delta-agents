@@ -115,8 +115,8 @@ export default function ChatClient({ companyId, hasBedrijfsinfo, companyName }: 
         animate={{ opacity: 1, y: 0 }}
         className="mb-4 flex-shrink-0"
       >
-        <h1 className="font-display text-2xl font-700 text-white mb-1">Test je werknemer</h1>
-        <p className="text-slate-400 text-sm">
+        <h1 className="font-semibold text-2xl text-gray-900 mb-1">Test je werknemer</h1>
+        <p className="text-gray-500 text-sm">
           Stuur een bericht zoals een klant dat zou doen — jouw werknemer antwoordt direct.
         </p>
       </motion.div>
@@ -126,15 +126,15 @@ export default function ChatClient({ companyId, hasBedrijfsinfo, companyName }: 
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex-shrink-0 mb-4 flex items-center gap-3 glass rounded-xl p-3.5 border border-amber-500/20 bg-amber-500/5"
+          className="flex-shrink-0 mb-4 flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-xl p-3.5"
         >
-          <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0" />
-          <p className="text-amber-300 text-sm flex-1">
+          <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0" />
+          <p className="text-amber-700 text-sm flex-1">
             Tip: vul je bedrijfsinfo in via het dashboard voor betere antwoorden
           </p>
           <Link
             href="/dashboard/bedrijfsinfo"
-            className="text-amber-400 hover:text-amber-300 text-xs font-semibold whitespace-nowrap transition-colors"
+            className="text-amber-700 hover:text-amber-800 text-xs font-semibold whitespace-nowrap transition-colors"
           >
             Invullen →
           </Link>
@@ -145,13 +145,13 @@ export default function ChatClient({ companyId, hasBedrijfsinfo, companyName }: 
       <div className="flex-1 overflow-y-auto space-y-4 pb-4 min-h-0">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
-            <div className="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4">
-              <Bot className="w-8 h-8 text-blue-400" />
+            <div className="w-16 h-16 rounded-2xl bg-accent-light border border-accent/20 flex items-center justify-center mb-4">
+              <Bot className="w-8 h-8 text-accent" />
             </div>
-            <p className="text-slate-400 text-sm font-medium mb-1">
+            <p className="text-gray-700 text-sm font-medium mb-1">
               {companyName ? `${companyName}'s werknemer staat klaar` : "Jouw werknemer staat klaar"}
             </p>
-            <p className="text-slate-600 text-xs max-w-xs">
+            <p className="text-gray-400 text-xs max-w-xs">
               Typ een bericht om te starten. Hij antwoordt zoals een klant dat zou verwachten.
             </p>
           </div>
@@ -168,28 +168,28 @@ export default function ChatClient({ companyId, hasBedrijfsinfo, companyName }: 
               <div
                 className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
                   msg.role === "user"
-                    ? "bg-blue-600"
-                    : "bg-white/[0.06] border border-white/[0.08]"
+                    ? "bg-accent"
+                    : "bg-gray-100 border border-gray-200"
                 }`}
               >
                 {msg.role === "user" ? (
                   <User className="w-4 h-4 text-white" />
                 ) : (
-                  <Bot className="w-4 h-4 text-blue-400" />
+                  <Bot className="w-4 h-4 text-accent" />
                 )}
               </div>
               <div
                 className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                   msg.role === "user"
-                    ? "bg-blue-600 text-white rounded-tr-sm"
-                    : "glass text-slate-200 rounded-tl-sm"
+                    ? "bg-accent text-white rounded-tr-sm"
+                    : "bg-gray-100 text-gray-800 rounded-tl-sm"
                 }`}
               >
                 {msg.content || (
                   <span className="flex gap-1 items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: "300ms" }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: "300ms" }} />
                   </span>
                 )}
               </div>
@@ -204,7 +204,7 @@ export default function ChatClient({ companyId, hasBedrijfsinfo, companyName }: 
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="flex-shrink-0 glass rounded-2xl p-3 flex gap-3 items-end"
+        className="flex-shrink-0 card p-3 flex gap-3 items-end"
       >
         <textarea
           ref={inputRef}
@@ -213,14 +213,14 @@ export default function ChatClient({ companyId, hasBedrijfsinfo, companyName }: 
           onKeyDown={handleKeyDown}
           placeholder="Stuur een bericht..."
           rows={1}
-          className="flex-1 bg-transparent text-white text-sm placeholder-slate-500 outline-none resize-none leading-relaxed max-h-32"
+          className="flex-1 bg-transparent text-gray-900 text-sm placeholder-gray-400 outline-none resize-none leading-relaxed max-h-32"
           style={{ minHeight: "24px" }}
         />
         <button
           onClick={sendMessage}
           disabled={!input.trim() || streaming}
           aria-label="Verstuur bericht"
-          className="w-9 h-9 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center transition-all flex-shrink-0"
+          className="w-9 h-9 rounded-xl bg-accent hover:bg-[#1641b8] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center transition-all flex-shrink-0"
         >
           <Send className="w-4 h-4 text-white" />
         </button>

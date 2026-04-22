@@ -1,134 +1,217 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Play, Star } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
+
+const MESSAGES = [
+  { from: "customer", text: "Goedemorgen! Wat zijn jullie tarieven voor tuinonderhoud?", delay: 0.6 },
+  { from: "agent", text: "Goedemorgen! 🌿 Ons tuinonderhoud start vanaf €45 p/u. Wat voor tuin heeft u?", delay: 1.2 },
+  { from: "customer", text: "Een achtertuin van ca. 80m². Kan ik een offerte krijgen?", delay: 1.8 },
+  { from: "agent", text: "Natuurlijk! Ik stuur u vandaag nog een offerte. Mag ik uw adres?", delay: 2.4 },
+  { from: "customer", text: "Ja, Kerkstraat 14 in Alkmaar.", delay: 3.0 },
+  { from: "agent", text: "Dank u! Offerte volgt binnen 2 uur. Fijne dag! 😊", delay: 3.6 },
+];
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
-      {/* Background effects */}
-      <div className="absolute inset-0 bg-gradient-hero pointer-events-none" />
+    <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
+      {/* Background radial */}
       <div
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 80% 60% at 65% 40%, #EEF2FF 0%, #FAFAF8 65%)",
         }}
       />
 
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-        {/* NL badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-4"
-        >
-          <span className="text-sm">🇳🇱</span>
-          <span className="text-sm text-slate-300 font-medium">
-            Gemaakt voor het Nederlandse MKB
-          </span>
-        </motion.div>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* Left: Copy */}
+        <div>
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="inline-flex items-center gap-2 bg-accent-light border border-accent/20 rounded-full px-4 py-2 mb-6"
+          >
+            <span className="text-sm">🇳🇱</span>
+            <span className="text-sm text-accent font-medium">Gemaakt voor het Nederlandse MKB</span>
+          </motion.div>
 
-        {/* Badge */}
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.08 }}
+            className="font-display text-5xl md:text-6xl xl:text-[68px] leading-[1.1] text-text-primary mb-6"
+          >
+            Jouw digitale{" "}
+            <span className="text-accent">werknemer</span>{" "}
+            werkt terwijl jij slaapt.
+          </motion.h1>
+
+          {/* Sub */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.16 }}
+            className="text-text-secondary text-lg md:text-xl leading-relaxed mb-8 max-w-lg"
+          >
+            Nooit meer gemiste klanten. Nooit meer herhaalvragen. Een AI-werknemer die 24/7 WhatsApp beantwoordt, offertes stuurt en afspraken inplant.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.24 }}
+            className="flex flex-col sm:flex-row gap-3 mb-10"
+          >
+            <a
+              href="/login"
+              className="group inline-flex items-center justify-center gap-2 bg-accent hover:bg-[#1641b8] text-white font-semibold px-7 py-3.5 rounded-xl transition-colors text-base"
+            >
+              Start gratis
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </a>
+            <a
+              href="#how-it-works"
+              className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-text-primary font-semibold px-7 py-3.5 rounded-xl border border-border transition-colors text-base"
+            >
+              Hoe het werkt
+            </a>
+          </motion.div>
+
+          {/* Trust row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex flex-wrap items-center gap-5 text-sm text-text-secondary"
+          >
+            <div className="flex items-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-3.5 h-3.5 text-accent-warm" fill="currentColor" />
+              ))}
+              <span className="ml-1.5 font-medium text-text-primary">4.8/5</span>
+            </div>
+            <span className="text-border">|</span>
+            <span>Geen setup fee</span>
+            <span className="text-border">|</span>
+            <span>Maandelijks opzegbaar</span>
+            <span className="text-border">|</span>
+            <span>In 1 week actief</span>
+          </motion.div>
+        </div>
+
+        {/* Right: iPhone WhatsApp mockup */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.05 }}
-          className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8"
+          initial={{ opacity: 0, x: 32 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="flex justify-center lg:justify-end"
         >
-          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          <span className="text-sm text-slate-300 font-medium">
-            8 Digitale Werknemers beschikbaar
-          </span>
-          <div className="flex items-center gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-3 h-3 text-amber-400" fill="currentColor" />
-            ))}
+          <div
+            style={{ transform: "rotate(-3deg)" }}
+            className="relative"
+          >
+            {/* Phone shell */}
+            <div
+              className="relative rounded-[40px] overflow-hidden shadow-phone"
+              style={{
+                width: 280,
+                border: "8px solid #1A1A2E",
+                background: "#ECE5DD",
+              }}
+            >
+              {/* Status bar */}
+              <div
+                className="flex items-center justify-between px-5 py-2 text-white text-[10px] font-semibold"
+                style={{ background: "#075E54" }}
+              >
+                <span>9:41</span>
+                <div className="flex gap-1 items-center">
+                  <span>●●●</span>
+                </div>
+              </div>
+
+              {/* WhatsApp header */}
+              <div
+                className="flex items-center gap-3 px-4 py-3"
+                style={{ background: "#075E54" }}
+              >
+                <div className="w-9 h-9 rounded-full bg-green-300 flex items-center justify-center text-green-900 text-xs font-bold flex-shrink-0">
+                  DA
+                </div>
+                <div>
+                  <p className="text-white text-sm font-semibold leading-tight">Digitale Werknemer</p>
+                  <p className="text-green-200 text-[10px]">Online · reageert altijd</p>
+                </div>
+              </div>
+
+              {/* Chat area */}
+              <div
+                className="px-3 py-4 space-y-2 min-h-[380px]"
+                style={{ background: "#ECE5DD" }}
+              >
+                {MESSAGES.map((msg, i) => (
+                  <div
+                    key={i}
+                    className={`msg-appear flex ${msg.from === "customer" ? "justify-start" : "justify-end"}`}
+                    style={{ animationDelay: `${msg.delay}s` }}
+                  >
+                    <div
+                      className="max-w-[85%] rounded-2xl px-3 py-2 text-[11px] leading-relaxed shadow-sm"
+                      style={{
+                        background: msg.from === "customer" ? "#FFFFFF" : "#DCF8C6",
+                        color: "#1A1A2E",
+                        borderRadius: msg.from === "customer"
+                          ? "2px 16px 16px 16px"
+                          : "16px 2px 16px 16px",
+                      }}
+                    >
+                      {msg.text}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Input bar */}
+              <div
+                className="flex items-center gap-2 px-3 py-2.5"
+                style={{ background: "#F0F0F0" }}
+              >
+                <div className="flex-1 bg-white rounded-full px-3 py-1.5 text-[10px] text-gray-400">
+                  Typ een bericht...
+                </div>
+                <div className="w-7 h-7 rounded-full bg-[#075E54] flex items-center justify-center text-white text-[10px]">
+                  ▶
+                </div>
+              </div>
+            </div>
+
+            {/* Floating badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.8, type: "spring", stiffness: 200 }}
+              className="absolute -right-6 top-16 bg-white rounded-2xl px-3 py-2.5 shadow-card-lg border border-border"
+            >
+              <p className="text-[10px] text-text-secondary font-medium">Antwoord in</p>
+              <p className="text-sm font-bold text-accent">2 seconden</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 2.2, type: "spring", stiffness: 200 }}
+              className="absolute -left-8 bottom-20 bg-white rounded-2xl px-3 py-2.5 shadow-card-lg border border-border"
+            >
+              <p className="text-[10px] text-text-secondary font-medium">Beschikbaar</p>
+              <p className="text-sm font-bold text-green-600">24/7</p>
+            </motion.div>
           </div>
         </motion.div>
-
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-display text-5xl md:text-7xl font-800 tracking-tight leading-[1.05] mb-6"
-        >
-          Neem vandaag nog jouw{" "}
-          <span className="gradient-text">Digitale Werknemer</span> aan.
-        </motion.h1>
-
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed"
-        >
-          Nooit meer gemiste klanten.{" "}
-          <span className="text-slate-200">Nooit meer herhaalvragen.</span>{" "}
-          Nooit meer nachtdienst.
-        </motion.p>
-
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-        >
-          <a
-            href="#agents"
-            className="group flex items-center gap-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-4 rounded-2xl transition-all hover:shadow-glow text-base"
-          >
-            Test je werknemer
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
-          <a
-            href="#demo"
-            className="group flex items-center gap-2.5 glass hover:bg-white/[0.06] text-slate-300 hover:text-white font-semibold px-8 py-4 rounded-2xl transition-all text-base"
-          >
-            <Play className="w-4 h-4" />
-            Bekijk de demo
-          </a>
-        </motion.div>
-
-        {/* Social proof */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-16 flex flex-wrap items-center justify-center gap-8 text-sm text-slate-500"
-        >
-          {[
-            { value: "24/7", label: "Beschikbaar" },
-            { value: "€149", label: "Vanaf / maand" },
-            { value: "127", label: "MKB bedrijven" },
-            { value: "4.8/5 ⭐", label: "Beoordeling" },
-            { value: "<1 week", label: "Inwerktijd" },
-          ].map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center gap-1">
-              <span className="text-2xl font-display font-700 text-white">
-                {stat.value}
-              </span>
-              <span className="text-slate-500 text-xs uppercase tracking-wider">
-                {stat.label}
-              </span>
-            </div>
-          ))}
-        </motion.div>
       </div>
-
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
     </section>
   );
 }

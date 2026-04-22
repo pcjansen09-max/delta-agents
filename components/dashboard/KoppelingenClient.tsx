@@ -104,8 +104,8 @@ export default function KoppelingenClient({ companyId, connectedServices }: Prop
   return (
     <div className="pt-16 md:pt-0 space-y-6">
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="font-display text-2xl font-700 text-white mb-1">Koppelingen</h1>
-        <p className="text-slate-400 text-sm">
+        <h1 className="font-semibold text-2xl text-gray-900 mb-1">Koppelingen</h1>
+        <p className="text-gray-500 text-sm">
           Verbind jouw Digitale Werknemer met de tools die jij al gebruikt.
         </p>
       </motion.div>
@@ -118,12 +118,12 @@ export default function KoppelingenClient({ companyId, connectedServices }: Prop
         className="space-y-3"
       >
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Zoek een koppeling..."
-            className="w-full glass rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:ring-1 focus:ring-blue-500/40 transition-all"
+            className="w-full border border-border rounded-xl pl-10 pr-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all bg-white"
           />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -133,8 +133,8 @@ export default function KoppelingenClient({ companyId, connectedServices }: Prop
               onClick={() => setActiveCategory(cat)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
                 activeCategory === cat
-                  ? "bg-blue-600 text-white"
-                  : "glass text-slate-400 hover:text-white"
+                  ? "bg-accent text-white"
+                  : "border border-border text-gray-500 hover:text-gray-900 hover:border-gray-300 bg-white"
               }`}
             >
               {cat}
@@ -153,11 +153,11 @@ export default function KoppelingenClient({ companyId, connectedServices }: Prop
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: Math.min(i * 0.03, 0.4) }}
-              className="glass rounded-2xl p-4 flex flex-col gap-3 hover:bg-white/[0.04] transition-colors"
+              className="card p-4 flex flex-col gap-3 hover:shadow-card-lg transition-shadow"
             >
               {/* Logo + name */}
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white/[0.06] flex items-center justify-center overflow-hidden flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-gray-50 border border-border flex items-center justify-center overflow-hidden flex-shrink-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`https://logo.clearbit.com/${integration.domain}`}
@@ -171,18 +171,18 @@ export default function KoppelingenClient({ companyId, connectedServices }: Prop
                   <Plug className="w-4 h-4 text-slate-500 hidden" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-white text-sm font-semibold truncate">{integration.name}</p>
-                  <p className="text-slate-500 text-xs">{integration.category}</p>
+                  <p className="text-gray-900 text-sm font-semibold truncate">{integration.name}</p>
+                  <p className="text-gray-400 text-xs">{integration.category}</p>
                 </div>
               </div>
 
-              <p className="text-slate-400 text-xs leading-relaxed flex-1">{integration.description}</p>
+              <p className="text-gray-500 text-xs leading-relaxed flex-1">{integration.description}</p>
 
               {/* Status button */}
               {isConnected ? (
                 <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                  <span className="text-green-400 text-xs font-medium">Verbonden</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                  <span className="text-green-600 text-xs font-medium">Verbonden</span>
                 </div>
               ) : integration.available ? (
                 <button
@@ -199,12 +199,12 @@ export default function KoppelingenClient({ companyId, connectedServices }: Prop
                       await logActivity(supabase, company.id, "integratie_interesse", `${integration.name} integratie aangevraagd`);
                     }
                   }}
-                  className="w-full py-2 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-400 text-xs font-semibold transition-all"
+                  className="w-full py-2 rounded-xl bg-accent-light border border-accent/20 text-accent text-xs font-semibold transition-all hover:bg-blue-100"
                 >
                   Verbinden
                 </button>
               ) : (
-                <div className="w-full py-2 rounded-xl bg-white/[0.03] border border-white/[0.05] text-slate-600 text-xs font-medium text-center">
+                <div className="w-full py-2 rounded-xl bg-gray-50 border border-gray-200 text-gray-400 text-xs font-medium text-center">
                   Binnenkort beschikbaar
                 </div>
               )}
@@ -214,7 +214,7 @@ export default function KoppelingenClient({ companyId, connectedServices }: Prop
       </div>
 
       {filtered.length === 0 && (
-        <div className="text-center py-16 text-slate-500">
+        <div className="text-center py-16 text-gray-400">
           <Plug className="w-8 h-8 mx-auto mb-3 opacity-40" />
           <p>Geen koppelingen gevonden voor &quot;{search}&quot;</p>
         </div>

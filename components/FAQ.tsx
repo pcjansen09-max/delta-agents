@@ -35,20 +35,20 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="py-24 px-6 relative">
+    <section className="py-24 px-6 bg-white">
       <div className="max-w-3xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-14"
         >
-          <span className="text-blue-400 text-sm font-semibold uppercase tracking-widest mb-4 block">
+          <span className="inline-block text-accent text-sm font-semibold uppercase tracking-widest mb-4 bg-accent-light px-3 py-1 rounded-full">
             Veelgestelde vragen
           </span>
-          <h2 className="font-display text-4xl md:text-5xl font-700 tracking-tight">
-            Alles wat je wil{" "}
-            <span className="gradient-text">weten</span>
+          <h2 className="font-display text-4xl md:text-5xl text-text-primary mb-4">
+            Alles wat je wil weten
           </h2>
         </motion.div>
 
@@ -56,23 +56,23 @@ export default function FAQ() {
           {QUESTIONS.map((item, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="glass rounded-2xl overflow-hidden"
+              className="card overflow-hidden"
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex items-center justify-between px-5 py-4 text-left"
+                className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50/60 transition-colors"
               >
-                <span className="text-white font-medium text-sm pr-4">{item.q}</span>
+                <span className="text-text-primary font-medium text-sm pr-4">{item.q}</span>
                 <motion.div
                   animate={{ rotate: open === i ? 180 : 0 }}
                   transition={{ duration: 0.2 }}
                   className="flex-shrink-0"
                 >
-                  <ChevronDown className="w-4 h-4 text-slate-400" />
+                  <ChevronDown className="w-4 h-4 text-text-secondary" />
                 </motion.div>
               </button>
 
@@ -85,9 +85,9 @@ export default function FAQ() {
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-5 pb-4 pt-0">
-                      <div className="border-t border-white/[0.06] pt-3">
-                        <p className="text-slate-400 text-sm leading-relaxed">{item.a}</p>
+                    <div className="px-6 pb-5 pt-0">
+                      <div className="border-t border-border pt-4">
+                        <p className="text-text-secondary text-sm leading-relaxed">{item.a}</p>
                       </div>
                     </div>
                   </motion.div>

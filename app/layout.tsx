@@ -1,5 +1,20 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Instrument_Serif } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://deltaagents.nl"),
@@ -35,12 +50,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nl" className="scroll-smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className="bg-background text-slate-100 antialiased">{children}</body>
+    <html lang="nl" className={`scroll-smooth ${inter.variable} ${instrumentSerif.variable}`}>
+      <body className="bg-background text-text-primary antialiased">{children}</body>
     </html>
   );
 }
