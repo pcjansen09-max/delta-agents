@@ -1,172 +1,307 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
 
-const MESSAGES = [
-  { from: "customer", text: "Goedemorgen! Wat zijn jullie tarieven voor tuinonderhoud?", delay: 0.6 },
-  { from: "agent", text: "Goedemorgen! 🌿 Ons tuinonderhoud start vanaf €45 p/u. Wat voor tuin heeft u?", delay: 1.2 },
-  { from: "customer", text: "Een achtertuin van ca. 80m². Kan ik een offerte krijgen?", delay: 1.8 },
-  { from: "agent", text: "Natuurlijk! Ik stuur u vandaag nog een offerte. Mag ik uw adres?", delay: 2.4 },
-  { from: "customer", text: "Ja, Kerkstraat 14 in Alkmaar.", delay: 3.0 },
-  { from: "agent", text: "Dank u! Offerte volgt binnen 2 uur. Fijne dag! 😊", delay: 3.6 },
+const TRAIN_MSGS = [
+  { from: "owner", text: "Jij beantwoordt voortaan klanten via WhatsApp. 24/7." },
+  { from: "worker", text: "Begrepen. Ik sta klaar, ook 's nachts en in het weekend." },
+  { from: "owner", text: "Offertes stuur je altijd binnen 2 uur na aanvraag." },
+  { from: "worker", text: "Noteer ik. Offerte binnen 2 uur, altijd." },
+  { from: "owner", text: "Maandag en dinsdag zijn mijn drukste dagen." },
+  { from: "worker", text: "Ik hou jouw agenda bij. Nooit dubbel ingepland." },
 ];
 
 export default function Hero() {
+  const [visible, setVisible] = useState(0);
+
+  useEffect(() => {
+    let i = 0;
+    const iv = setInterval(() => {
+      i++;
+      if (i >= TRAIN_MSGS.length) { clearInterval(iv); return; }
+      setVisible(i);
+    }, 900);
+    return () => clearInterval(iv);
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
-      {/* Background radial */}
+    <section
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        paddingTop: 64,
+        overflow: "hidden",
+        position: "relative",
+      }}
+    >
+      {/* Radial gradient */}
       <div
-        className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse 80% 60% at 65% 40%, #EEF2FF 0%, #FAFAF8 65%)",
+          position: "absolute",
+          inset: 0,
+          background: "radial-gradient(ellipse 75% 65% at 68% 45%, #EEF2FF 0%, transparent 70%)",
+          pointerEvents: "none",
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        {/* Left: Copy */}
-        <div>
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          padding: "80px 24px",
+          width: "100%",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 64,
+          alignItems: "center",
+          position: "relative",
+          zIndex: 1,
+        }}
+        className="hero-grid"
+      >
+        {/* LEFT: Copy */}
+        <div style={{ animation: "slideUp 0.6s ease-out forwards" }}>
           {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-2 bg-accent-light border border-accent/20 rounded-full px-4 py-2 mb-6"
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "var(--blue-l)",
+              border: "1px solid rgba(27,79,216,0.20)",
+              borderRadius: 999,
+              padding: "6px 16px",
+              marginBottom: 24,
+            }}
           >
-            <span className="text-sm">🇳🇱</span>
-            <span className="text-sm text-accent font-medium">Gemaakt voor het Nederlandse MKB</span>
-          </motion.div>
+            <span style={{ fontSize: 14 }}>🇳🇱</span>
+            <span style={{ fontSize: 13, fontWeight: 500, color: "var(--blue)" }}>
+              Gemaakt voor het Nederlandse MKB
+            </span>
+          </div>
 
           {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.08 }}
-            className="font-display text-5xl md:text-6xl xl:text-[68px] leading-[1.1] text-text-primary mb-6"
+          <h1
+            style={{
+              fontFamily: "var(--serif)",
+              fontSize: "clamp(40px, 5vw, 64px)",
+              lineHeight: 1.08,
+              color: "var(--t1)",
+              marginBottom: 20,
+              fontWeight: 400,
+            }}
           >
             Jouw digitale{" "}
-            <span className="text-accent">werknemer</span>{" "}
+            <span style={{ color: "var(--blue)", fontStyle: "italic" }}>werknemer</span>{" "}
             werkt terwijl jij slaapt.
-          </motion.h1>
+          </h1>
 
-          {/* Sub */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.16 }}
-            className="text-text-secondary text-lg md:text-xl leading-relaxed mb-8 max-w-lg"
+          <p
+            style={{
+              fontSize: 18,
+              lineHeight: 1.7,
+              color: "var(--t2)",
+              marginBottom: 32,
+              maxWidth: 480,
+            }}
           >
-            Nooit meer gemiste klanten. Nooit meer herhaalvragen. Een AI-werknemer die 24/7 WhatsApp beantwoordt, offertes stuurt en afspraken inplant.
-          </motion.p>
+            Hij plant afspraken in, verstuurt offertes en beantwoordt klanten — 24 uur per dag, 7 dagen per week. Jij hoeft er niets voor te doen.
+          </p>
 
           {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.24 }}
-            className="flex flex-col sm:flex-row gap-3 mb-10"
-          >
-            <a
-              href="/login"
-              className="group inline-flex items-center justify-center gap-2 bg-accent hover:bg-[#1641b8] text-white font-semibold px-7 py-3.5 rounded-xl transition-colors text-base"
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 36 }}>
+            <Link
+              href="#demo"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "var(--blue)",
+                color: "#fff",
+                fontWeight: 600,
+                fontSize: 15,
+                padding: "12px 28px",
+                borderRadius: 12,
+                textDecoration: "none",
+                boxShadow: "0 4px 20px rgba(27,79,216,0.35)",
+                transition: "all 0.15s",
+              }}
+              className="hover:brightness-110 hover:-translate-y-px"
             >
-              Start gratis
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </a>
-            <a
-              href="#how-it-works"
-              className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-text-primary font-semibold px-7 py-3.5 rounded-xl border border-border transition-colors text-base"
+              Probeer gratis
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              href="#hoe-het-werkt"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "var(--surface)",
+                color: "var(--t1)",
+                fontWeight: 600,
+                fontSize: 15,
+                padding: "12px 28px",
+                borderRadius: 12,
+                textDecoration: "none",
+                border: "1px solid var(--border)",
+                transition: "all 0.15s",
+              }}
+              className="hover:shadow-sm hover:-translate-y-px"
             >
               Hoe het werkt
-            </a>
-          </motion.div>
+            </Link>
+          </div>
 
-          {/* Trust row */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap items-center gap-5 text-sm text-text-secondary"
-          >
-            <div className="flex items-center gap-1">
+          {/* Trust */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "center", fontSize: 13, color: "var(--t2)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-3.5 h-3.5 text-accent-warm" fill="currentColor" />
+                <Star key={i} size={13} style={{ color: "var(--amber)" }} fill="var(--amber)" />
               ))}
-              <span className="ml-1.5 font-medium text-text-primary">4.8/5</span>
+              <span style={{ marginLeft: 4, fontWeight: 600, color: "var(--t1)" }}>4.8/5</span>
             </div>
-            <span className="text-border">|</span>
+            <span style={{ color: "var(--border)" }}>|</span>
             <span>Geen setup fee</span>
-            <span className="text-border">|</span>
+            <span style={{ color: "var(--border)" }}>|</span>
             <span>Maandelijks opzegbaar</span>
-            <span className="text-border">|</span>
+            <span style={{ color: "var(--border)" }}>|</span>
             <span>In 1 week actief</span>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Right: iPhone WhatsApp mockup */}
-        <motion.div
-          initial={{ opacity: 0, x: 32 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="flex justify-center lg:justify-end"
+        {/* RIGHT: 3D floating phone */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "relative",
+          }}
         >
+          {/* Phone wrapper with 3D + float */}
           <div
-            style={{ transform: "rotate(-3deg)" }}
-            className="relative"
+            style={{
+              width: 275,
+              height: 580,
+              borderRadius: 44,
+              background: "#1A1A2E",
+              border: "10px solid #1A1A2E",
+              boxShadow: "0 40px 80px rgba(0,0,0,0.20), 0 20px 40px rgba(27,79,216,0.14), inset 0 0 0 1px rgba(255,255,255,0.08)",
+              overflow: "hidden",
+              position: "relative",
+              animation: "float 6s ease-in-out infinite",
+            }}
           >
-            {/* Phone shell */}
+            {/* Dynamic Island */}
             <div
-              className="relative rounded-[40px] overflow-hidden shadow-phone"
               style={{
-                width: 280,
-                border: "8px solid #1A1A2E",
-                background: "#ECE5DD",
+                position: "absolute",
+                top: 12,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: 120,
+                height: 34,
+                background: "#000",
+                borderRadius: 20,
+                zIndex: 10,
               }}
-            >
+            />
+
+            {/* Screen content */}
+            <div style={{ width: "100%", height: "100%", background: "#FFFFFF", display: "flex", flexDirection: "column" }}>
               {/* Status bar */}
               <div
-                className="flex items-center justify-between px-5 py-2 text-white text-[10px] font-semibold"
-                style={{ background: "#075E54" }}
+                style={{
+                  height: 54,
+                  background: "#1A8A5A",
+                  display: "flex",
+                  alignItems: "flex-end",
+                  justifyContent: "space-between",
+                  padding: "0 16px 8px",
+                  fontSize: 10,
+                  color: "rgba(255,255,255,0.9)",
+                  fontWeight: 600,
+                  flexShrink: 0,
+                }}
               >
                 <span>9:41</span>
-                <div className="flex gap-1 items-center">
+                <div style={{ display: "flex", gap: 4 }}>
                   <span>●●●</span>
                 </div>
               </div>
 
               {/* WhatsApp header */}
               <div
-                className="flex items-center gap-3 px-4 py-3"
-                style={{ background: "#075E54" }}
+                style={{
+                  background: "#1A8A5A",
+                  padding: "10px 14px 12px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  flexShrink: 0,
+                }}
               >
-                <div className="w-9 h-9 rounded-full bg-green-300 flex items-center justify-center text-green-900 text-xs font-bold flex-shrink-0">
-                  DA
+                <div
+                  style={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: "50%",
+                    background: "rgba(255,255,255,0.2)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: "#fff",
+                    flexShrink: 0,
+                  }}
+                >
+                  DW
                 </div>
                 <div>
-                  <p className="text-white text-sm font-semibold leading-tight">Digitale Werknemer</p>
-                  <p className="text-green-200 text-[10px]">Online · reageert altijd</p>
+                  <div style={{ color: "#fff", fontSize: 13, fontWeight: 600, lineHeight: 1.3 }}>Digitale Werknemer</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#7FE8B0", display: "inline-block" }} />
+                    <span style={{ color: "rgba(255,255,255,0.75)", fontSize: 10 }}>Online · reageert altijd</span>
+                  </div>
                 </div>
               </div>
 
               {/* Chat area */}
               <div
-                className="px-3 py-4 space-y-2 min-h-[380px]"
-                style={{ background: "#ECE5DD" }}
+                style={{
+                  flex: 1,
+                  background: "#E5DDD5",
+                  padding: "12px 10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8,
+                  overflow: "hidden",
+                }}
               >
-                {MESSAGES.map((msg, i) => (
+                {TRAIN_MSGS.slice(0, visible + 1).map((msg, i) => (
                   <div
                     key={i}
-                    className={`msg-appear flex ${msg.from === "customer" ? "justify-start" : "justify-end"}`}
-                    style={{ animationDelay: `${msg.delay}s` }}
+                    style={{
+                      display: "flex",
+                      justifyContent: msg.from === "owner" ? "flex-start" : "flex-end",
+                      animation: "bubbleIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards",
+                    }}
                   >
                     <div
-                      className="max-w-[85%] rounded-2xl px-3 py-2 text-[11px] leading-relaxed shadow-sm"
                       style={{
-                        background: msg.from === "customer" ? "#FFFFFF" : "#DCF8C6",
+                        maxWidth: "82%",
+                        background: msg.from === "owner" ? "#FFFFFF" : "#D9FDD3",
+                        borderRadius: msg.from === "owner" ? "2px 14px 14px 14px" : "14px 2px 14px 14px",
+                        padding: "7px 10px",
+                        fontSize: 11,
+                        lineHeight: 1.5,
                         color: "#1A1A2E",
-                        borderRadius: msg.from === "customer"
-                          ? "2px 16px 16px 16px"
-                          : "16px 2px 16px 16px",
+                        boxShadow: "0 1px 2px rgba(0,0,0,0.10)",
                       }}
                     >
                       {msg.text}
@@ -177,41 +312,95 @@ export default function Hero() {
 
               {/* Input bar */}
               <div
-                className="flex items-center gap-2 px-3 py-2.5"
-                style={{ background: "#F0F0F0" }}
+                style={{
+                  background: "#F0F2F5",
+                  padding: "8px 10px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  flexShrink: 0,
+                }}
               >
-                <div className="flex-1 bg-white rounded-full px-3 py-1.5 text-[10px] text-gray-400">
+                <div
+                  style={{
+                    flex: 1,
+                    background: "#fff",
+                    borderRadius: 20,
+                    padding: "7px 12px",
+                    fontSize: 10,
+                    color: "#94A3B8",
+                  }}
+                >
                   Typ een bericht...
                 </div>
-                <div className="w-7 h-7 rounded-full bg-[#075E54] flex items-center justify-center text-white text-[10px]">
+                <div
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: "50%",
+                    background: "#1A8A5A",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#fff",
+                    fontSize: 11,
+                    flexShrink: 0,
+                  }}
+                >
                   ▶
                 </div>
               </div>
             </div>
-
-            {/* Floating badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.8, type: "spring", stiffness: 200 }}
-              className="absolute -right-6 top-16 bg-white rounded-2xl px-3 py-2.5 shadow-card-lg border border-border"
-            >
-              <p className="text-[10px] text-text-secondary font-medium">Antwoord in</p>
-              <p className="text-sm font-bold text-accent">2 seconden</p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 2.2, type: "spring", stiffness: 200 }}
-              className="absolute -left-8 bottom-20 bg-white rounded-2xl px-3 py-2.5 shadow-card-lg border border-border"
-            >
-              <p className="text-[10px] text-text-secondary font-medium">Beschikbaar</p>
-              <p className="text-sm font-bold text-green-600">24/7</p>
-            </motion.div>
           </div>
-        </motion.div>
+
+          {/* Floating badge — right */}
+          <div
+            style={{
+              position: "absolute",
+              right: -16,
+              top: "18%",
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+              borderRadius: 14,
+              padding: "10px 14px",
+              boxShadow: "var(--shadow-md)",
+              animation: "bubbleIn 0.4s 1.2s cubic-bezier(0.16,1,0.3,1) both",
+            }}
+          >
+            <div style={{ fontSize: 10, color: "var(--t3)", fontWeight: 500 }}>Reageert in</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: "var(--blue)" }}>2 seconden</div>
+          </div>
+
+          {/* Floating badge — left */}
+          <div
+            style={{
+              position: "absolute",
+              left: -8,
+              bottom: "22%",
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+              borderRadius: 14,
+              padding: "10px 14px",
+              boxShadow: "var(--shadow-md)",
+              animation: "bubbleIn 0.4s 1.8s cubic-bezier(0.16,1,0.3,1) both",
+            }}
+          >
+            <div style={{ fontSize: 10, color: "var(--t3)", fontWeight: 500 }}>Beschikbaar</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: "var(--green)" }}>24/7</div>
+          </div>
+        </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+            gap: 48px !important;
+            padding-top: 40px !important;
+            padding-bottom: 60px !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

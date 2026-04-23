@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const QUESTIONS = [
@@ -15,7 +14,7 @@ const QUESTIONS = [
   },
   {
     q: "Kan ik hem zelf bijleren?",
-    a: "Ja, op twee manieren: via je dashboard (bedrijfsinfo aanvullen) of door hem direct te corrigeren via WhatsApp: 'Niet zo zeggen, zeg liever...' Hij onthoudt het voor altijd.",
+    a: "Ja, op twee manieren: via je dashboard (bedrijfsinfo aanvullen) of door hem direct te corrigeren via WhatsApp. Zeg 'Niet zo zeggen, zeg liever...' en hij onthoudt het voor altijd.",
   },
   {
     q: "Wat als hij iets verkeerds zegt?",
@@ -35,66 +34,88 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="py-24 px-6 bg-white">
-      <div className="max-w-3xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-14"
-        >
-          <span className="inline-block text-accent text-sm font-semibold uppercase tracking-widest mb-4 bg-accent-light px-3 py-1 rounded-full">
+    <section style={{ padding: "96px 24px", background: "var(--bg-grey)" }}>
+      <div style={{ maxWidth: 720, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 56 }}>
+          <h2
+            style={{
+              fontFamily: "var(--serif)",
+              fontSize: "clamp(28px, 3.5vw, 44px)",
+              color: "var(--t1)",
+              fontWeight: 400,
+              marginBottom: 12,
+            }}
+          >
             Veelgestelde vragen
-          </span>
-          <h2 className="font-display text-4xl md:text-5xl text-text-primary mb-4">
-            Alles wat je wil weten
           </h2>
-        </motion.div>
+          <p style={{ fontSize: 16, color: "var(--t2)" }}>
+            Staat jouw vraag er niet bij? Mail ons op{" "}
+            <a href="mailto:team@deltaagents.nl" style={{ color: "var(--blue)", textDecoration: "none" }}>
+              team@deltaagents.nl
+            </a>
+          </p>
+        </div>
 
-        <div className="space-y-3">
-          {QUESTIONS.map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className="card overflow-hidden"
-            >
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50/60 transition-colors"
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {QUESTIONS.map((item, i) => {
+            const isOpen = open === i;
+            return (
+              <div
+                key={i}
+                style={{
+                  background: "var(--surface)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 14,
+                  overflow: "hidden",
+                  borderLeft: isOpen ? "3px solid var(--blue)" : "1px solid var(--border)",
+                  transition: "border 0.2s",
+                }}
               >
-                <span className="text-text-primary font-medium text-sm pr-4">{item.q}</span>
-                <motion.div
-                  animate={{ rotate: open === i ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex-shrink-0"
+                <button
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "18px 22px",
+                    background: "none",
+                    border: "none",
+                    textAlign: "left",
+                    cursor: "pointer",
+                    gap: 16,
+                  }}
                 >
-                  <ChevronDown className="w-4 h-4 text-text-secondary" />
-                </motion.div>
-              </button>
+                  <span style={{ fontSize: 15, fontWeight: 600, color: "var(--t1)", flex: 1 }}>
+                    {item.q}
+                  </span>
+                  <ChevronDown
+                    size={18}
+                    style={{
+                      color: "var(--t3)",
+                      flexShrink: 0,
+                      transform: isOpen ? "rotate(180deg)" : "none",
+                      transition: "transform 0.2s cubic-bezier(0.16,1,0.3,1)",
+                    }}
+                  />
+                </button>
 
-              <AnimatePresence>
-                {open === i && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="px-6 pb-5 pt-0">
-                      <div className="border-t border-border pt-4">
-                        <p className="text-text-secondary text-sm leading-relaxed">{item.a}</p>
-                      </div>
+                <div
+                  style={{
+                    maxHeight: isOpen ? 300 : 0,
+                    overflow: "hidden",
+                    transition: "max-height 0.3s cubic-bezier(0.16,1,0.3,1)",
+                  }}
+                >
+                  <div style={{ padding: "0 22px 18px", paddingTop: 2 }}>
+                    <div style={{ borderTop: "1px solid var(--border)", paddingTop: 14 }}>
+                      <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.75 }}>{item.a}</p>
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

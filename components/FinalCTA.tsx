@@ -1,46 +1,96 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export default function FinalCTA() {
   return (
-    <section className="py-28 px-6" style={{ background: "#1A1A2E" }}>
-      <div className="max-w-3xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
+    <section
+      style={{
+        padding: "112px 24px",
+        background: "var(--dark)",
+        position: "relative",
+        overflow: "hidden",
+        textAlign: "center",
+      }}
+    >
+      {/* Radial blue glow */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 600,
+          height: 400,
+          background: "radial-gradient(ellipse at center, rgba(27,79,216,0.30) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div style={{ maxWidth: 720, margin: "0 auto", position: "relative", zIndex: 1 }}>
+        <h2
+          style={{
+            fontFamily: "var(--serif)",
+            fontSize: "clamp(32px, 4.5vw, 58px)",
+            color: "#fff",
+            fontWeight: 400,
+            lineHeight: 1.12,
+            marginBottom: 20,
+          }}
         >
-          <h2 className="font-display text-4xl md:text-5xl xl:text-[56px] text-white leading-[1.15] mb-6">
-            Klaar om nooit meer een klant te missen?
-          </h2>
-          <p className="text-gray-400 text-lg mb-10 leading-relaxed">
-            Start vandaag. In één week actief. Maandelijks opzegbaar.
-          </p>
+          Klaar om nooit meer een klant te missen?
+        </h2>
+        <p style={{ fontSize: 18, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, marginBottom: 44 }}>
+          Start vandaag. In één week actief. Maandelijks opzegbaar.
+        </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/login"
-              className="group inline-flex items-center justify-center gap-2 font-bold px-8 py-4 rounded-xl transition-all text-base"
-              style={{ background: "#E8B84B", color: "#1A1A2E" }}
-            >
-              Start gratis vandaag
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-            </a>
-            <a
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 text-white font-semibold px-8 py-4 rounded-xl border border-white/20 hover:border-white/40 transition-colors text-base"
-            >
-              Neem contact op
-            </a>
-          </div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
+          <Link
+            href="/auth/login"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "var(--amber)",
+              color: "var(--dark)",
+              fontWeight: 700,
+              fontSize: 15,
+              padding: "14px 32px",
+              borderRadius: 12,
+              textDecoration: "none",
+              boxShadow: "0 4px 20px rgba(232,184,75,0.35)",
+              transition: "all 0.15s",
+            }}
+            className="hover:brightness-110 hover:-translate-y-px"
+          >
+            Start gratis vandaag
+            <ArrowRight size={16} />
+          </Link>
+          <a
+            href="mailto:team@deltaagents.nl"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              color: "#fff",
+              fontWeight: 600,
+              fontSize: 15,
+              padding: "14px 32px",
+              borderRadius: 12,
+              textDecoration: "none",
+              border: "1px solid rgba(255,255,255,0.20)",
+              transition: "border-color 0.15s",
+            }}
+            className="hover:border-white/40"
+          >
+            Neem contact op
+          </a>
+        </div>
 
-          <p className="mt-8 text-gray-500 text-sm">
-            Geen creditcard nodig · GDPR-compliant · Nederlands support
-          </p>
-        </motion.div>
+        <p style={{ marginTop: 32, fontSize: 13, color: "rgba(255,255,255,0.30)" }}>
+          Geen creditcard nodig · GDPR-compliant · Nederlands support
+        </p>
       </div>
     </section>
   );

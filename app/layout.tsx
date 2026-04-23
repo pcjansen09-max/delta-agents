@@ -1,20 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Instrument_Serif } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-});
-
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://deltaagents.nl"),
@@ -31,7 +16,8 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "DeltaAgents — Jouw Digitale Werknemer voor het MKB",
-    description: "Nooit meer gemiste klanten. Een AI-werknemer die 24/7 voor jouw bedrijf klaarstaat.",
+    description:
+      "Nooit meer gemiste klanten. Een AI-werknemer die 24/7 voor jouw bedrijf klaarstaat.",
     type: "website",
     url: "https://deltaagents.nl",
     locale: "nl_NL",
@@ -40,18 +26,23 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "DeltaAgents — Jouw Digitale Werknemer voor het MKB",
-    description: "Nooit meer gemiste klanten. Een AI-werknemer die 24/7 voor jouw bedrijf klaarstaat.",
+    description:
+      "Nooit meer gemiste klanten. Een AI-werknemer die 24/7 voor jouw bedrijf klaarstaat.",
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="nl" className={`scroll-smooth ${inter.variable} ${instrumentSerif.variable}`}>
-      <body className="bg-background text-text-primary antialiased">{children}</body>
+    <html lang="nl" className="scroll-smooth">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+        {children}
+      </body>
     </html>
   );
 }
