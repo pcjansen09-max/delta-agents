@@ -9,7 +9,7 @@ const INNER = [
   { slug: null,             brand: '#ED7D31', label: 'EX', letter: true  },
 ]
 const OUTER = [
-  { slug: null,             brand: '#6264A7', label: 'T',  letter: true  },
+  { slug: 'microsoftteams', brand: '#6264A7', label: 'T',  letter: false },
   { slug: 'googledrive',    brand: '#4285F4', label: 'D',  letter: false },
   { slug: 'zapier',         brand: '#FF4A00', label: 'Z',  letter: false },
   { slug: 'stripe',         brand: '#635BFF', label: 'St', letter: false },
