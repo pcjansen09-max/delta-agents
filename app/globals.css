@@ -1,99 +1,134 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg: #F7F5F0;
-  --surface: #FFFFFF;
-  --border: #E5E2DB;
-  --text-1: #1A1A2E;
-  --text-2: #4A5568;
-  --text-3: #94A3B8;
-  --accent: #1B4FD8;
+  --bg:        #F5F4F0;
+  --bg-white:  #FFFFFF;
+  --bg-blue:   #F0F5FF;
+  --bg-grey:   #FAFAF8;
+  --dark:      #0F172A;
+  --darker:    #0A0F1A;
+  --surface:   #FFFFFF;
+  --border:    #E8E8E4;
+  --t1:        #1A1A2E;
+  --t2:        #4A5568;
+  --t3:        #94A3B8;
+  --blue:      #1B4FD8;
+  --blue-l:    #EEF2FF;
+  --blue-m:    #DBEAFE;
+  --amber:     #E8B84B;
+  --amber-l:   #FEF3C7;
+  --green:     #22C55E;
+  --spring:    cubic-bezier(0.16, 1, 0.3, 1);
+  /* aliases for legacy */
+  --text-1:    #1A1A2E;
+  --text-2:    #4A5568;
+  --text-3:    #94A3B8;
+  --accent:    #1B4FD8;
   --accent-light: #EEF2FF;
-  --amber: #E8B84B;
-  --green: #22C55E;
-  --spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 8px rgba(0,0,0,0.04), 0 16px 40px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,0.05), 0 32px 80px rgba(0,0,0,0.09);
 }
 
-* { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
+*,*::before,*::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
-  background-color: var(--bg);
-  color: var(--text-1);
+  background: var(--bg);
+  color: var(--t1);
   font-family: var(--font-body), 'DM Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  line-height: 1.75;
 }
 
 a { text-decoration: none; color: inherit; }
 img { display: block; max-width: 100%; }
 button { cursor: pointer; border: none; background: none; font-family: inherit; }
 
-.font-display { font-family: var(--font-display), 'Instrument Serif', Georgia, serif !important; }
-
-/* Noise texture */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
+.font-display {
+  font-family: var(--font-display), 'Instrument Serif', Georgia, serif !important;
 }
 
-/* Orbit animations */
-@keyframes orbit-cw { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes orbit-ccw { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-
-/* Phone float */
-@keyframes float-3d {
-  0%, 100% { transform: perspective(1000px) rotateY(-7deg) rotateX(2deg) translateY(0px); }
-  50%       { transform: perspective(1000px) rotateY(-7deg) rotateX(2deg) translateY(-16px); }
-}
-.float-3d { animation: float-3d 6s ease-in-out infinite; }
-
-/* Message animations */
-@keyframes msg-in {
-  from { opacity: 0; transform: translateY(8px) scale(0.95); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-.msg-in { animation: msg-in 0.35s var(--spring) forwards; }
-
-/* Typing dots */
-@keyframes typing-pulse {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-  30%            { transform: translateY(-4px); opacity: 1; }
-}
-
-/* Count up */
-@keyframes count-in {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Pulse dot */
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.5; transform: scale(0.8); }
-}
-.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
-
-/* Card */
+/* ── CARD ── */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
+/* ── ORBIT animations ── */
+@keyframes orbit-cw  { from { transform: rotate(0deg); }   to { transform: rotate(360deg); } }
+@keyframes orbit-ccw { from { transform: rotate(0deg); }   to { transform: rotate(-360deg); } }
+
+/* ── Phone float ── */
+@keyframes float {
+  0%,100% { transform: translateY(0) rotate(-1.5deg); }
+  50%     { transform: translateY(-18px) rotate(-1.5deg); }
+}
+.float-3d { animation: float 6s cubic-bezier(.45,.05,.55,.95) infinite; }
+
+/* ── Message animations ── */
+@keyframes msg-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.94); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(8px) scale(.94); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Typing dots ── */
+@keyframes typing-pulse {
+  0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+  30%         { transform: translateY(-4px); opacity: 1; }
+}
+@keyframes dotBounce {
+  0%,80%,100% { transform: scale(.6); opacity: .4; }
+  40%         { transform: scale(1); opacity: 1; }
+}
+
+/* ── Pulse dot ── */
+@keyframes pulseDot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%     { opacity: .5; transform: scale(.8); }
+}
+.pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+.dot-green {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green);
+  animation: pulseDot 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: #CBD5E0; border-radius: 3px; }
+
+/* ── Section label chip ── */
+.sec-label {
+  display: inline-block;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  border-radius: 100px; padding: 4px 14px; margin-bottom: 20px;
+}
+.sec-label.blue   { background: var(--blue-l); color: var(--blue); }
+.sec-label.grey   { background: #F1F5F9; color: var(--t2); }
+.sec-label.red    { background: #FEE2E2; color: #DC2626; }
+.sec-label.amber  { background: var(--amber-l); color: #D97706; }
+
+/* ── Noise texture ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
