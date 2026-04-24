@@ -1,207 +1,134 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import AppLogo from "@/components/AppLogo";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Integraties — DeltaAgents",
-  description: "Verbind jouw digitale werknemer met meer dan 50 tools die je al gebruikt.",
-};
+﻿'use client'
+import { useState, useMemo } from 'react'
+import AppLogo from '@/components/AppLogo'
+import Link from 'next/link'
 
 const INTEGRATIONS = [
-  { name: "whatsapp", label: "WhatsApp", category: "Communicatie", description: "Beantwoordt klantberichten direct via WhatsApp Business" },
-  { name: "gmail", label: "Gmail", category: "Communicatie", description: "Verwerkt e-mails en stuurt professionele antwoorden" },
-  { name: "microsoftoutlook", label: "Outlook", category: "Communicatie", description: "Koppel je Outlook inbox voor automatische afhandeling" },
-  { name: "slack", label: "Slack", category: "Communicatie", description: "Intern notificaties sturen bij nieuwe klantcontacten" },
-  { name: "googlecalendar", label: "Google Calendar", category: "Planning", description: "Plant afspraken in op basis van je beschikbaarheid" },
-  { name: "zapier", label: "Zapier", category: "Automatisering", description: "Verbind met 5000+ andere tools via Zapier-workflows" },
-  { name: "stripe", label: "Stripe", category: "Betalen", description: "Accepteer betalingen en stuur factuurlinks" },
-  { name: "mollie", label: "Mollie", category: "Betalen", description: "iDEAL, creditcard en meer via Mollie" },
-  { name: "shopify", label: "Shopify", category: "Webshop", description: "Koppel je webshop voor orderinformatie en retourvragen" },
-  { name: "hubspot", label: "HubSpot", category: "CRM", description: "Klantdata automatisch bijwerken in HubSpot" },
-  { name: "notion", label: "Notion", category: "Kennisbank", description: "Sla bedrijfskennis op in Notion als trainingsbron" },
-  { name: "googledrive", label: "Google Drive", category: "Documenten", description: "Offertes en documenten opslaan in Google Drive" },
-  { name: "moneybird", label: "Moneybird", category: "Boekhouding", description: "Facturen automatisch aanmaken in Moneybird" },
-];
+  { id: 'whatsapp', label: 'WhatsApp', category: 'Communicatie', available: true },
+  { id: 'gmail', label: 'Gmail', category: 'Communicatie', available: true },
+  { id: 'outlook', label: 'Outlook', category: 'Communicatie', available: true },
+  { id: 'slack', label: 'Slack', category: 'Communicatie', available: true },
+  { id: 'calendar', label: 'Google Calendar', category: 'Agenda', available: true },
+  { id: 'moneybird', label: 'Moneybird', category: 'Boekhouding', available: true },
+  { id: 'exact', label: 'Exact Online', category: 'Boekhouding', available: true },
+  { id: 'twinfield', label: 'Twinfield', category: 'Boekhouding', available: false },
+  { id: 'mollie', label: 'Mollie', category: 'Betalen', available: true },
+  { id: 'stripe', label: 'Stripe', category: 'Betalen', available: true },
+  { id: 'paypal', label: 'PayPal', category: 'Betalen', available: false },
+  { id: 'hubspot', label: 'HubSpot', category: 'CRM', available: true },
+  { id: 'salesforce', label: 'Salesforce', category: 'CRM', available: false },
+  { id: 'shopify', label: 'Shopify', category: 'E-commerce', available: true },
+  { id: 'woocommerce', label: 'WooCommerce', category: 'E-commerce', available: false },
+  { id: 'zapier', label: 'Zapier', category: 'Overig', available: true },
+  { id: 'drive', label: 'Google Drive', category: 'Overig', available: true },
+  { id: 'notion', label: 'Notion', category: 'Overig', available: true },
+  { id: 'dropbox', label: 'Dropbox', category: 'Overig', available: false },
+]
 
-const CATEGORIES = ["Alle", ...Array.from(new Set(INTEGRATIONS.map((i) => i.category)))];
+const CATEGORIES = ['Alle', 'Communicatie', 'Agenda', 'Boekhouding', 'Betalen', 'CRM', 'E-commerce', 'Overig']
 
-export default function IntegratiesPage() {
+type Integration = typeof INTEGRATIONS[0]
+
+function IntegrationCard({ item }: { item: Integration }) {
+  const [hovered, setHovered] = useState(false)
   return (
-    <main>
-      <Navbar />
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: '#fff', border: '1px solid #E5E2DB', borderRadius: 14,
+        padding: '24px 20px', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', gap: 12, cursor: 'default',
+        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+        boxShadow: hovered ? '0 8px 24px rgba(0,0,0,0.08)' : '0 1px 3px rgba(0,0,0,0.04)',
+        transition: 'transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease',
+      }}
+    >
+      <AppLogo app={item.id} size={64} />
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E', marginBottom: 6 }}>{item.label}</div>
+        <div style={{
+          display: 'inline-block',
+          background: item.available ? '#DCFCE7' : '#F3F4F6',
+          color: item.available ? '#16A34A' : '#6B7280',
+          borderRadius: 100, padding: '2px 10px', fontSize: 11, fontWeight: 600,
+        }}>
+          {item.available ? 'Beschikbaar' : 'Binnenkort'}
+        </div>
+      </div>
+      <div style={{ fontSize: 11, color: '#9CA3AF' }}>{item.category}</div>
+    </div>
+  )
+}
 
-      {/* Hero */}
-      <section
-        style={{
-          paddingTop: 120,
-          paddingBottom: 64,
-          paddingLeft: 24,
-          paddingRight: 24,
-          textAlign: "center",
-          background: "var(--bg-blue)",
-        }}
-      >
-        <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "var(--blue-l)",
-              border: "1px solid rgba(27,79,216,0.20)",
-              borderRadius: 999,
-              padding: "5px 16px",
-              marginBottom: 20,
-            }}
-          >
-            <span style={{ fontSize: 13, fontWeight: 500, color: "var(--blue)" }}>50+ integraties</span>
+export default function IntegratiePage() {
+  const [search, setSearch] = useState('')
+  const [activeCategory, setActiveCategory] = useState('Alle')
+
+  const filtered = useMemo(() => INTEGRATIONS.filter(item => {
+    const matchSearch = item.label.toLowerCase().includes(search.toLowerCase())
+    const matchCat = activeCategory === 'Alle' || item.category === activeCategory
+    return matchSearch && matchCat
+  }), [search, activeCategory])
+
+  return (
+    <div style={{ background: '#F7F5F0', minHeight: '100vh' }}>
+      <div style={{ background: '#fff', borderBottom: '1px solid #E5E2DB', padding: '80px 24px 48px' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ display: 'inline-block', background: '#EEF2FF', color: '#1B4FD8', borderRadius: 100, padding: '4px 14px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: '0.1em', marginBottom: 20 }}>
+            Koppelingen
           </div>
-          <h1
-            style={{
-              fontFamily: "var(--serif)",
-              fontSize: "clamp(32px, 4.5vw, 54px)",
-              color: "var(--t1)",
-              fontWeight: 400,
-              marginBottom: 16,
-            }}
-          >
-            Werkt met de tools die jij al gebruikt
+          <h1 className='font-display' style={{ fontSize: 'clamp(32px,5vw,56px)', color: '#1A1A2E', fontWeight: 400, lineHeight: 1.1, marginBottom: 16 }}>
+            Alle integraties
           </h1>
-          <p style={{ fontSize: 17, color: "var(--t2)", lineHeight: 1.7 }}>
-            Geen migratie, geen gedoe. Jouw digitale werknemer verbindt zich met jouw bestaande software.
+          <p style={{ fontSize: 18, color: '#4A5568', lineHeight: 1.6, maxWidth: 520, margin: '0 auto 40px' }}>
+            Plug &amp; play koppelingen met de tools die jij al gebruikt.
           </p>
-        </div>
-      </section>
-
-      {/* Grid */}
-      <section style={{ padding: "64px 24px 96px", background: "var(--bg)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-              gap: 16,
-            }}
-          >
-            {INTEGRATIONS.map((int) => (
-              <div
-                key={int.name}
-                className="card card-hover"
-                style={{ padding: "20px 20px" }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
-                  <div
-                    style={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: 12,
-                      background: "var(--bg)",
-                      border: "1px solid var(--border)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: 8,
-                      flexShrink: 0,
-                    }}
-                  >
-                    <AppLogo name={int.name} size={28} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: "var(--t1)" }}>{int.label}</div>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 500,
-                        color: "var(--blue)",
-                        background: "var(--blue-l)",
-                        borderRadius: 6,
-                        padding: "2px 7px",
-                        display: "inline-block",
-                        marginTop: 2,
-                      }}
-                    >
-                      {int.category}
-                    </div>
-                  </div>
-                </div>
-                <p style={{ fontSize: 13, color: "var(--t2)", lineHeight: 1.6 }}>{int.description}</p>
-              </div>
-            ))}
-
-            {/* Coming soon */}
-            {["Moneyworks", "Exact Online", "AFAS", "Twinfield", "ActiveCampaign"].map((name) => (
-              <div
-                key={name}
-                style={{
-                  padding: "20px 20px",
-                  background: "var(--bg-grey)",
-                  border: "1px dashed var(--border)",
-                  borderRadius: 20,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 14,
-                  opacity: 0.7,
-                }}
-              >
-                <div
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 12,
-                    background: "var(--border)",
-                    flexShrink: 0,
-                  }}
-                />
-                <div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: "var(--t2)" }}>{name}</div>
-                  <div style={{ fontSize: 11, color: "var(--t3)", marginTop: 2 }}>Binnenkort beschikbaar</div>
-                </div>
-              </div>
-            ))}
+          <div style={{ position: 'relative', maxWidth: 480, margin: '0 auto' }}>
+            <svg style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)' }} width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='#9CA3AF' strokeWidth='2'>
+              <circle cx='11' cy='11' r='8'/><path d='m21 21-4.35-4.35'/>
+            </svg>
+            <input type='text' placeholder='Zoek integratie...' value={search} onChange={e => setSearch(e.target.value)}
+              style={{ width: '100%', padding: '14px 16px 14px 48px', border: '1.5px solid #E5E2DB', borderRadius: 12, fontSize: 15, background: '#fff', outline: 'none', boxSizing: 'border-box' as const }} />
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* CTA */}
-      <section style={{ padding: "64px 24px", background: "var(--surface)", textAlign: "center" }}>
-        <div style={{ maxWidth: 520, margin: "0 auto" }}>
-          <h2
-            style={{
-              fontFamily: "var(--serif)",
-              fontSize: "clamp(24px, 3vw, 36px)",
-              color: "var(--t1)",
-              fontWeight: 400,
-              marginBottom: 12,
-            }}
-          >
-            Mis je een integratie?
-          </h2>
-          <p style={{ fontSize: 15, color: "var(--t2)", marginBottom: 28 }}>
-            We bouwen voortdurend nieuwe koppelingen. Laat ons weten welke tool jij nodig hebt.
-          </p>
-          <a
-            href="mailto:team@deltaagents.nl?subject=Integratieverzoek"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "var(--blue)",
-              color: "#fff",
-              fontWeight: 600,
-              fontSize: 14,
-              padding: "12px 28px",
-              borderRadius: 12,
-              textDecoration: "none",
-              boxShadow: "0 4px 16px rgba(27,79,216,0.30)",
-            }}
-          >
-            Integratie aanvragen
-          </a>
+      <div style={{ background: '#fff', borderBottom: '1px solid #E5E2DB', overflowX: 'auto' as const }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px', display: 'flex', gap: 4 }}>
+          {CATEGORIES.map(cat => (
+            <button key={cat} onClick={() => setActiveCategory(cat)} style={{
+              padding: '14px 18px', background: 'none', border: 'none', cursor: 'pointer',
+              fontSize: 14, fontWeight: activeCategory === cat ? 700 : 500,
+              color: activeCategory === cat ? '#1B4FD8' : '#4A5568',
+              borderBottom: '2px solid ' + (activeCategory === cat ? '#1B4FD8' : 'transparent'),
+              whiteSpace: 'nowrap' as const, transition: 'all 0.15s',
+            }}>
+              {cat}
+            </button>
+          ))}
         </div>
-      </section>
+      </div>
 
-      <Footer />
-    </main>
-  );
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 24px' }}>
+        {filtered.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '80px 0', color: '#4A5568' }}>
+            <p style={{ fontSize: 16 }}>Geen resultaten voor &quot;{search}&quot;</p>
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }}>
+            {filtered.map((item, i) => <IntegrationCard key={item.id + item.category + i} item={item} />)}
+          </div>
+        )}
+
+        <div style={{ marginTop: 72, textAlign: 'center', background: '#fff', border: '1px solid #E5E2DB', borderRadius: 16, padding: '40px 24px' }}>
+          <p style={{ fontSize: 17, color: '#1A1A2E', fontWeight: 600, marginBottom: 8 }}>Mis je een integratie?</p>
+          <p style={{ fontSize: 14, color: '#4A5568', marginBottom: 20 }}>We bouwen nieuwe koppelingen op aanvraag.</p>
+          <Link href='/contact' style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#1A1A2E', color: '#fff', padding: '12px 24px', borderRadius: 10, fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
+            Stel integratie voor
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
 }

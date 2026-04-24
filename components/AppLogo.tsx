@@ -1,78 +1,54 @@
-"use client";
+'use client'
+import { useState } from 'react'
 
-import Image from "next/image";
-
-interface AppLogoProps {
-  name: string;
-  size?: number;
-  className?: string;
+const APPS: Record<string, { slug: string; color: string; label: string }> = {
+  whatsapp:  { slug: 'whatsapp',         color: '25D366', label: 'WhatsApp' },
+  gmail:     { slug: 'gmail',            color: 'EA4335', label: 'Gmail' },
+  calendar:  { slug: 'googlecalendar',   color: '4285F4', label: 'Google Calendar' },
+  outlook:   { slug: 'microsoftoutlook', color: '0078D4', label: 'Outlook' },
+  moneybird: { slug: 'moneybird',        color: '1AB5C1', label: 'Moneybird' },
+  exact:     { slug: 'exact',            color: 'ED7D31', label: 'Exact' },
+  slack:     { slug: 'slack',            color: '4A154B', label: 'Slack' },
+  zapier:    { slug: 'zapier',           color: 'FF4A00', label: 'Zapier' },
+  stripe:    { slug: 'stripe',           color: '635BFF', label: 'Stripe' },
+  mollie:    { slug: 'mollie',           color: '000000', label: 'Mollie' },
+  hubspot:   { slug: 'hubspot',          color: 'FF7A59', label: 'HubSpot' },
+  shopify:   { slug: 'shopify',          color: '96BF48', label: 'Shopify' },
+  drive:     { slug: 'googledrive',      color: '4285F4', label: 'Google Drive' },
+  notion:    { slug: 'notion',           color: '000000', label: 'Notion' },
 }
 
-const LOGO_COLORS: Record<string, string> = {
-  whatsapp: "#25D366",
-  gmail: "#EA4335",
-  googlecalendar: "#4285F4",
-  microsoftoutlook: "#0078D4",
-  slack: "#4A154B",
-  zapier: "#FF4A00",
-  stripe: "#635BFF",
-  shopify: "#96BF48",
-  hubspot: "#FF7A59",
-  notion: "#000000",
-  mollie: "#000000",
-  googledrive: "#4285F4",
-  moneybird: "#1AB5C1",
-};
-
-const LOGO_NAMES: Record<string, string> = {
-  whatsapp: "WhatsApp",
-  gmail: "Gmail",
-  googlecalendar: "Google Calendar",
-  microsoftoutlook: "Outlook",
-  slack: "Slack",
-  zapier: "Zapier",
-  stripe: "Stripe",
-  shopify: "Shopify",
-  hubspot: "HubSpot",
-  notion: "Notion",
-  mollie: "Mollie",
-  googledrive: "Google Drive",
-  moneybird: "Moneybird",
-};
-
-export default function AppLogo({ name, size = 32, className = "" }: AppLogoProps) {
-  const slug = name.toLowerCase().replace(/\s/g, "");
-  const color = LOGO_COLORS[slug] ?? "#1B4FD8";
-  const label = LOGO_NAMES[slug] ?? name;
-  const firstLetter = label.charAt(0).toUpperCase();
-
+export default function AppLogo({ app, size = 48 }: { app: string; size?: number }) {
+  const [err, setErr] = useState(false)
+  const cfg = APPS[app]
+  if (!cfg) return null
   return (
-    <div
-      className={`relative flex items-center justify-center overflow-hidden ${className}`}
-      style={{ width: size, height: size }}
-      title={label}
-    >
-      <Image
-        src={`/logos/${slug}.svg`}
-        alt={label}
-        width={size}
-        height={size}
-        style={{ width: size, height: size, objectFit: "contain" }}
-        onError={(e) => {
-          const target = e.currentTarget as HTMLImageElement;
-          target.style.display = "none";
-          const parent = target.parentElement;
-          if (parent) {
-            parent.style.background = color;
-            parent.style.borderRadius = "50%";
-            parent.style.color = "#fff";
-            parent.style.fontWeight = "700";
-            parent.style.fontSize = `${Math.round(size * 0.45)}px`;
-            parent.style.fontFamily = "'DM Sans', system-ui, sans-serif";
-            parent.textContent = firstLetter;
-          }
-        }}
-      />
+    <div style={{
+      width: size, height: size, borderRadius: '50%',
+      background: err ? `#${cfg.color}` : '#fff',
+      boxShadow: '0 2px 10px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.04)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      flexShrink: 0, transition: 'transform 0.2s var(--spring)',
+    }}>
+      {!err ? (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          src={`https://cdn.simpleicons.org/${cfg.slug}/${cfg.color}`}
+          alt={cfg.label}
+          width={size * 0.55}
+          height={size * 0.55}
+          onError={() => setErr(true)}
+          style={{ objectFit: 'contain' }}
+        />
+      ) : (
+        <span style={{
+          color: '#fff', fontWeight: 700,
+          fontSize: size * 0.38,
+          fontFamily: 'var(--font-body), DM Sans, sans-serif',
+        }}>
+          {cfg.label[0]}
+        </span>
+      )}
     </div>
-  );
+  )
 }

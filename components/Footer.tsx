@@ -17,7 +17,7 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <Link href="/" style={{ textDecoration: "none", display: "inline-block", marginBottom: 16 }}>
-            <Logo variant="white" />
+            <Logo white />
           </Link>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.50)", lineHeight: 1.7, maxWidth: 240 }}>
             Digitale Werknemers voor het Nederlandse MKB. 24/7 beschikbaar, nooit ziek.
