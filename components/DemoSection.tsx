@@ -25,8 +25,10 @@ export default function DemoSection() {
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (isFirstRender.current) { isFirstRender.current = false; return; }
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
