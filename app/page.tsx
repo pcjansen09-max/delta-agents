@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   ArrowRight, Star, Check, X, ChevronDown, MessageSquare,
-  Calendar, FileText, Brain, Link2, BarChart3, Shield, Clock, Zap,
+  Calendar, FileText, Brain, BarChart3, Shield, Clock, Zap,
   Home, Leaf, Wrench, Building2, Scissors, UtensilsCrossed, Car, HeartPulse, Package,
 } from 'lucide-react'
 import Navbar from '@/components/Navbar'
@@ -73,15 +73,18 @@ function RoiBar() {
   )
 }
 
-// ─── Features ─────────────────────────────────────────────────────────────────
-const FEATURES = [
-  { Icon: MessageSquare, color: '#1B4FD8', bg: '#EEF2FF', title: 'WhatsApp 24/7', desc: 'Hij beantwoordt klantberichten direct — ook midden in de nacht en in het weekend.', chips: ['Beantwoordt vragen', 'Stuurt bevestigingen'] },
-  { Icon: Calendar, color: '#16A34A', bg: '#DCFCE7', title: 'Afspraken inplannen', desc: 'Hij plant afspraken in op basis van jouw agenda. Geen dubbele boekingen, nooit.', chips: ['Google Calendar', 'Outlook'] },
-  { Icon: FileText, color: '#D97706', bg: '#FEF3C7', title: 'Offertes & facturen', desc: 'Hij genereert professionele offertes op basis van jouw tarieven en verstuurt ze direct.', chips: ['Jouw tarieven', 'Direct verstuurd'] },
-  { Icon: Brain, color: '#7C3AED', bg: '#FAF5FF', title: 'Onthoudt alles', desc: 'Hij onthoudt klantvoorkeuren en eerdere gesprekken. Geen herhaalvragen.', chips: ['Klantgeheugen', 'Leert van correcties'] },
-  { Icon: Link2, color: '#0EA5E9', bg: '#E0F2FE', title: 'Koppelingen', desc: 'Hij werkt samen met WhatsApp, boekhouding, CRM en meer dan 50 tools.', chips: ['Stripe', 'HubSpot', 'Zapier'] },
-  { Icon: BarChart3, color: '#1B4FD8', bg: '#EEF2FF', title: 'Dashboard & inzichten', desc: 'Bekijk alle activiteiten, gesprekken en resultaten in één overzicht.', chips: ['Realtime', 'Maandrapport'] },
+// ─── Actie cards ──────────────────────────────────────────────────────────────
+const ACTIE_CARDS = [
+  { badge: 'Hij doet het automatisch', badgeBg: '#EEF2FF', badgeColor: '#1B4FD8', icon: '📅', iconBg: '#EEF2FF', title: 'Plant afspraken in', desc: 'Klant vraagt om een afspraak via WhatsApp. Hij checkt jouw agenda en plant in — zonder dat jij iets doet.' },
+  { badge: 'Binnen 2 minuten', badgeBg: '#FEF3C7', badgeColor: '#D97706', icon: '📄', iconBg: '#FEF3C7', title: 'Verstuurt offertes', desc: 'Op basis van jouw prijslijst maakt hij een professionele offerte en stuurt die direct naar de klant.' },
+  { badge: 'Persoonlijk contact', badgeBg: '#EDE9FE', badgeColor: '#7C3AED', icon: '🧠', iconBg: '#EDE9FE', title: 'Onthoudt elke klant', desc: 'Hij weet nog dat mevrouw De Jong vorige keer vroeg om een afspraak op vrijdag. Hij vraagt er zelf naar.' },
+  { badge: 'Alleen Premium', badgeBg: '#DCFCE7', badgeColor: '#16A34A', icon: '📞', iconBg: '#DCFCE7', title: 'Belt zelf terug', desc: 'Gemiste oproep? Hij belt de klant automatisch terug en regelt wat er nodig is — zonder jouw tussenkomst.' },
+  { badge: 'Koppeling vereist', badgeBg: '#FEF3C7', badgeColor: '#D97706', icon: '🧾', iconBg: '#FEF3C7', title: 'Verstuurt facturen', desc: 'Na afgeronde klus stuurt hij de factuur via jouw boekhoudpakket. Moneybird, Exact, of wat jij gebruikt.' },
+  { badge: 'Elke week', badgeBg: '#EEF2FF', badgeColor: '#1B4FD8', icon: '📊', iconBg: '#EEF2FF', title: 'Rapporteert wat hij deed', desc: 'Elke week een overzicht: hoeveel berichten, afspraken, offertes en hoeveel tijd hij jou heeft bespaard.' },
 ]
+
+// ─── Scenario tab labels ───────────────────────────────────────────────────────
+const SCENARIO_TABS = ['Factuur maken', 'Offerte sturen', 'Afspraak inplannen', 'Betaling opvolgen', 'Klant herinneren']
 
 // ─── Sectors ──────────────────────────────────────────────────────────────────
 const SECTORS = [
@@ -193,7 +196,7 @@ interface ChatMsg { role: 'user' | 'assistant'; content: string }
 
 function DemoChat() {
   const [msgs, setMsgs] = useState<ChatMsg[]>([
-    { role: 'assistant', content: 'Goedemiddag! Ik ben de digitale werknemer van Jansen Hoveniers. Waarmee kan ik u helpen?' },
+    { role: 'assistant', content: 'Hey! Ik ben klaar om te werken. Wat heb je vandaag gedaan?' },
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -255,32 +258,37 @@ function DemoChat() {
     setLoading(false)
   }
 
-  const CHIPS = ['Wat zijn jullie tarieven?', 'Kan ik een offerte aanvragen?', 'Hoe snel reageren jullie?']
+  const CHIPS = ['Klus klaar bij Familie Peters. 3u heg knippen.', 'Henk Smit wil offerte voor tuinaanleg.', 'Factuur Jansen staat 2 weken open.']
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'start' }} className="demo-grid">
       {/* Company card */}
       <div>
         <div className="card" style={{ padding: 28, marginBottom: 20 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
-            <div style={{ width: 52, height: 52, borderRadius: 14, background: '#DCFCE7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>🌿</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
+            <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, color: '#fff', flexShrink: 0 }}>JH</div>
             <div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: '#1A1A2E' }}>Jansen Hoveniers</div>
-              <div style={{ fontSize: 13, color: '#4A5568' }}>Haarlem & omgeving</div>
+              <div style={{ fontSize: 17, fontWeight: 700, color: '#1A1A2E' }}>Jansen Hoveniers</div>
+              <div style={{ fontSize: 14, color: '#4A5568' }}>Hovenier · Alkmaar</div>
+              <div style={{ fontSize: 13, color: '#22C55E', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
+                <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22C55E', display: 'inline-block' }} />
+                Werknemer aan het werk
+              </div>
             </div>
           </div>
-          {[['Tuinonderhoud', '€45/u'], ['Snoeiwerk', '€55/u'], ['Tuinaanleg', 'Op offerte'], ['Responstijd', '< 2 sec']].map(([k, v]) => (
-            <div key={k} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, padding: '6px 0', borderBottom: '1px solid #E5E2DB' }}>
-              <span style={{ color: '#4A5568' }}>{k}</span>
-              <span style={{ fontWeight: 600, color: '#1A1A2E' }}>{v}</span>
+          <div style={{ height: 1, background: '#E5E2DB', margin: '0 0 16px' }} />
+          {[['📍', 'Alkmaar, Noord-Holland'], ['💰', 'Tuinonderhoud €45/u · Snoei €55/u'], ['🧾', 'Boekhouden via Moneybird'], ['📅', 'Agenda via Google Calendar']].map(([icon, val]) => (
+            <div key={val} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: '#4A5568', marginBottom: 10 }}>
+              <span style={{ fontSize: 16, width: 22, textAlign: 'center', flexShrink: 0 }}>{icon}</span>
+              <span>{val}</span>
             </div>
           ))}
         </div>
-        <p style={{ fontSize: 12, color: '#94A3B8', marginBottom: 10, fontWeight: 500 }}>Snel beginnen:</p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        <p style={{ fontSize: 12, color: '#94A3B8', marginBottom: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Stuur hem een bericht:</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {CHIPS.map(c => (
             <button key={c} onClick={() => send(c)} disabled={loading || count >= 8}
-              style={{ fontSize: 12, fontWeight: 500, color: '#1B4FD8', background: '#EEF2FF', border: '1px solid rgba(27,79,216,0.15)', borderRadius: 999, padding: '6px 14px', cursor: loading || count >= 8 ? 'not-allowed' : 'pointer', opacity: loading || count >= 8 ? 0.5 : 1 }}>
+              style={{ fontSize: 13, color: '#1A1A2E', background: '#F7F5F0', border: '1px solid #E5E2DB', borderRadius: 100, padding: '8px 16px', cursor: loading || count >= 8 ? 'not-allowed' : 'pointer', opacity: loading || count >= 8 ? 0.5 : 1, textAlign: 'left', transition: 'all 0.15s' }}>
               {c}
             </button>
           ))}
@@ -292,12 +300,12 @@ function DemoChat() {
         <div style={{ width: '100%', maxWidth: 360, background: '#1A1A2E', borderRadius: 32, padding: 8, boxShadow: '0 24px 48px rgba(0,0,0,0.16)' }}>
           <div style={{ borderRadius: 26, overflow: 'hidden', background: '#fff' }}>
             <div style={{ background: '#1A8A5A', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#fff', flexShrink: 0 }}>JH</div>
+              <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#fff', flexShrink: 0 }}>DW</div>
               <div>
-                <div style={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>Jansen Hoveniers</div>
+                <div style={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>Mijn Digitale Werknemer</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                   <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#7FE8B0', display: 'inline-block' }} />
-                  <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: 10 }}>Online · reageert altijd</span>
+                  <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: 10 }}>Aan het werk voor jou ✓</span>
                 </div>
               </div>
             </div>
@@ -347,23 +355,23 @@ const TESTIMONIALS = [
 ]
 
 // ─── Comparison ───────────────────────────────────────────────────────────────
-const CMP_ITEMS = ['Beschikbaar buiten werktijden', 'Antwoordt binnen seconden', 'Vergeet nooit een klant op te volgen', 'Genereert offertes direct', 'Leert van elke correctie', 'Vast maandelijks tarief', 'Geen vakanties of ziekmeldingen', 'In 1 week operationeel']
+const CMP_ITEMS = ['Beschikbaar buiten werktijden', 'Antwoordt binnen seconden', 'Plant afspraken automatisch in', 'Verstuurt offertes direct', 'Onthoudt elke klant', 'Leert van elke correctie', 'Vast maandelijks tarief', 'Geen vakanties of ziekmeldingen']
 
 // ─── Pricing ──────────────────────────────────────────────────────────────────
 const PLANS = [
-  { name: 'Basis Werknemer', price: '€149', desc: 'De perfecte start voor kleine MKB-bedrijven.', highlight: false, badge: null, features: ['WhatsApp communicatie', 'E-mail afhandeling', 'Offertes genereren', '24/7 beschikbaar'] },
-  { name: 'Premium Werknemer', price: '€239', desc: 'De meeste MKB-ondernemers kiezen dit.', highlight: true, badge: 'Meest gekozen', features: ['Alles van Basis', 'AI telefoon', 'CRM-integratie', 'Zelflerend geheugen', 'Maandelijkse rapportage'] },
-  { name: 'All-Round Werknemer', price: '€499', desc: 'Volledige automatisering. De werknemer belt zelf terug.', highlight: false, badge: null, features: ['Alles van Premium', 'Voice outbound', 'Volledige automatisering', 'Prioritaire ondersteuning', 'Dedicated setup begeleiding'] },
+  { name: 'Basis Werknemer', price: '€149', desc: 'De perfecte start voor elk MKB-bedrijf', highlight: false, badge: null, features: ['WhatsApp communicatie met klanten', 'E-mail afhandeling', 'Offertes & facturen genereren', '24/7 beschikbaar', 'Dashboard toegang', 'Inwerkfase begeleiding (7 dagen)'] },
+  { name: 'Premium Werknemer', price: '€239', desc: 'De meeste MKB-ondernemers kiezen dit. Inclusief telefoon en zelflerend geheugen.', highlight: true, badge: 'Meest gekozen', features: ['Alles van Basis', 'Inkomende gesprekken via AI telefoon', 'CRM-integratie', 'Zelflerend geheugen', 'Maandelijkse rapportage', 'Google Calendar koppeling', '3 boekhouding koppelingen', 'Prioriteit support'] },
+  { name: 'All-Round Werknemer', price: '€499', desc: 'Volledige automatisering. Belt zelf terug.', highlight: false, badge: null, features: ['Alles van Premium', 'Voice outbound (agent belt zelf terug)', 'Volledige automatisering bedrijfsprocessen', 'Onbeperkte koppelingen', '3 Digitale Werknemers', 'Dedicated setup begeleiding', 'Telefonische support'] },
 ]
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 const FAQS = [
-  { q: 'Hoe snel is mijn Digitale Werknemer operationeel?', a: 'Binnen 1 werkdag na aanmelding. Na de inwerkfase van 3-7 dagen werkt hij volledig zelfstandig.' },
-  { q: 'Spreekt hij ook Nederlands?', a: 'Ja, volledig Nederlands. Hij past zijn taalgebruik automatisch aan op die van de klant.' },
-  { q: 'Kan ik hem zelf bijleren?', a: "Ja. Corrigeer hem via WhatsApp: 'Niet zo zeggen, zeg liever...' Hij onthoudt het voor altijd." },
-  { q: 'Wat als hij iets verkeerds zegt?', a: 'Corrigeer hem direct. Hij past zijn gedrag onmiddellijk aan. Fouten worden zelden herhaald.' },
-  { q: 'Kan ik hem pauzeren?', a: 'Ja, via je dashboard met één klik. Handig tijdens vakanties.' },
-  { q: 'Wat kost het echt?', a: 'Alleen het maandelijkse abonnement. Geen setup fee, geen kosten per bericht, geen verborgen kosten. Maandelijks opzegbaar.' },
+  { q: 'Hoe snel is mijn Digitale Werknemer operationeel?', a: 'Binnen 1 werkdag na aanmelding. Je vult je bedrijfsinfo in via ons dashboard — tarieven, diensten, werkwijze. Wij configureren de rest. De meeste klanten zijn binnen een werkdag al live.' },
+  { q: 'Is het moeilijk in te stellen?', a: 'Nee. Als je WhatsApp kunt gebruiken, kun je met je Digitale Werknemer werken. Je vult een formulier in met je bedrijfsinformatie. Dat is alles. Wij doen de techniek.' },
+  { q: 'Wat als hij iets verkeerds zegt?', a: 'Corrigeer hem dan direct via WhatsApp of via je dashboard. Hij onthoudt de correctie en maakt die fout nooit meer. Hoe meer feedback je geeft, hoe beter hij wordt — net als een echte nieuwe medewerker.' },
+  { q: 'Kan ik hem pauzeren of opzeggen?', a: 'Ja. Via je dashboard kun je hem met één klik pauzeren. Opzeggen kan maandelijks — geen gedoe, geen verborgen kosten, geen minimale contractduur.' },
+  { q: 'Spreekt hij goed Nederlands?', a: 'Ja, volledig Nederlands. Hij past zijn taalgebruik aan op die van de klant — formeel als de klant formeel is, informeel als de klant jou tutoyeert.' },
+  { q: 'Zijn mijn klantgegevens veilig?', a: 'Ja. Alle data wordt opgeslagen op Nederlandse servers en is volledig AVG/GDPR-compliant. Jouw klantgegevens worden nooit gedeeld of gebruikt voor training van AI modellen.' },
 ]
 
 // ─── FeatureTabsSection ───────────────────────────────────────────────────────
@@ -481,29 +489,26 @@ export default function HomePage() {
                 <span style={{ fontSize: 13, fontWeight: 500, color: '#1B4FD8' }}>Gemaakt voor het Nederlandse MKB</span>
               </div>
             </motion.div>
-            <motion.h1 variants={fadeUp} className="font-display" style={{ fontSize: 'clamp(38px,4.8vw,62px)', lineHeight: 1.08, color: '#1A1A2E', marginBottom: 20, fontWeight: 400 }}>
-              Jouw digitale{' '}
-              <span style={{ color: '#1B4FD8', fontStyle: 'italic' }}>werknemer</span>{' '}
-              werkt terwijl jij slaapt.
+            <motion.h1 variants={fadeUp} className="font-display" style={{ fontSize: 'clamp(38px,4.8vw,72px)', lineHeight: 1.08, color: '#1A1A2E', marginBottom: 20, fontWeight: 400 }}>
+              Jouw digitale<br />
+              <em>werknemer.</em><br />
+              Altijd beschikbaar.
             </motion.h1>
             <motion.p variants={fadeUp} style={{ fontSize: 18, lineHeight: 1.7, color: '#4A5568', marginBottom: 16, maxWidth: 480 }}>
-              Hij plant afspraken in, verstuurt offertes en beantwoordt klanten — 24 uur per dag, 7 dagen per week.
+              Jij werkt buiten. Hij werkt op kantoor. Stuur hem via WhatsApp wat je hebt gedaan — hij maakt de factuur, plant de afspraak in, verstuurt de offerte en houdt de administratie bij. Dag en nacht.
             </motion.p>
-            {/* ROI strip */}
-            <motion.div variants={fadeUp} style={{ display: 'flex', gap: 20, marginBottom: 32, padding: '12px 16px', background: 'rgba(27,79,216,0.06)', borderRadius: 12, flexWrap: 'wrap' }}>
-              {['€2.351 bespaard/maand', '14u/week minder werk', 'In 1 week live'].map(s => (
-                <span key={s} style={{ fontSize: 13, fontWeight: 600, color: '#1B4FD8' }}>✓ {s}</span>
-              ))}
+            <motion.div variants={fadeUp} style={{ background: '#EEF2FF', border: '1px solid rgba(27,79,216,0.18)', borderRadius: 14, padding: '14px 18px', fontSize: 14, color: '#1D4ED8', fontWeight: 500, marginBottom: 28, display: 'flex', alignItems: 'center', gap: 10 }}>
+              💰 <span>Gemiddeld <strong>€2.351 per maand goedkoper</strong> dan een echte assistent</span>
             </motion.div>
-            <motion.div variants={fadeUp} style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 36 }}>
+            <motion.div variants={fadeUp} style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 28 }}>
               <a href="/auth/login" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#1B4FD8', color: '#fff', fontWeight: 600, fontSize: 15, padding: '12px 28px', borderRadius: 12, textDecoration: 'none', boxShadow: '0 4px 20px rgba(27,79,216,0.35)' }}>
-                Probeer gratis <ArrowRight size={16} />
+                Probeer gratis — geen creditcard
               </a>
-              <a href="#hoe-het-werkt" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#fff', color: '#1A1A2E', fontWeight: 600, fontSize: 15, padding: '12px 28px', borderRadius: 12, textDecoration: 'none', border: '1px solid #E5E2DB' }}>
-                Hoe het werkt
+              <a href="#actie" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#fff', color: '#1A1A2E', fontWeight: 600, fontSize: 15, padding: '12px 28px', borderRadius: 12, textDecoration: 'none', border: '1px solid #E5E2DB' }}>
+                Zie wat hij regelt ↓
               </a>
             </motion.div>
-            <motion.div variants={fadeUp} style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center', fontSize: 13, color: '#4A5568' }}>
+            <motion.div variants={fadeUp} style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center', fontSize: 13, color: '#4A5568', marginBottom: 24 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 {[...Array(5)].map((_, i) => <Star key={i} size={12} style={{ color: '#E8B84B' }} fill="#E8B84B" />)}
                 <span style={{ marginLeft: 4, fontWeight: 600, color: '#1A1A2E' }}>4.8/5</span>
@@ -511,21 +516,22 @@ export default function HomePage() {
               <span style={{ color: '#E5E2DB' }}>|</span>
               <span>Geen setup fee</span>
               <span style={{ color: '#E5E2DB' }}>|</span>
+              <span>In 1 week actief</span>
+              <span style={{ color: '#E5E2DB' }}>|</span>
               <span>Maandelijks opzegbaar</span>
+            </motion.div>
+            <motion.div variants={fadeUp} style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {SCENARIO_TABS.map((label, i) => (
+                <button key={i} onClick={() => setActiveScenario(i)}
+                  style={{ fontSize: 13, fontWeight: 500, padding: '7px 16px', borderRadius: 999, border: `1px solid ${activeScenario === i ? '#1B4FD8' : '#E5E2DB'}`, cursor: 'pointer', transition: 'all 0.2s', background: activeScenario === i ? '#1B4FD8' : '#F7F5F0', color: activeScenario === i ? '#fff' : '#4A5568' }}>
+                  {label}
+                </button>
+              ))}
             </motion.div>
           </motion.div>
 
-          {/* Right: scenario tabs + phone */}
-          <motion.div initial={{ opacity: 0, x: 32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-            {/* Scenario tabs */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
-              {SCENARIOS.map((s, i) => (
-                <button key={i} onClick={() => setActiveScenario(i)}
-                  style={{ fontSize: 11, fontWeight: 600, padding: '5px 12px', borderRadius: 999, border: 'none', cursor: 'pointer', transition: 'all 0.2s', background: activeScenario === i ? '#1B4FD8' : '#fff', color: activeScenario === i ? '#fff' : '#4A5568', boxShadow: activeScenario === i ? '0 2px 8px rgba(27,79,216,0.3)' : '0 1px 4px rgba(0,0,0,0.08)' }}>
-                  {s.av} — {s.name.split(' ')[0]}
-                </button>
-              ))}
-            </div>
+          {/* Right: phone */}
+          <motion.div initial={{ opacity: 0, x: 32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} style={{ display: 'flex', justifyContent: 'center' }}>
             <PhoneMockup float={true} scenarioIndex={activeScenario} onScenarioEnd={setActiveScenario} />
           </motion.div>
         </div>
@@ -548,31 +554,30 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── GEEN CHATBOT / FEATURES ── */}
-      <section id="functies" style={{ padding: '96px 24px', background: '#F9F8F5' }}>
+      {/* ── ACTIE SECTIE ── */}
+      <section id="actie" style={{ padding: '96px 24px', background: '#fff' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 64 }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', background: '#FEF2F2', border: '1px solid #FCA5A5', borderRadius: 999, padding: '4px 14px', marginBottom: 16 }}>
               <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.08em', color: '#DC2626', textTransform: 'uppercase' }}>Geen chatbot</span>
             </div>
-            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,46px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>Hij doet het werk. Jij doet jouw werk.</h2>
-            <p style={{ fontSize: 17, color: '#4A5568', maxWidth: 500, margin: '0 auto' }}>Alleen dan 24/7, zonder ziekmelding en voor een vast maandbedrag.</p>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,46px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>Hij doet het werk.<br />Jij doet jouw werk.</h2>
+            <p style={{ fontSize: 17, color: '#4A5568', maxWidth: 600, margin: '0 auto' }}>Jij werkt buiten. Hij werkt op kantoor. Stuur via WhatsApp wat je hebt gedaan — hij regelt de rest. Facturen, offertes, afspraken, herinneringen. Dag en nacht.</p>
           </motion.div>
-          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={stagger} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }} className="features-grid">
-            {FEATURES.map(f => (
-              <motion.div key={f.title} variants={fadeUp} className="card" style={{ padding: '28px 24px', transition: 'all 0.25s var(--spring)', cursor: 'default' }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-4px)'; el.style.boxShadow = '0 4px 8px rgba(0,0,0,0.04), 0 16px 40px rgba(0,0,0,0.07)' }}
+          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={stagger} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }} className="features-grid">
+            {ACTIE_CARDS.map(card => (
+              <motion.div key={card.title} variants={fadeUp} className="card" style={{ padding: 28, transition: 'all 0.3s var(--spring)', cursor: 'default' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-6px)'; el.style.boxShadow = '0 4px 8px rgba(0,0,0,0.04), 0 16px 40px rgba(0,0,0,0.07)' }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = ''; el.style.boxShadow = '' }}>
-                <div style={{ width: 46, height: 46, borderRadius: 12, background: f.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                  <f.Icon size={22} style={{ color: f.color }} />
-                </div>
-                <h3 style={{ fontSize: 15, fontWeight: 600, color: '#1A1A2E', marginBottom: 8 }}>{f.title}</h3>
-                <p style={{ fontSize: 13.5, color: '#4A5568', lineHeight: 1.6, marginBottom: 14 }}>{f.desc}</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {f.chips.map(c => <span key={c} style={{ fontSize: 11, fontWeight: 500, color: f.color, background: f.bg, borderRadius: 6, padding: '3px 8px' }}>{c}</span>)}
-                </div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', borderRadius: 100, padding: '3px 12px', fontSize: 11, fontWeight: 700, marginBottom: 16, background: card.badgeBg, color: card.badgeColor }}>{card.badge}</div>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: card.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, marginBottom: 14 }}>{card.icon}</div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: '#1A1A2E', marginBottom: 8 }}>{card.title}</div>
+                <p style={{ fontSize: 14, color: '#4A5568', lineHeight: 1.65 }}>{card.desc}</p>
               </motion.div>
             ))}
+          </motion.div>
+          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ marginTop: 56, textAlign: 'center', fontStyle: 'italic', fontSize: 22, color: '#1B4FD8', lineHeight: 1.5 }} className="font-display">
+            &ldquo;Gemiddeld bespaart een Digitale Werknemer zijn eigenaar 14 uur per week.<br />Dat is 168 uur per jaar.&rdquo;
           </motion.div>
         </div>
       </section>
@@ -604,12 +609,16 @@ export default function HomePage() {
       {/* ── DEMO ── */}
       <section id="demo" style={{ padding: '96px 24px', background: '#F0F5FF' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 56 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#EEF2FF', border: '1px solid rgba(27,79,216,0.2)', borderRadius: 999, padding: '5px 16px', marginBottom: 16 }}>
-              <span style={{ fontSize: 13, fontWeight: 500, color: '#1B4FD8' }}>Live demo</span>
+          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#FEF3C7', border: '1px solid rgba(217,119,6,0.2)', borderRadius: 999, padding: '5px 16px', marginBottom: 16 }}>
+              <span style={{ fontSize: 13, fontWeight: 500, color: '#D97706' }}>Probeer het zelf</span>
             </div>
-            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,44px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>Praat met een echte digitale werknemer</h2>
-            <p style={{ fontSize: 16, color: '#4A5568', maxWidth: 440, margin: '0 auto' }}>Dit is hoe jouw klanten jouw werknemer ervaren.</p>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,44px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>Stuur hem een bericht. Zie hoe hij reageert.</h2>
+            <p style={{ fontSize: 16, color: '#4A5568', maxWidth: 480, margin: '0 auto' }}>Doe alsof je net een klus hebt afgerond. Stuur je werknemer een berichtje — hij regelt de rest.</p>
+          </motion.div>
+          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ background: 'rgba(219,234,254,0.7)', border: '1px solid rgba(27,79,216,0.15)', borderRadius: 14, padding: '14px 20px', fontSize: 14, color: '#1B4FD8', marginBottom: 48, display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+            <span>💡</span>
+            <span>Dit is een demo-werknemer. Jouw eigen werknemer leer je jouw bedrijf, tarieven en werkwijze — hij klinkt dan precies zoals jij wil.</span>
           </motion.div>
           <DemoChat />
         </div>

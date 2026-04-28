@@ -147,7 +147,7 @@ export default function PhoneMockup({ float = true, scenarioIndex = 0, onScenari
         whiteSpace: 'nowrap',
       }}>
         <div className="pulse-dot" style={{ width: 8, height: 8, background: '#22C55E', borderRadius: '50%', flexShrink: 0 }} />
-        ⚡ {s.badge}
+        ⚡ Leert van jou via WhatsApp
       </div>
 
       {/* Phone shell */}
@@ -170,13 +170,13 @@ export default function PhoneMockup({ float = true, scenarioIndex = 0, onScenari
           {/* WhatsApp header */}
           <div style={{ background: '#1A8A5A', padding: '40px 10px 10px', display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
             <div style={{
-              width: 32, height: 32, borderRadius: '50%', background: '#25D366',
+              width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.2)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 11, fontWeight: 700, color: '#fff', flexShrink: 0,
-            }}>{s.av}</div>
+              fontSize: 10, fontWeight: 700, color: '#fff', flexShrink: 0,
+            }}>DW</div>
             <div>
-              <div style={{ color: '#fff', fontSize: 12, fontWeight: 700 }}>{s.name}</div>
-              <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 9 }}>Online · reageert altijd</div>
+              <div style={{ color: '#fff', fontSize: 12, fontWeight: 700 }}>Mijn Digitale Werknemer</div>
+              <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 9 }}>Aan het werk voor jou ✓</div>
             </div>
           </div>
 
