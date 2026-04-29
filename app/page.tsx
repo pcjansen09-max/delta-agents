@@ -97,17 +97,17 @@ const SECTORS = [
 
 // ─── How it works ─────────────────────────────────────────────────────────────
 const STEPS = [
-  { n: '01', color: '#EEF2FF', accent: '#1B4FD8', title: 'Aanmelden & inrichten', desc: 'Maak een account aan en vul je bedrijfsinfo in. Duurt minder dan 20 minuten.' },
-  { n: '02', color: '#FEF3C7', accent: '#D97706', title: 'Werknemer inwerken', desc: 'Corrigeer hem direct via WhatsApp. Zeg hoe hij moet antwoorden — hij onthoudt het voor altijd.' },
-  { n: '03', color: '#DCFCE7', accent: '#16A34A', title: 'Volledig autonoom', desc: 'Na de inwerkfase werkt hij zelfstandig. Klanten krijgen direct antwoord, afspraken worden ingepland.' },
+  { n: '01', color: '#EEF2FF', accent: '#1B4FD8', icon: '👤', title: 'Aanmelden & inrichten', desc: 'Account aanmaken en bedrijfsinfo invoeren: tarieven, diensten en werkwijze. Duurt 20 minuten.', chip: '⏱ Duurt 20 minuten' },
+  { n: '02', color: '#FEF3C7', accent: '#D97706', icon: '📖', title: 'Werknemer inwerken', desc: 'De eerste week stuur je correcties via WhatsApp. Hij onthoudt alles voor altijd — net als een echte nieuwe collega.', chip: '📅 Eerste 7 dagen' },
+  { n: '03', color: '#DCFCE7', accent: '#16A34A', icon: '⚡', title: 'Volledig autonoom', desc: 'Daarna werkt hij zelfstandig. Klanten geholpen, afspraken ingepland, offertes verstuurd — zonder dat jij iets doet.', chip: '🚀 Daarna voor altijd' },
 ]
 
 // ─── Feature tabs ─────────────────────────────────────────────────────────────
 const TABS = [
   {
-    Icon: MessageSquare, label: 'WhatsApp',
+    Icon: MessageSquare, emoji: '💬', emojiBg: '#DCFCE7', label: 'WhatsApp 24/7', sub: "Antwoordt klanten direct, ook 's nachts",
     headline: 'Hij beantwoordt, jij werkt',
-    body: 'Terwijl jij aan het werk bent, beantwoordt hij alle WhatsApp-berichten van klanten. Van tariefvragen tot afsprakenverzoekenOmitemlijk, alles wordt direct en professioneel afgehandeld.',
+    body: 'Terwijl jij buiten aan het werk bent, beantwoordt hij alle WhatsApp-berichten. Van tariefvragen tot afspraakverzoeken — alles direct en professioneel afgehandeld.',
     preview: (
       <div style={{ background: '#E5DDD5', borderRadius: 16, padding: '16px 12px' }}>
         {[
@@ -124,7 +124,7 @@ const TABS = [
     ),
   },
   {
-    Icon: Calendar, label: 'Agenda',
+    Icon: Calendar, emoji: '📅', emojiBg: '#EEF2FF', label: 'Afspraken inplannen', sub: 'Plant in op basis van jouw agenda',
     headline: 'Nooit meer dubbele boekingen',
     body: 'Hij checkt jouw agenda realtime en plant afspraken in op momenten dat jij beschikbaar bent. Klanten krijgen direct een bevestiging en een herinneringsberichtje de dag ervoor.',
     preview: (
@@ -139,7 +139,7 @@ const TABS = [
     ),
   },
   {
-    Icon: FileText, label: 'Offertes',
+    Icon: FileText, emoji: '📄', emojiBg: '#FEF3C7', label: 'Offertes & facturen', sub: 'Genereert en verstuurt direct',
     headline: 'Offerte verstuurd terwijl jij rijdt',
     body: 'Vul eenmalig jouw diensten en tarieven in. Daarna maakt hij professionele offertes op maat en verstuurt ze direct naar de klant — inclusief jouw logo en betalingslink.',
     preview: (
@@ -155,7 +155,7 @@ const TABS = [
     ),
   },
   {
-    Icon: Brain, label: 'Geheugen',
+    Icon: Brain, emoji: '🧠', emojiBg: '#EDE9FE', label: 'Zelflerend geheugen', sub: 'Onthoudt alles, leert van jou',
     headline: 'Hij leert van elke correctie',
     body: "Corrigeer hem gewoon via WhatsApp: 'Niet zo zeggen, zeg liever...' Hij onthoudt het voor altijd. Na de inwerkfase werkt hij volledig zelfstandig.",
     preview: (
@@ -174,7 +174,7 @@ const TABS = [
     ),
   },
   {
-    Icon: BarChart3, label: 'Dashboard',
+    Icon: BarChart3, emoji: '📊', emojiBg: '#EEF2FF', label: 'Dashboard & inzichten', sub: 'Volledig overzicht van zijn werk',
     headline: 'Alles in één overzicht',
     body: 'In je dashboard zie je alle gesprekken, verstuurde offertes en ingeplande afspraken. Je ziet precies wat je werknemer heeft gedaan en kunt hem bijsturen waar nodig.',
     preview: (
@@ -349,9 +349,9 @@ function DemoChat() {
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 const TESTIMONIALS = [
-  { name: 'Jan de Vries', role: 'Hovenier', city: 'Alkmaar', ini: 'JV', bg: '#DCFCE7', fg: '#16A34A', quote: 'Mijn digitale werknemer beantwoordt WhatsApps terwijl ik aan het snoeien ben. Ik mis geen enkele aanvraag meer.' },
-  { name: 'Sandra Bakker', role: 'Makelaar', city: 'Utrecht', ini: 'SB', bg: '#EEF2FF', fg: '#1B4FD8', quote: 'Klanten krijgen direct antwoord op bezichtigingsvragen. Mijn agenda loopt vol automatisch.' },
-  { name: 'Mark van den Berg', role: 'Installateur', city: 'Rotterdam', ini: 'MB', bg: '#FAF5FF', fg: '#7C3AED', quote: 'Offerteaanvragen worden meteen professioneel bevestigd. Voelt als een echte collega.' },
+  { name: 'Jan de Vries', role: 'Hovenier', city: 'Alkmaar', ini: 'JV', bg: '#16A34A', quote: 'Mijn digitale werknemer beantwoordt WhatsApps terwijl ik aan het snoeien ben. Ik mis geen enkele aanvraag meer en mijn omzet is dit jaar met 30% gestegen.' },
+  { name: 'Sandra Bakker', role: 'Makelaar', city: 'Utrecht', ini: 'SB', bg: '#1B4FD8', quote: "Klanten krijgen direct antwoord op bezichtigingsvragen, ook 's avonds. Hij klinkt precies zoals ik zou reageren — maar dan altijd beleefd en altijd beschikbaar." },
+  { name: 'Mark van den Berg', role: 'Installateur', city: 'Rotterdam', ini: 'MV', bg: '#7C3AED', quote: 'Offerteaanvragen worden meteen professioneel bevestigd. Voelt echt als een collega. Mijn vrouw dacht dat ik iemand had aangenomen.' },
 ]
 
 // ─── Comparison ───────────────────────────────────────────────────────────────
@@ -402,33 +402,33 @@ function FeatureTabsSection() {
   const tab = TABS[active]
 
   return (
-    <section style={{ padding: '96px 24px', background: '#fff' }}>
+    <section id="features" style={{ padding: '96px 24px', background: '#fff' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 56 }}>
-          <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,44px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>Wat hij elke dag voor jou regelt</h2>
-          <p style={{ fontSize: 16, color: '#4A5568', maxWidth: 440, margin: '0 auto' }}>Eén werknemer. Vijf kerntaken. Altijd beschikbaar.</p>
+        <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 64 }}>
+          <div className="sec-label blue">Wat hij doet</div>
+          <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,48px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 16 }}>Alles wat een goede werknemer doet</h2>
+          <p style={{ fontSize: 17, color: '#4A5568', maxWidth: 520, margin: '0 auto' }}>Alleen dan 24/7, zonder ziekmelding en voor een vast maandbedrag.</p>
         </motion.div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start' }} className="tabs-grid">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '38% 62%', gap: 64, alignItems: 'start' }} className="tabs-grid">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {TABS.map((t, i) => (
               <button key={t.label} onClick={() => { setActive(i); setProgress(0); startTimer(i) }}
-                style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 18px', borderRadius: 14, background: active === i ? '#EEF2FF' : 'transparent', border: active === i ? '1px solid rgba(27,79,216,0.15)' : '1px solid transparent', textAlign: 'left', cursor: 'pointer', transition: 'all 0.2s' }}>
-                <div style={{ width: 36, height: 36, borderRadius: 10, background: active === i ? '#1B4FD8' : '#F7F5F0', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.2s' }}>
-                  <t.Icon size={16} style={{ color: active === i ? '#fff' : '#94A3B8' }} />
+                style={{ display: 'flex', flexDirection: 'column', padding: 18, borderRadius: 16, background: active === i ? '#fff' : 'transparent', border: active === i ? '1px solid #E8E8E4' : '1px solid transparent', borderLeft: active === i ? '3px solid #1B4FD8' : '3px solid transparent', textAlign: 'left', cursor: 'pointer', transition: 'all 0.25s', boxShadow: active === i ? '0 2px 4px rgba(0,0,0,0.04),0 8px 24px rgba(0,0,0,0.06)' : 'none' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 5 }}>
+                  <div style={{ width: 34, height: 34, borderRadius: '50%', background: t.emojiBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, flexShrink: 0 }}>{t.emoji}</div>
+                  <span style={{ fontSize: 15, fontWeight: 700, color: '#1A1A2E' }}>{t.label}</span>
                 </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: active === i ? '#1B4FD8' : '#1A1A2E', marginBottom: active === i ? 6 : 0 }}>{t.label}</div>
-                  {active === i && (
-                    <div style={{ height: 2, background: '#E5E2DB', borderRadius: 1, overflow: 'hidden' }}>
-                      <div style={{ height: '100%', width: `${progress}%`, background: '#1B4FD8', borderRadius: 1, transition: 'width 30ms linear' }} />
-                    </div>
-                  )}
-                </div>
+                <div style={{ fontSize: 13, color: '#4A5568', paddingLeft: 46 }}>{t.sub}</div>
+                {active === i && (
+                  <div style={{ height: 3, background: '#E8E8E4', borderRadius: 3, overflow: 'hidden', marginTop: 12 }}>
+                    <div style={{ height: '100%', width: `${progress}%`, background: '#1B4FD8', borderRadius: 3, transition: 'width 30ms linear' }} />
+                  </div>
+                )}
               </button>
             ))}
           </div>
-          <div key={active} style={{ animation: 'msg-in 0.35s var(--spring) forwards' }}>
-            <h3 className="font-display" style={{ fontSize: 'clamp(20px,2.2vw,30px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>{tab.headline}</h3>
+          <div key={active} style={{ background: '#fff', borderRadius: 20, padding: 28, border: '1px solid #E8E8E4', boxShadow: '0 2px 4px rgba(0,0,0,0.04),0 8px 24px rgba(0,0,0,0.06)', minHeight: 400, animation: 'msg-in 0.35s var(--spring) forwards' }}>
+            <h3 className="font-display" style={{ fontSize: 'clamp(20px,2.2vw,28px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>{tab.headline}</h3>
             <p style={{ fontSize: 15, color: '#4A5568', lineHeight: 1.7, marginBottom: 24 }}>{tab.body}</p>
             {tab.preview}
           </div>
@@ -444,8 +444,9 @@ function FAQSection() {
   return (
     <section style={{ padding: '96px 24px', background: '#F9F8F5' }}>
       <div style={{ maxWidth: 720, margin: '0 auto' }}>
-        <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 56 }}>
-          <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,44px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>Veelgestelde vragen</h2>
+        <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 64 }}>
+          <div className="sec-label blue">Veelgestelde vragen</div>
+          <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,48px)', color: '#1A1A2E', fontWeight: 400 }}>Alles wat je wil weten</h2>
         </motion.div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {FAQS.map((f, i) => (
@@ -583,20 +584,23 @@ export default function HomePage() {
       </section>
 
       {/* ── HOE HET WERKT ── */}
-      <section id="hoe-het-werkt" style={{ padding: '96px 24px', background: '#fff' }}>
+      <section id="hoe-het-werkt" style={{ padding: '96px 24px', background: '#FAFAF8' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 64 }}>
-            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,44px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>Van aanmelding tot autonoom werknemer</h2>
-            <p style={{ fontSize: 16, color: '#4A5568' }}>Drie stappen. Geen technische kennis nodig.</p>
+            <div className="sec-label blue">Hoe het werkt</div>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,48px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 16 }}>Van aanmelding tot autonoom werknemer</h2>
+            <p style={{ fontSize: 17, color: '#4A5568' }}>Drie stappen. Geen technische kennis nodig.</p>
           </motion.div>
           <motion.div initial="hidden" whileInView="show" viewport={vp} variants={stagger} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }} className="steps-grid">
             {STEPS.map(s => (
-              <motion.div key={s.n} variants={fadeUp} className="card" style={{ padding: 28 }}>
-                <div style={{ width: 56, height: 56, borderRadius: 16, background: s.color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-                  <span className="font-display" style={{ fontSize: 24, fontWeight: 700, color: s.accent }}>{s.n}</span>
-                </div>
-                <h3 style={{ fontSize: 16, fontWeight: 600, color: '#1A1A2E', marginBottom: 10 }}>{s.title}</h3>
-                <p style={{ fontSize: 14, color: '#4A5568', lineHeight: 1.7 }}>{s.desc}</p>
+              <motion.div key={s.n} variants={fadeUp} className="card" style={{ padding: 32, transition: 'all 0.25s var(--spring)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 8px rgba(0,0,0,0.04),0 16px 40px rgba(0,0,0,0.07)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = '' }}>
+                <div className="font-display" style={{ fontSize: 54, lineHeight: 1, marginBottom: 18, color: s.color === '#EEF2FF' ? '#DBEAFE' : s.color === '#FEF3C7' ? '#FEF3C7' : '#DCFCE7' }}>{s.n}</div>
+                <div style={{ width: 46, height: 46, borderRadius: '50%', background: s.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, marginBottom: 14 }}>{s.icon}</div>
+                <h3 style={{ fontSize: 19, fontWeight: 700, color: '#1A1A2E', marginBottom: 10 }}>{s.title}</h3>
+                <p style={{ fontSize: 14, color: '#4A5568', lineHeight: 1.7, marginBottom: 16 }}>{s.desc}</p>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#F1F5F9', borderRadius: 100, padding: '5px 14px', fontSize: 12, color: '#4A5568' }}>{s.chip}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -630,21 +634,26 @@ export default function HomePage() {
       {/* ── TESTIMONIALS ── */}
       <section style={{ padding: '96px 24px', background: '#fff' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 56 }}>
-            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,44px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>MKB-ondernemers aan het woord</h2>
+          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 64 }}>
+            <div style={{ fontSize: 24, letterSpacing: 2, color: '#E8B84B', marginBottom: 12 }}>★★★★★</div>
+            <p style={{ fontSize: 15, color: '#4A5568', marginBottom: 20 }}>Gemiddeld 4.8/5 op basis van 127 beoordelingen</p>
+            <div className="sec-label blue">Klantervaring</div>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,48px)', color: '#1A1A2E', fontWeight: 400 }}>MKB-ondernemers aan het woord</h2>
           </motion.div>
           <motion.div initial="hidden" whileInView="show" viewport={vp} variants={stagger} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }} className="test-grid">
             {TESTIMONIALS.map(t => (
-              <motion.div key={t.name} variants={fadeUp} className="card" style={{ padding: 28, display: 'flex', flexDirection: 'column', gap: 20 }}>
-                <div style={{ display: 'flex', gap: 2 }}>
-                  {[...Array(5)].map((_, i) => <Star key={i} size={14} style={{ color: '#E8B84B' }} fill="#E8B84B" />)}
-                </div>
-                <p className="font-display" style={{ fontSize: 18, color: '#1A1A2E', lineHeight: 1.5, flex: 1 }}>&ldquo;{t.quote}&rdquo;</p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, paddingTop: 16, borderTop: '1px solid #E5E2DB' }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 12, background: t.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: t.fg, flexShrink: 0 }}>{t.ini}</div>
+              <motion.div key={t.name} variants={fadeUp} className="card" style={{ padding: 32, display: 'flex', flexDirection: 'column', transition: 'all 0.25s var(--spring)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 8px rgba(0,0,0,0.04),0 16px 40px rgba(0,0,0,0.07)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = '' }}>
+                <div className="font-display" style={{ fontSize: 64, color: '#1B4FD8', lineHeight: 0.7, marginBottom: 16, opacity: 0.4 }}>&ldquo;</div>
+                <p className="font-display" style={{ fontStyle: 'italic', fontSize: 17, color: '#1A1A2E', lineHeight: 1.7, flex: 1, marginBottom: 24 }}>{t.quote}</p>
+                <div style={{ height: 1, background: '#E8E8E4', marginBottom: 20 }} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: t.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: '#fff', flexShrink: 0 }}>{t.ini}</div>
                   <div>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: '#1A1A2E' }}>{t.name}</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>{t.name}</div>
                     <div style={{ fontSize: 12, color: '#4A5568' }}>{t.role} · {t.city}</div>
+                    <div style={{ fontSize: 12, color: '#E8B84B', marginTop: 2 }}>★★★★★</div>
                   </div>
                 </div>
               </motion.div>
@@ -656,9 +665,10 @@ export default function HomePage() {
       {/* ── COMPARISON ── */}
       <section style={{ padding: '96px 24px', background: '#F9F8F5' }}>
         <div style={{ maxWidth: 840, margin: '0 auto' }}>
-          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 56 }}>
-            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,44px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>Echte assistent vs. Digitale Werknemer</h2>
-            <p style={{ fontSize: 16, color: '#4A5568' }}>Zelfde taken. Betere beschikbaarheid. Lager tarief.</p>
+          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 64 }}>
+            <div className="sec-label" style={{ background: '#F1F5F9', color: '#4A5568' }}>Vergelijking</div>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,48px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 16 }}>Echte assistent vs. Digitale Werknemer</h2>
+            <p style={{ fontSize: 17, color: '#4A5568' }}>Zelfde taken. Betere beschikbaarheid. Lager tarief.</p>
           </motion.div>
           <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ background: '#fff', border: '1px solid #E5E2DB', borderRadius: 20, overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: '#0F172A', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
@@ -696,8 +706,9 @@ export default function HomePage() {
       <section id="prijzen" style={{ padding: '96px 24px', background: '#F0F5FF' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 64 }}>
-            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,44px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>Kies jouw Digitale Werknemer</h2>
-            <p style={{ fontSize: 16, color: '#4A5568', maxWidth: 440, margin: '0 auto' }}>Geen verborgen kosten. Geen lange contracten. Maandelijks opzegbaar.</p>
+            <div className="sec-label blue">Transparante prijzen</div>
+            <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,48px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 16 }}>Kies jouw Digitale Werknemer</h2>
+            <p style={{ fontSize: 17, color: '#4A5568', maxWidth: 440, margin: '0 auto' }}>Geen verborgen kosten. Geen lange contracten. Maandelijks opzegbaar.</p>
           </motion.div>
           <motion.div initial="hidden" whileInView="show" viewport={vp} variants={stagger} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20, alignItems: 'start' }} className="pricing-grid">
             {PLANS.map((plan, i) => (
@@ -789,19 +800,38 @@ export default function HomePage() {
       <Footer />
 
       <style>{`
+        @keyframes float-3d {
+          0%,100% { transform: translateY(0) rotate3d(1,.5,0,2deg); }
+          50% { transform: translateY(-12px) rotate3d(1,.5,0,-2deg); }
+        }
+        @keyframes typing-pulse {
+          0%,80%,100% { transform: scale(1); opacity: 0.5; }
+          40% { transform: scale(1.4); opacity: 1; }
+        }
+        @keyframes msg-in {
+          from { opacity: 0; transform: translateY(6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
         @media (max-width: 900px) {
-          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-grid { grid-template-columns: 1fr !important; text-align: center; }
+          .hero-grid > *:last-child { display: none !important; }
           .features-grid { grid-template-columns: repeat(2,1fr) !important; }
           .steps-grid { grid-template-columns: 1fr !important; }
           .tabs-grid { grid-template-columns: 1fr !important; }
           .demo-grid { grid-template-columns: 1fr !important; }
           .test-grid { grid-template-columns: 1fr !important; }
           .pricing-grid { grid-template-columns: 1fr !important; }
+          .pricing-grid > * { margin-top: 0 !important; }
           .trust-grid { grid-template-columns: 1fr !important; }
           .roi-grid { grid-template-columns: repeat(2,1fr) !important; }
+          section { padding-left: 20px !important; padding-right: 20px !important; }
         }
-        @media (max-width: 580px) {
+        @media (max-width: 640px) {
+          .hero-grid { padding-top: 48px !important; padding-bottom: 48px !important; }
           .features-grid { grid-template-columns: 1fr !important; }
+          .roi-grid { grid-template-columns: 1fr !important; }
+          .roi-grid > div { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.12); }
+          section { padding-top: 64px !important; padding-bottom: 64px !important; }
         }
       `}</style>
     </main>
