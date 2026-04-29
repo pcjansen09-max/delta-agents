@@ -3,9 +3,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
-  ArrowRight, Star, Check, X, ChevronDown, MessageSquare,
-  Calendar, FileText, Brain, BarChart3, Shield, Clock, Zap,
-  Home, Leaf, Wrench, Building2, Scissors, UtensilsCrossed, Car, HeartPulse, Package,
+  ArrowRight, Star, Check, ChevronDown, MessageSquare,
+  Calendar, FileText, Brain, BarChart3,
 } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -23,56 +22,6 @@ const stagger = {
 const vp = { once: true, margin: '-80px' }
 
 // ─── ROI Stats ────────────────────────────────────────────────────────────────
-const ROI = [
-  { value: 2351, prefix: '€', suffix: '', label: 'Besparing / maand' },
-  { value: 14, prefix: '', suffix: 'u/week', label: 'Tijdsbesparing' },
-  { value: 1, prefix: '<', suffix: ' week', label: 'Live in' },
-  { value: 24, prefix: '', suffix: '/7', label: 'Beschikbaar' },
-]
-
-function Counter({ value, prefix, suffix, active }: { value: number; prefix: string; suffix: string; active: boolean }) {
-  const [n, setN] = useState(0)
-  useEffect(() => {
-    if (!active) return
-    const dur = 1600
-    const start = performance.now()
-    const step = (now: number) => {
-      const p = Math.min((now - start) / dur, 1)
-      const e = 1 - Math.pow(1 - p, 3)
-      setN(Math.round(e * value))
-      if (p < 1) requestAnimationFrame(step)
-    }
-    requestAnimationFrame(step)
-  }, [active, value])
-  return <span>{prefix}{n.toLocaleString('nl-NL')}{suffix}</span>
-}
-
-function RoiBar() {
-  const ref = useRef<HTMLDivElement>(null)
-  const [active, setActive] = useState(false)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setActive(true); obs.disconnect() } }, { threshold: 0.3 })
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-  return (
-    <div ref={ref} style={{ background: '#1B4FD8' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)' }} className="roi-grid">
-        {ROI.map((s, i) => (
-          <div key={i} style={{ padding: '28px 24px', textAlign: 'center', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
-            <div className="font-display" style={{ fontSize: 'clamp(26px,3vw,40px)', color: '#fff', lineHeight: 1.1, marginBottom: 4 }}>
-              <Counter value={s.value} prefix={s.prefix} suffix={s.suffix} active={active} />
-            </div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', fontWeight: 500 }}>{s.label}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 // ─── Actie cards ──────────────────────────────────────────────────────────────
 const ACTIE_CARDS = [
   { badge: 'Hij doet het automatisch', badgeBg: '#EEF2FF', badgeColor: '#1B4FD8', icon: '📅', iconBg: '#EEF2FF', title: 'Plant afspraken in', desc: 'Klant vraagt om een afspraak via WhatsApp. Hij checkt jouw agenda en plant in — zonder dat jij iets doet.' },
@@ -88,11 +37,11 @@ const SCENARIO_TABS = ['Factuur maken', 'Offerte sturen', 'Afspraak inplannen', 
 
 // ─── Sectors ──────────────────────────────────────────────────────────────────
 const SECTORS = [
-  { Icon: Home, label: 'Makelaars' }, { Icon: Leaf, label: 'Hoveniers' },
-  { Icon: Wrench, label: 'Installateurs' }, { Icon: Building2, label: 'Aannemers' },
-  { Icon: Scissors, label: 'Kappers' }, { Icon: UtensilsCrossed, label: 'Horeca' },
-  { Icon: Car, label: 'Garagebedrijven' }, { Icon: HeartPulse, label: 'Zorgverleners' },
-  { Icon: Package, label: 'Webshops' }, { Icon: Zap, label: 'Electriciens' },
+  { emoji: '🏡', label: 'Makelaars' }, { emoji: '🌿', label: 'Hoveniers' },
+  { emoji: '🔧', label: 'Installateurs' }, { emoji: '🏗', label: 'Aannemers' },
+  { emoji: '✂️', label: 'Kappers' }, { emoji: '🍽', label: 'Horeca' },
+  { emoji: '🚗', label: 'Garagebedrijven' }, { emoji: '💆', label: 'Zorgverleners' },
+  { emoji: '📦', label: 'Webshops' }, { emoji: '⚡', label: 'Elektriciëns' },
 ]
 
 // ─── How it works ─────────────────────────────────────────────────────────────
@@ -109,17 +58,29 @@ const TABS = [
     headline: 'Hij beantwoordt, jij werkt',
     body: 'Terwijl jij buiten aan het werk bent, beantwoordt hij alle WhatsApp-berichten. Van tariefvragen tot afspraakverzoeken — alles direct en professioneel afgehandeld.',
     preview: (
-      <div style={{ background: '#E5DDD5', borderRadius: 16, padding: '16px 12px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 16 }}>Actieve gesprekken</div>
         {[
-          { f: true, t: 'Wat zijn jullie tarieven voor schilderwerk?' },
-          { f: false, t: 'Ons schilderwerk start vanaf €28 per uur, inclusief materiaal. Wat voor project heeft u?' },
-          { f: true, t: 'Een woonkamer van 40m²' },
-          { f: false, t: 'Voor een woonkamer van 40m² rekent u op ca. €380–480. Wil ik een offerte sturen?' },
-        ].map((m, i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: m.f ? 'flex-start' : 'flex-end', marginBottom: 8 }}>
-            <div style={{ maxWidth: '78%', background: m.f ? '#fff' : '#D9FDD3', borderRadius: m.f ? '2px 12px 12px 12px' : '12px 2px 12px 12px', padding: '7px 10px', fontSize: 12, color: '#1A1A2E', lineHeight: 1.5 }}>{m.t}</div>
+          { ini: 'HB', bg: '#16A34A', name: 'Henk de Boer', msg: 'Wanneer kunnen jullie komen?', time: '09:14', online: true },
+          { ini: 'SB', bg: '#1B4FD8', name: 'Sandra Bakker', msg: 'Wat kost een dakgoot reparatie?', time: '08:52', online: true },
+          { ini: 'FJ', bg: '#7C3AED', name: 'Familie Jansen', msg: 'Bedankt voor de snelle reactie!', time: 'Gisteren', online: false },
+        ].map((c, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 0', borderBottom: '1px solid #E8E8E4' }}>
+            <div style={{ width: 42, height: 42, borderRadius: '50%', background: c.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: '#fff', flexShrink: 0 }}>{c.ini}</div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#1A1A2E' }}>{c.name}</div>
+              <div style={{ fontSize: 12, color: '#4A5568', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.msg}</div>
+            </div>
+            <div style={{ textAlign: 'right', flexShrink: 0 }}>
+              <div style={{ fontSize: 11, color: '#94A3B8' }}>{c.time}</div>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: c.online ? '#22C55E' : '#E8E8E4', marginTop: 4, marginLeft: 'auto' }} />
+            </div>
           </div>
         ))}
+        <div style={{ marginTop: 'auto', paddingTop: 20, display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#22C55E', fontWeight: 600 }}>
+          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#22C55E', flexShrink: 0 }} />
+          Werknemer is online — reageert direct
+        </div>
       </div>
     ),
   },
@@ -128,13 +89,30 @@ const TABS = [
     headline: 'Nooit meer dubbele boekingen',
     body: 'Hij checkt jouw agenda realtime en plant afspraken in op momenten dat jij beschikbaar bent. Klanten krijgen direct een bevestiging en een herinneringsberichtje de dag ervoor.',
     preview: (
-      <div style={{ background: '#fff', borderRadius: 16, padding: 16, border: '1px solid #E5E2DB' }}>
-        {['Ma 09:00 – Erik Jansen (meting)', 'Ma 14:00 – Sandra de Vries (offerte)', 'Di 10:30 – Pieter Smit (reparatie)', 'Wo 09:00 – VRIJ', 'Do 11:00 – Maria van Dam (onderhoud)'].map((item, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: i < 4 ? '1px solid #E5E2DB' : 'none' }}>
-            <div style={{ width: 8, height: 8, borderRadius: '50%', background: item.includes('VRIJ') ? '#CBD5E1' : '#1B4FD8', flexShrink: 0 }} />
-            <span style={{ fontSize: 12, color: item.includes('VRIJ') ? '#94A3B8' : '#1A1A2E', fontWeight: item.includes('VRIJ') ? 400 : 500 }}>{item}</span>
-          </div>
-        ))}
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+          <span style={{ fontSize: 15, fontWeight: 700, color: '#1A1A2E' }}>Week van 21 apr 2026</span>
+          <span style={{ fontSize: 13, color: '#4A5568' }}>← →</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 8, marginTop: 8 }}>
+          {[
+            { d: 'Ma', items: [{ t: 'Jansen BV\n14:00–15:00', c: 'b' }] },
+            { d: 'Di', items: [{ t: 'De Vries\n10:00–11:00', c: 'g' }] },
+            { d: 'Wo', items: [] },
+            { d: 'Do', items: [{ t: 'Bakker\n15:30–16:30', c: 'a' }] },
+            { d: 'Vr', items: [] },
+          ].map((day, i) => (
+            <div key={i}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', textAlign: 'center', marginBottom: 6 }}>{day.d}</div>
+              {day.items.map((ev, j) => (
+                <div key={j} style={{ borderRadius: 8, padding: '7px 8px', fontSize: 10, fontWeight: 600, lineHeight: 1.4, marginBottom: 6, background: ev.c === 'b' ? '#DBEAFE' : ev.c === 'g' ? '#DCFCE7' : '#FEF3C7', color: ev.c === 'b' ? '#1D4ED8' : ev.c === 'g' ? '#16A34A' : '#D97706', whiteSpace: 'pre-line' }}>
+                  {ev.t}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 16, background: '#EEF2FF', borderRadius: 12, padding: '12px 16px', fontSize: 13, color: '#1B4FD8', fontWeight: 600 }}>📅 3 nieuwe afspraken ingepland vandaag</div>
       </div>
     ),
   },
@@ -143,14 +121,26 @@ const TABS = [
     headline: 'Offerte verstuurd terwijl jij rijdt',
     body: 'Vul eenmalig jouw diensten en tarieven in. Daarna maakt hij professionele offertes op maat en verstuurt ze direct naar de klant — inclusief jouw logo en betalingslink.',
     preview: (
-      <div style={{ background: '#fff', borderRadius: 16, padding: 20, border: '1px solid #E5E2DB' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 12 }}>Offerte #2024-047</div>
-        {[['Schilderwerk woonkamer (40m²)', '€420'], ['Materiaalkosten (inbegrepen)', '€0'], ['BTW 21%', '€88'], ['Totaal', '€508']].map(([label, val], i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', borderBottom: i < 3 ? '1px solid #E5E2DB' : 'none', fontWeight: i === 3 ? 700 : 400, fontSize: 13, color: i === 3 ? '#1B4FD8' : '#1A1A2E' }}>
-            <span>{label}</span><span>{val}</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+        <div style={{ background: '#fff', borderRadius: 8, padding: 20, boxShadow: '0 4px 20px rgba(0,0,0,0.1)', transform: 'rotate(-2deg)', position: 'relative', maxWidth: 280, width: '100%' }}>
+          <div style={{ position: 'absolute', top: 10, right: 10, background: '#DCFCE7', color: '#16A34A', borderRadius: 100, padding: '3px 10px', fontSize: 10, fontWeight: 700 }}>Verzonden ✓ · 09:14</div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+            <div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#1A1A2E' }}>⚡ DeltaAgents</div>
+              <div style={{ fontSize: 18, color: '#1A1A2E', fontWeight: 400 }}>OFFERTE</div>
+            </div>
+            <div style={{ fontSize: 10, color: '#4A5568', textAlign: 'right', lineHeight: 1.5 }}>23 apr 2026<br />#OFT-2024-089</div>
           </div>
-        ))}
-        <div style={{ marginTop: 16, background: '#1B4FD8', color: '#fff', textAlign: 'center', padding: 9, borderRadius: 8, fontSize: 12, fontWeight: 600 }}>Offerte accepteren</div>
+          <div style={{ fontSize: 11, color: '#4A5568', marginBottom: 16, lineHeight: 1.6 }}><strong>Aan:</strong> Fam. Pietersen<br />Dorpsstraat 12, Alkmaar</div>
+          {[['Tuinonderhoud (4u)', '€180,–'], ['Snoeiwerk coniferen', '€65,–'], ['Afvoer groenafval', '€40,–']].map(([l, v]) => (
+            <div key={l} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #E8E8E4', fontSize: 11, color: '#4A5568' }}>
+              <span>{l}</span><span>{v}</span>
+            </div>
+          ))}
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', fontSize: 13, fontWeight: 700 }}>
+            <span>Totaal incl. BTW</span><span style={{ color: '#1B4FD8' }}>€345,–</span>
+          </div>
+        </div>
       </div>
     ),
   },
@@ -159,17 +149,23 @@ const TABS = [
     headline: 'Hij leert van elke correctie',
     body: "Corrigeer hem gewoon via WhatsApp: 'Niet zo zeggen, zeg liever...' Hij onthoudt het voor altijd. Na de inwerkfase werkt hij volledig zelfstandig.",
     preview: (
-      <div style={{ background: '#E5DDD5', borderRadius: 16, padding: '16px 12px' }}>
-        {[
-          { f: true, t: "Je zei net €35/uur maar ons tarief is €42/uur" },
-          { f: false, t: "Gecorrigeerd. Vanaf nu communiceer ik €42/uur. Dank voor de correctie." },
-          { f: true, t: "En vermeld altijd dat materiaal is inbegrepen" },
-          { f: false, t: "Noteer ik. Ik vermeld voortaan altijd: tarieven inclusief materiaal." },
-        ].map((m, i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: m.f ? 'flex-start' : 'flex-end', marginBottom: 8 }}>
-            <div style={{ maxWidth: '78%', background: m.f ? '#fff' : '#D9FDD3', borderRadius: m.f ? '2px 12px 12px 12px' : '12px 2px 12px 12px', padding: '7px 10px', fontSize: 12, color: '#1A1A2E', lineHeight: 1.5 }}>{m.t}</div>
-          </div>
-        ))}
+      <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 16 }}>Correctie-gesprek</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>
+          {[
+            { own: true, t: "Gebruik 'u' bij nieuwe klanten ipv 'jij'" },
+            { own: false, t: "Begrepen! Ik gebruik voortaan 'u' bij nieuwe klanten ✓" },
+            { own: true, t: 'Geef altijd een prijs inclusief BTW' },
+            { own: false, t: 'Onthouden! Alle prijzen worden inclusief BTW vermeld ✓' },
+            { own: true, t: 'Bij afwezigheid: meld dat ik terugbel binnen 2 uur' },
+            { own: false, t: 'Opgeslagen! Klanten ontvangen een terugbelbelofte ✓' },
+          ].map((m, i) => (
+            <div key={i} style={{ padding: '9px 13px', borderRadius: m.own ? '12px 12px 12px 4px' : '12px 12px 4px 12px', fontSize: 13, maxWidth: '88%', background: m.own ? '#EEF2FF' : '#DCFCE7', color: m.own ? '#1B4FD8' : '#166534', alignSelf: m.own ? 'flex-start' : 'flex-end' }}>
+              {m.t}
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 16, background: '#EEF2FF', borderRadius: 12, padding: '12px 16px', fontSize: 13, color: '#1B4FD8', fontWeight: 600 }}>🧠 12 correcties onthouden · Leerpercentage: 94%</div>
       </div>
     ),
   },
@@ -178,14 +174,27 @@ const TABS = [
     headline: 'Alles in één overzicht',
     body: 'In je dashboard zie je alle gesprekken, verstuurde offertes en ingeplande afspraken. Je ziet precies wat je werknemer heeft gedaan en kunt hem bijsturen waar nodig.',
     preview: (
-      <div style={{ background: '#fff', borderRadius: 16, padding: 20, border: '1px solid #E5E2DB' }}>
-        {[['Berichten beantwoord', '47', '#1B4FD8'], ['Offertes verstuurd', '12', '#16A34A'], ['Afspraken ingepland', '8', '#D97706'], ['Klanten geholpen', '31', '#7C3AED']].map(([label, val, color], i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < 3 ? '1px solid #E5E2DB' : 'none' }}>
-            <span style={{ fontSize: 12, color: '#4A5568' }}>{label}</span>
-            <span style={{ fontSize: 18, fontWeight: 700, color: color as string }}>{val}</span>
+      <div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 16 }}>
+          {[['47', '#1A1A2E', 'berichten vandaag'], ['€2.840', '#1B4FD8', 'waarde deze week'], ['12', '#16A34A', 'afspraken deze maand']].map(([n, c, l]) => (
+            <div key={l} style={{ background: '#F7F5F0', borderRadius: 12, padding: 12 }}>
+              <div style={{ fontSize: 22, fontWeight: 700, color: c as string }}>{n}</div>
+              <div style={{ fontSize: 11, color: '#4A5568', marginTop: 2 }}>{l}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ background: '#F7F5F0', borderRadius: 12, padding: 14, marginBottom: 14 }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: '#4A5568', marginBottom: 8 }}>Activiteit deze week</div>
+          <svg width="100%" height="52" viewBox="0 0 280 52"><polyline points="0,50 40,42 80,35 120,26 160,18 200,11 240,6 280,3" stroke="#1B4FD8" strokeWidth="2.5" strokeLinecap="round" fill="none"/><polygon points="0,50 40,42 80,35 120,26 160,18 200,11 240,6 280,3 280,52 0,52" fill="rgba(27,79,216,.07)"/></svg>
+        </div>
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>Recente activiteit</div>
+        {[['#DCFCE7', '💬', 'Henk de Boer beantwoord — tarieven', '09:14'], ['#EEF2FF', '📅', 'Afspraak ingepland — Fam. Jansen', '08:47'], ['#FEF3C7', '📄', 'Offerte verzonden — Sandra Bakker', '08:22']].map(([bg, icon, text, time], i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 12, color: '#4A5568', marginBottom: 7 }}>
+            <div style={{ width: 26, height: 26, borderRadius: '50%', background: bg as string, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}>{icon}</div>
+            <span style={{ flex: 1 }}>{text}</span>
+            <span style={{ flexShrink: 0, fontSize: 11 }}>{time}</span>
           </div>
         ))}
-        <div style={{ marginTop: 12, fontSize: 11, color: '#94A3B8', textAlign: 'center' }}>Deze maand · bijgewerkt 2 min geleden</div>
       </div>
     ),
   },
@@ -206,7 +215,7 @@ function DemoChat() {
 
   useEffect(() => {
     if (isFirst.current) { isFirst.current = false; return }
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (bottomRef.current) bottomRef.current.scrollTop = bottomRef.current.scrollHeight
   }, [msgs, loading])
 
   async function send(text: string) {
@@ -261,11 +270,11 @@ function DemoChat() {
   const CHIPS = ['Klus klaar bij Familie Peters. 3u heg knippen.', 'Henk Smit wil offerte voor tuinaanleg.', 'Factuur Jansen staat 2 weken open.']
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'start' }} className="demo-grid">
+    <div style={{ display: 'grid', gridTemplateColumns: '35% 65%', gap: 48, alignItems: 'start' }} className="demo-grid">
       {/* Company card */}
       <div>
-        <div className="card" style={{ padding: 28, marginBottom: 20 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
+        <div className="card" style={{ padding: 28 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
             <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, color: '#fff', flexShrink: 0 }}>JH</div>
             <div>
               <div style={{ fontSize: 17, fontWeight: 700, color: '#1A1A2E' }}>Jansen Hoveniers</div>
@@ -276,65 +285,67 @@ function DemoChat() {
               </div>
             </div>
           </div>
-          <div style={{ height: 1, background: '#E5E2DB', margin: '0 0 16px' }} />
-          {[['📍', 'Alkmaar, Noord-Holland'], ['💰', 'Tuinonderhoud €45/u · Snoei €55/u'], ['🧾', 'Boekhouden via Moneybird'], ['📅', 'Agenda via Google Calendar']].map(([icon, val]) => (
-            <div key={val} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: '#4A5568', marginBottom: 10 }}>
-              <span style={{ fontSize: 16, width: 22, textAlign: 'center', flexShrink: 0 }}>{icon}</span>
-              <span>{val}</span>
-            </div>
-          ))}
-        </div>
-        <p style={{ fontSize: 12, color: '#94A3B8', marginBottom: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Stuur hem een bericht:</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {CHIPS.map(c => (
-            <button key={c} onClick={() => send(c)} disabled={loading || count >= 8}
-              style={{ fontSize: 13, color: '#1A1A2E', background: '#F7F5F0', border: '1px solid #E5E2DB', borderRadius: 100, padding: '8px 16px', cursor: loading || count >= 8 ? 'not-allowed' : 'pointer', opacity: loading || count >= 8 ? 0.5 : 1, textAlign: 'left', transition: 'all 0.15s' }}>
-              {c}
-            </button>
-          ))}
+          <div style={{ height: 1, background: '#E5E2DB', marginBottom: 16 }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+            {[['📍', 'Alkmaar, Noord-Holland'], ['💰', 'Tuinonderhoud €45/u · Snoei €55/u'], ['🧾', 'Boekhouden via Moneybird'], ['📅', 'Agenda via Google Calendar']].map(([icon, val]) => (
+              <div key={val} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: '#4A5568' }}>
+                <span style={{ fontSize: 16, width: 22, textAlign: 'center', flexShrink: 0 }}>{icon}</span>
+                <span>{val}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ height: 1, background: '#E5E2DB', marginBottom: 16 }} />
+          <div style={{ fontSize: 12, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>Stuur hem een bericht:</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {CHIPS.map(c => (
+              <button key={c} onClick={() => send(c)} disabled={loading || count >= 8}
+                style={{ fontSize: 13, color: '#1A1A2E', background: '#F7F5F0', border: '1px solid #E5E2DB', borderRadius: 100, padding: '8px 16px', cursor: loading || count >= 8 ? 'not-allowed' : 'pointer', opacity: loading || count >= 8 ? 0.5 : 1, textAlign: 'left', transition: 'all 0.15s' }}>
+                {c}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Chat phone */}
+      {/* Demo phone */}
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ width: '100%', maxWidth: 360, background: '#1A1A2E', borderRadius: 32, padding: 8, boxShadow: '0 24px 48px rgba(0,0,0,0.16)' }}>
-          <div style={{ borderRadius: 26, overflow: 'hidden', background: '#fff' }}>
-            <div style={{ background: '#1A8A5A', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#fff', flexShrink: 0 }}>DW</div>
-              <div>
-                <div style={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>Mijn Digitale Werknemer</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#7FE8B0', display: 'inline-block' }} />
-                  <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: 10 }}>Aan het werk voor jou ✓</span>
-                </div>
+        <div style={{ width: 300, height: 620, background: '#1C1C1E', borderRadius: 50, border: '2px solid rgba(255,255,255,0.12)', boxShadow: '0 32px 64px rgba(0,0,0,0.18)', overflow: 'hidden', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+          <div style={{ position: 'absolute', top: 12, left: '50%', transform: 'translateX(-50%)', width: 120, height: 34, background: '#000', borderRadius: 20, zIndex: 10 }} />
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#E5DDD5', borderRadius: 48, margin: 4, overflow: 'hidden', marginTop: 0 }}>
+            <div style={{ background: '#1A8A5A', padding: '44px 12px 10px', display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+              <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#fff', flexShrink: 0 }}>DW</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ color: '#fff', fontSize: 13, fontWeight: 700 }}>Mijn Digitale Werknemer</div>
+                <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 10 }}>Aan het werk voor jou ✓</div>
               </div>
+              <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 13, display: 'flex', gap: 12 }}>📹 📞</div>
             </div>
-            <div style={{ background: '#E5DDD5', padding: '10px 8px', minHeight: 300, maxHeight: 360, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div ref={bottomRef as React.RefObject<HTMLDivElement>} style={{ flex: 1, padding: '10px 8px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 6 }}>
               {msgs.map((m, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
-                  <div style={{ maxWidth: '82%', background: m.role === 'user' ? '#D9FDD3' : '#fff', borderRadius: m.role === 'user' ? '14px 2px 14px 14px' : '2px 14px 14px 14px', padding: '7px 10px', fontSize: 12, color: '#1A1A2E', lineHeight: 1.5, animation: 'msg-in 0.3s var(--spring) forwards' }}>
+                <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start', animation: 'msg-in 0.35s var(--spring) forwards' }}>
+                  <div style={{ maxWidth: '84%', padding: '8px 11px', fontSize: 12, lineHeight: 1.5, color: '#1A1A2E', boxShadow: '0 1px 2px rgba(0,0,0,0.08)', background: m.role === 'user' ? '#DCF8C6' : '#fff', borderRadius: m.role === 'user' ? '16px 2px 16px 16px' : '2px 16px 16px 16px' }}>
                     {m.content || (loading && i === msgs.length - 1 ? <span style={{ display: 'inline-flex', gap: 3 }}>{[0,1,2].map(d => <span key={d} style={{ display: 'inline-block', width: 5, height: 5, background: '#bbb', borderRadius: '50%', animation: `typing-pulse 1.2s ease-in-out ${d*0.2}s infinite` }} />)}</span> : '')}
                   </div>
                 </div>
               ))}
               {loading && msgs[msgs.length - 1]?.role !== 'assistant' && (
                 <div style={{ display: 'flex' }}>
-                  <div style={{ background: '#fff', borderRadius: '2px 14px 14px 14px', padding: '10px 14px' }}>
+                  <div style={{ background: '#fff', borderRadius: '2px 16px 16px 16px', padding: '10px 14px' }}>
                     <span style={{ display: 'inline-flex', gap: 3 }}>{[0,1,2].map(d => <span key={d} style={{ display: 'inline-block', width: 5, height: 5, background: '#bbb', borderRadius: '50%', animation: `typing-pulse 1.2s ease-in-out ${d*0.2}s infinite` }} />)}</span>
                   </div>
                 </div>
               )}
-              <div ref={bottomRef} />
             </div>
-            <div style={{ background: '#F0F2F5', padding: '8px 10px', display: 'flex', gap: 8, alignItems: 'center' }}>
+            <div style={{ background: '#F0F0F0', padding: '10px', display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+              <span style={{ fontSize: 18 }}>😊</span>
               {count >= 8 ? (
-                <div style={{ flex: 1, fontSize: 11, color: '#94A3B8', textAlign: 'center', padding: '6px 0' }}>Demo limiet bereikt</div>
+                <div style={{ flex: 1, fontSize: 11, color: '#94A3B8', textAlign: 'center' }}>Demo limiet bereikt</div>
               ) : (
                 <>
                   <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && send(input)} placeholder="Typ een bericht..." disabled={loading}
-                    style={{ flex: 1, background: '#fff', border: 'none', borderRadius: 18, padding: '7px 12px', fontSize: 12.5, outline: 'none', color: '#1A1A2E', fontFamily: 'inherit' }} />
+                    style={{ flex: 1, background: '#fff', border: 'none', borderRadius: 24, padding: '10px 14px', fontSize: 12, outline: 'none', color: '#1A1A2E', fontFamily: 'inherit' }} />
                   <button onClick={() => send(input)} disabled={!input.trim() || loading}
-                    style={{ width: 32, height: 32, borderRadius: '50%', background: input.trim() && !loading ? '#1A8A5A' : '#CBD5E1', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: input.trim() && !loading ? 'pointer' : 'not-allowed', flexShrink: 0 }}>
+                    style={{ width: 34, height: 34, borderRadius: '50%', background: input.trim() && !loading ? '#1A8A5A' : '#CBD5E1', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: input.trim() && !loading ? 'pointer' : 'not-allowed', flexShrink: 0 }}>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/></svg>
                   </button>
                 </>
@@ -427,7 +438,7 @@ function FeatureTabsSection() {
               </button>
             ))}
           </div>
-          <div key={active} style={{ background: '#fff', borderRadius: 20, padding: 28, border: '1px solid #E8E8E4', boxShadow: '0 2px 4px rgba(0,0,0,0.04),0 8px 24px rgba(0,0,0,0.06)', minHeight: 400, animation: 'msg-in 0.35s var(--spring) forwards' }}>
+          <div key={active} style={{ background: '#fff', borderRadius: 20, padding: 28, border: '1px solid #E8E8E4', boxShadow: '0 2px 4px rgba(0,0,0,0.04),0 8px 24px rgba(0,0,0,0.06)', minHeight: 440, display: 'flex', flexDirection: 'column', animation: 'msg-in 0.35s var(--spring) forwards' }}>
             <h3 className="font-display" style={{ fontSize: 'clamp(20px,2.2vw,28px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>{tab.headline}</h3>
             <p style={{ fontSize: 15, color: '#4A5568', lineHeight: 1.7, marginBottom: 24 }}>{tab.body}</p>
             {tab.preview}
@@ -538,17 +549,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── ROI BAR ── */}
-      <RoiBar />
-
       {/* ── SECTOR BAR ── */}
       <section style={{ padding: '32px 24px', borderBottom: '1px solid #E5E2DB', background: '#fff' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <p style={{ textAlign: 'center', fontSize: 12, fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 18 }}>Werkt voor elke branche in het MKB</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 10 }}>
-            {SECTORS.map(({ Icon, label }) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#F7F5F0', border: '1px solid #E5E2DB', borderRadius: 999, padding: '7px 16px', fontSize: 13, fontWeight: 500, color: '#4A5568' }}>
-                <Icon size={13} /><span>{label}</span>
+            {SECTORS.map(({ emoji, label }) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#F7F5F0', border: '1px solid #E5E2DB', borderRadius: 999, padding: '8px 18px', fontSize: 14, color: '#1A1A2E', cursor: 'default' }}>
+                <span>{emoji}</span><span>{label}</span>
               </div>
             ))}
           </div>
@@ -591,17 +599,22 @@ export default function HomePage() {
             <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,48px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 16 }}>Van aanmelding tot autonoom werknemer</h2>
             <p style={{ fontSize: 17, color: '#4A5568' }}>Drie stappen. Geen technische kennis nodig.</p>
           </motion.div>
-          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={stagger} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }} className="steps-grid">
-            {STEPS.map(s => (
-              <motion.div key={s.n} variants={fadeUp} className="card" style={{ padding: 32, transition: 'all 0.25s var(--spring)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 8px rgba(0,0,0,0.04),0 16px 40px rgba(0,0,0,0.07)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = '' }}>
-                <div className="font-display" style={{ fontSize: 54, lineHeight: 1, marginBottom: 18, color: s.color === '#EEF2FF' ? '#DBEAFE' : s.color === '#FEF3C7' ? '#FEF3C7' : '#DCFCE7' }}>{s.n}</div>
-                <div style={{ width: 46, height: 46, borderRadius: '50%', background: s.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, marginBottom: 14 }}>{s.icon}</div>
-                <h3 style={{ fontSize: 19, fontWeight: 700, color: '#1A1A2E', marginBottom: 10 }}>{s.title}</h3>
-                <p style={{ fontSize: 14, color: '#4A5568', lineHeight: 1.7, marginBottom: 16 }}>{s.desc}</p>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#F1F5F9', borderRadius: 100, padding: '5px 14px', fontSize: 12, color: '#4A5568' }}>{s.chip}</div>
-              </motion.div>
+          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={stagger} style={{ display: 'grid', gridTemplateColumns: '1fr 40px 1fr 40px 1fr', gap: 0, alignItems: 'start' }} className="steps-grid">
+            {STEPS.map((s, si) => (
+              <>
+                <motion.div key={s.n} variants={fadeUp} className="card" style={{ padding: 32, transition: 'all 0.25s var(--spring)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 8px rgba(0,0,0,0.04),0 16px 40px rgba(0,0,0,0.07)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = '' }}>
+                  <div className="font-display" style={{ fontSize: 54, lineHeight: 1, marginBottom: 18, color: s.color === '#EEF2FF' ? '#DBEAFE' : s.color === '#FEF3C7' ? '#FEF3C7' : '#DCFCE7' }}>{s.n}</div>
+                  <div style={{ width: 46, height: 46, borderRadius: '50%', background: s.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, marginBottom: 14 }}>{s.icon}</div>
+                  <h3 style={{ fontSize: 19, fontWeight: 700, color: '#1A1A2E', marginBottom: 10 }}>{s.title}</h3>
+                  <p style={{ fontSize: 14, color: '#4A5568', lineHeight: 1.7, marginBottom: 16 }}>{s.desc}</p>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#F1F5F9', borderRadius: 100, padding: '5px 14px', fontSize: 12, color: '#4A5568' }}>{s.chip}</div>
+                </motion.div>
+                {si < 2 && (
+                  <motion.div key={`arrow-${si}`} variants={fadeUp} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 72, fontSize: 22, color: '#1B4FD8', animation: 'arrowPulse 2s ease-in-out infinite' }}>→</motion.div>
+                )}
+              </>
             ))}
           </motion.div>
         </div>
@@ -614,11 +627,9 @@ export default function HomePage() {
       <section id="demo" style={{ padding: '96px 24px', background: '#F0F5FF' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#FEF3C7', border: '1px solid rgba(217,119,6,0.2)', borderRadius: 999, padding: '5px 16px', marginBottom: 16 }}>
-              <span style={{ fontSize: 13, fontWeight: 500, color: '#D97706' }}>Probeer het zelf</span>
-            </div>
+            <div className="sec-label amber">Probeer het zelf</div>
             <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,44px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 12 }}>Stuur hem een bericht. Zie hoe hij reageert.</h2>
-            <p style={{ fontSize: 16, color: '#4A5568', maxWidth: 480, margin: '0 auto' }}>Doe alsof je net een klus hebt afgerond. Stuur je werknemer een berichtje — hij regelt de rest.</p>
+            <p style={{ fontSize: 17, color: '#4A5568', maxWidth: 480, margin: '0 auto' }}>Doe alsof je net een klus hebt afgerond. Stuur je werknemer een berichtje — hij regelt de rest.</p>
           </motion.div>
           <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ background: 'rgba(219,234,254,0.7)', border: '1px solid rgba(27,79,216,0.15)', borderRadius: 14, padding: '14px 20px', fontSize: 14, color: '#1B4FD8', marginBottom: 48, display: 'flex', alignItems: 'flex-start', gap: 10 }}>
             <span>💡</span>
@@ -670,32 +681,30 @@ export default function HomePage() {
             <h2 className="font-display" style={{ fontSize: 'clamp(28px,3.5vw,48px)', color: '#1A1A2E', fontWeight: 400, marginBottom: 16 }}>Echte assistent vs. Digitale Werknemer</h2>
             <p style={{ fontSize: 17, color: '#4A5568' }}>Zelfde taken. Betere beschikbaarheid. Lager tarief.</p>
           </motion.div>
-          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ background: '#fff', border: '1px solid #E5E2DB', borderRadius: 20, overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: '#0F172A', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-              <div style={{ padding: '16px 24px', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Eigenschap</div>
-              <div style={{ padding: '16px 24px', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.08em', borderLeft: '1px solid rgba(255,255,255,0.08)', textAlign: 'center' }}>Echte assistent</div>
-              <div style={{ padding: '16px 24px', fontSize: 11, fontWeight: 700, color: '#93B4FF', textTransform: 'uppercase', letterSpacing: '0.08em', borderLeft: '1px solid rgba(255,255,255,0.08)', textAlign: 'center', background: 'rgba(27,79,216,0.2)' }}>Digitale Werknemer</div>
+          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={fadeUp} style={{ background: '#fff', border: '1px solid #E5E2DB', borderRadius: 20, overflow: 'hidden', boxShadow: '0 4px 8px rgba(0,0,0,0.04), 0 16px 40px rgba(0,0,0,0.07)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', background: '#0F172A' }}>
+              <div style={{ padding: '20px 24px', fontSize: 14, fontWeight: 700, color: '#fff' }}>Eigenschap</div>
+              <div style={{ padding: '20px 24px', fontSize: 14, fontWeight: 700, color: '#fff', borderLeft: '1px solid rgba(255,255,255,0.08)' }}>Echte assistent</div>
+              <div style={{ padding: '20px 24px', fontSize: 14, fontWeight: 700, color: '#1B4FD8', borderLeft: '1px solid rgba(255,255,255,0.08)', background: '#EEF2FF' }}>Digitale Werknemer</div>
             </div>
             {CMP_ITEMS.map((item, i) => (
-              <div key={item} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderBottom: i < CMP_ITEMS.length - 1 ? '1px solid #E5E2DB' : 'none', background: i % 2 === 0 ? '#fff' : '#FAFAF8' }}>
-                <div style={{ padding: '13px 24px', fontSize: 14, color: '#1A1A2E', fontWeight: 500 }}>{item}</div>
-                <div style={{ padding: '13px 24px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: '1px solid #E5E2DB' }}>
-                  <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#FEE2E2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={13} style={{ color: '#DC2626' }} /></div>
+              <div key={item} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', borderBottom: i < CMP_ITEMS.length - 1 ? '1px solid #E5E2DB' : 'none', background: i % 2 === 0 ? '#fff' : '#FAFAF8' }}>
+                <div style={{ padding: '15px 24px', fontSize: 14, color: '#1A1A2E', fontWeight: 500, display: 'flex', alignItems: 'center' }}>{item}</div>
+                <div style={{ padding: '15px 24px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: '1px solid #E5E2DB' }}>
+                  <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#FEE2E2', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: '#DC2626' }}>✕</div>
                 </div>
-                <div style={{ padding: '13px 24px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: '1px solid #E5E2DB', background: 'rgba(27,79,216,0.03)' }}>
-                  <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#DCFCE7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Check size={13} style={{ color: '#16A34A' }} /></div>
+                <div style={{ padding: '15px 24px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: '1px solid #E5E2DB', background: 'rgba(240,245,255,0.5)' }}>
+                  <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#DCFCE7', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: '#16A34A' }}>✓</div>
                 </div>
               </div>
             ))}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderTop: '2px solid #1B4FD8' }}>
-              <div style={{ padding: '18px 24px', fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>Maandelijkse kosten</div>
-              <div style={{ padding: '18px 24px', textAlign: 'center', borderLeft: '1px solid #E5E2DB' }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: '#1A1A2E' }}>€2.500+</div>
-                <div style={{ fontSize: 11, color: '#94A3B8' }}>salaris + bijdragen</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', background: '#EEF2FF' }}>
+              <div style={{ padding: '18px 24px', fontSize: 16, fontWeight: 700, color: '#1A1A2E', display: 'flex', alignItems: 'center' }}>Prijs</div>
+              <div style={{ padding: '18px 24px', display: 'flex', alignItems: 'center', borderLeft: '1px solid #E5E2DB' }}>
+                <span style={{ fontSize: 16, color: '#94A3B8', textDecoration: 'line-through', fontWeight: 600 }}>€2.500+/mnd</span>
               </div>
-              <div style={{ padding: '18px 24px', textAlign: 'center', borderLeft: '1px solid #E5E2DB', background: '#EEF2FF' }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: '#1B4FD8' }}>Vanaf €149</div>
-                <div style={{ fontSize: 11, color: '#1B4FD8', opacity: 0.7 }}>alles inbegrepen</div>
+              <div style={{ padding: '18px 24px', display: 'flex', alignItems: 'center', borderLeft: '1px solid #E5E2DB' }}>
+                <span style={{ fontSize: 20, fontWeight: 700, color: '#1B4FD8' }}>Vanaf €149/mnd</span>
               </div>
             </div>
           </motion.div>
@@ -712,10 +721,10 @@ export default function HomePage() {
           </motion.div>
           <motion.div initial="hidden" whileInView="show" viewport={vp} variants={stagger} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20, alignItems: 'start' }} className="pricing-grid">
             {PLANS.map((plan, i) => (
-              <motion.div key={plan.name} variants={fadeUp} style={{ position: 'relative', marginTop: plan.highlight ? -16 : 0 }}>
+              <motion.div key={plan.name} variants={fadeUp} style={{ position: 'relative', alignSelf: plan.highlight ? undefined : 'center' }}>
                 {plan.highlight ? (
-                  <div style={{ background: '#0F172A', borderRadius: 20, padding: 28, display: 'flex', flexDirection: 'column', gap: 20, position: 'relative', boxShadow: '0 8px 32px rgba(27,79,216,0.18)' }}>
-                    <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: '#E8B84B', color: '#1A1A2E', fontSize: 11, fontWeight: 800, padding: '4px 14px', borderRadius: 999, whiteSpace: 'nowrap' }}>{plan.badge}</div>
+                  <div style={{ background: '#0F172A', borderRadius: 20, padding: '36px 30px', display: 'flex', flexDirection: 'column', gap: 22, position: 'relative', boxShadow: '0 24px 64px rgba(0,0,0,0.22)', transform: 'scale(1.04)' }}>
+                    <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: '#E8B84B', color: '#1A1A2E', fontSize: 12, fontWeight: 700, padding: '5px 16px', borderRadius: 999, whiteSpace: 'nowrap' }}>{plan.badge}</div>
                     <div>
                       <h3 style={{ fontSize: 17, fontWeight: 700, color: '#fff', marginBottom: 6 }}>{plan.name}</h3>
                       <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6 }}>{plan.desc}</p>
@@ -760,16 +769,16 @@ export default function HomePage() {
               </motion.div>
             ))}
           </motion.div>
-          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={stagger} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16, marginTop: 32 }} className="trust-grid">
+          <motion.div initial="hidden" whileInView="show" viewport={vp} variants={stagger} style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16, maxWidth: 900, margin: '48px auto 0' }} className="trust-grid">
             {[
-              { Icon: Shield, c: '#1B4FD8', title: 'GDPR-compliant', desc: 'Jouw data blijft in Nederland.' },
-              { Icon: Clock, c: '#D97706', title: 'Maandelijks opzegbaar', desc: 'Geen jaarcontract. Stop wanneer je wil.' },
-              { Icon: Zap, c: '#16A34A', title: 'In 1 week actief', desc: 'Inwerkfase duurt maximaal 7 dagen.' },
+              { emoji: '🔒', title: 'GDPR-compliant', desc: 'Jouw data blijft in Nederland. Volledig AVG-proof.' },
+              { emoji: '⏱', title: 'Maandelijks opzegbaar', desc: 'Geen jaarcontract. Stop wanneer je wil.' },
+              { emoji: '⚡', title: 'In 1 week actief', desc: 'Inwerkfase duurt maximaal 7 dagen.' },
             ].map(item => (
               <motion.div key={item.title} variants={fadeUp} className="card" style={{ padding: '20px 24px', textAlign: 'center' }}>
-                <item.Icon size={20} style={{ color: item.c, margin: '0 auto 10px' }} />
-                <div style={{ fontSize: 14, fontWeight: 600, color: '#1A1A2E', marginBottom: 4 }}>{item.title}</div>
-                <div style={{ fontSize: 12, color: '#4A5568' }}>{item.desc}</div>
+                <div style={{ fontSize: 22, marginBottom: 8 }}>{item.emoji}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E', marginBottom: 4 }}>{item.title}</div>
+                <div style={{ fontSize: 13, color: '#4A5568', marginTop: 4 }}>{item.desc}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -812,11 +821,16 @@ export default function HomePage() {
           from { opacity: 0; transform: translateY(6px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes arrowPulse {
+          0%,100% { opacity: .35; transform: translateX(0); }
+          50% { opacity: .9; transform: translateX(5px); }
+        }
         @media (max-width: 900px) {
           .hero-grid { grid-template-columns: 1fr !important; text-align: center; }
           .hero-grid > *:last-child { display: none !important; }
           .features-grid { grid-template-columns: repeat(2,1fr) !important; }
           .steps-grid { grid-template-columns: 1fr !important; }
+          .steps-grid > *:nth-child(even) { display: none !important; }
           .tabs-grid { grid-template-columns: 1fr !important; }
           .demo-grid { grid-template-columns: 1fr !important; }
           .test-grid { grid-template-columns: 1fr !important; }
