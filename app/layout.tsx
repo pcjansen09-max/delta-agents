@@ -1,36 +1,50 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, DM_Sans } from "next/font/google";
+import { Inter, Fraunces, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  style: ["normal", "italic"],
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-display",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
+  display: "swap",
 });
 
-const dmSans = DM_Sans({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-body",
+  weight: ["400", "500"],
+  style: ["italic"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://deltaagents.nl"),
-  title: "DeltaAgents — Jouw Digitale Werknemer voor het MKB",
+  title: "DeltaAgents — Cloud Digitale Werknemer voor het MKB | Early Access",
   description:
-    "Nooit meer gemiste klanten. DeltaAgents geeft jouw bedrijf een AI-werknemer die 24/7 WhatsApp beantwoordt, offertes maakt en klanten helpt.",
+    "DeltaAgents wordt de cloud-versie van de Digitale Werknemer: een AI-collega die 24/7 via WhatsApp uw klanten helpt, offertes maakt en uw planning beheert. In ontwikkeling — sluit u nu aan op de wachtlijst voor early access.",
   keywords: [
-    "digitale werknemer",
+    "digitale werknemer cloud",
     "AI assistent MKB",
-    "WhatsApp bot bedrijf",
-    "AI klantenservice",
+    "WhatsApp AI Nederland",
     "automatisering MKB",
-    "digitale medewerker",
+    "DeltaAgents",
+    "DeltaDesign",
+    "AI ondernemer waitlist",
   ],
+  authors: [{ name: "Peter Jansen — DeltaDesign" }],
+  robots: { index: true, follow: true },
+  alternates: { canonical: "https://deltaagents.nl" },
   openGraph: {
-    title: "DeltaAgents — Jouw Digitale Werknemer voor het MKB",
+    title: "DeltaAgents — Cloud Digitale Werknemer voor het MKB | Early Access",
     description:
-      "Nooit meer gemiste klanten. Een AI-werknemer die 24/7 voor jouw bedrijf klaarstaat.",
+      "De cloud-versie van de Digitale Werknemer komt eraan. Sluit u aan op de wachtlijst voor early access.",
     type: "website",
     url: "https://deltaagents.nl",
     locale: "nl_NL",
@@ -38,9 +52,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "DeltaAgents — Jouw Digitale Werknemer voor het MKB",
+    title: "DeltaAgents — Cloud Digitale Werknemer voor het MKB | Early Access",
     description:
-      "Nooit meer gemiste klanten. Een AI-werknemer die 24/7 voor jouw bedrijf klaarstaat.",
+      "De cloud-versie van de Digitale Werknemer komt eraan. Sluit u aan op de wachtlijst.",
   },
 };
 
@@ -48,8 +62,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="nl" className={`${instrumentSerif.variable} ${dmSans.variable}`}>
-      <body>{children}</body>
+    <html
+      lang="nl"
+      className={`${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="page-fade">{children}</body>
     </html>
   );
 }
