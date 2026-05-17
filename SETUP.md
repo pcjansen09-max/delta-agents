@@ -82,6 +82,30 @@ sessie). Er moet een Supabase project zijn waar deze geapplied worden.
 - [ ] Top up €100 credit (genoeg voor ~10K agent runs in MVP-fase)
 - [ ] Noteer `ANTHROPIC_API_KEY`
 
+## 4b. Voyage AI voor embeddings (5 min — gratis)
+
+De Wisdom Layer gebruikt vector search om relevante regels per agent-run
+op te halen. Voyage AI (Anthropic-aanbevolen partner) is goedkoop en heeft
+een gratis tier voldoende voor pilot-volume.
+
+### Acties
+- [ ] https://www.voyageai.com → sign up → API Keys → "Create new key"
+- [ ] Noteer `VOYAGE_API_KEY`
+
+## 4c. Token encryption key (1 min)
+
+OAuth tokens (Moneybird) worden AES-256-GCM encrypted opgeslagen.
+Master key genereer je lokaal en zet je in env vars.
+
+### Acties
+- [ ] Genereer een key:
+      ```
+      openssl rand -base64 32
+      ```
+- [ ] Noteer `TOKEN_ENCRYPTION_KEY` (32 bytes base64)
+- [ ] **Bewaar deze veilig** — bij verlies zijn alle OAuth tokens onbruikbaar
+      en moet je elke klant opnieuw Moneybird laten koppelen.
+
 ---
 
 ## 5. Vercel environment variables (5 min, na bovenstaande)
@@ -91,6 +115,8 @@ Voeg toe voor **Production** én **Preview** (samen aan te vinken):
 
 ```
 ANTHROPIC_API_KEY                    sk-ant-...
+VOYAGE_API_KEY                       pa-...
+TOKEN_ENCRYPTION_KEY                 {openssl rand -base64 32 output}
 
 NEXT_PUBLIC_SUPABASE_URL             https://xxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY        eyJ...
@@ -102,7 +128,9 @@ MONEYBIRD_CLIENT_SECRET              xxx
 WHATSAPP_PHONE_NUMBER_ID             xxx  (pas in week 3-4 beschikbaar)
 WHATSAPP_ACCESS_TOKEN                xxx  (idem)
 WHATSAPP_VERIFY_TOKEN                deltaagents-{kies-iets-random}
+WHATSAPP_APP_SECRET                  xxx  (uit Meta App Dashboard - Basic Settings)
 
+NEXT_PUBLIC_SITE_URL                 https://deltaagents.nl
 WEB3FORMS_ACCESS_KEY                 84ab51cd-7f92-4ec1-9b77-492755ff5167
 ```
 
