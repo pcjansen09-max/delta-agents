@@ -40,6 +40,10 @@ export interface Company {
   industry: string | null;
   subscription_tier: SubscriptionTier;
   whatsapp_number: string | null;
+  persona_voice: string | null;
+  persona_examples: Array<{ trigger: string; response: string }>;
+  persona_avoid: string | null;
+  reply_style: "kort_bondig" | "standaard" | "uitgebreid" | "informeel";
   created_at: string;
 }
 
@@ -72,6 +76,8 @@ export interface User {
   role: UserRole;
   permissions: Record<string, boolean>;
   active: boolean;
+  style_notes: string | null;
+  preferred_reply_length: "kort" | "auto" | "uitgebreid";
   created_at: string;
 }
 
