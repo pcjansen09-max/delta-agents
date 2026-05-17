@@ -18,6 +18,7 @@ import { sendTextMessage } from "@/lib/whatsapp/client";
 import { getAdminClient } from "@/lib/supabase-admin";
 import { audit } from "@/lib/audit";
 import { runAgent } from "@/lib/agent/runtime";
+import { executeApprovedAction } from "@/lib/agent/executor";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -294,7 +295,7 @@ async function handleApprovalReply(input: {
     return;
   }
 
-  // Approved → execute (alleen invoice voor MVP, andere types komen later)
+  // Approved → execute
   await admin
     .from("deltaagents_actions")
     .update({ status: "approved" })
@@ -309,11 +310,26 @@ async function handleApprovalReply(input: {
     resourceId: action.id,
   });
 
-  // TODO: koppel met lib/moneybird/client.ts createSalesInvoice + sendSalesInvoice
-  // Voor MVP: log + bevestig. Echte Moneybird wiring in volgende sessie.
+  // Bevestiging direct, zodat user niet wacht op Moneybird API
   await sendTextMessage({
     companyId: input.companyId,
     toPhone: input.userPhone,
-    text: "Bevestigd. De factuur wordt verwerkt — u krijgt een bevestiging zodra hij is verstuurd.",
+    text: "Bevestigd. De factuur wordt verstuurd — u krijgt direct bericht zodra hij weg is.",
   });
+
+  // Voer de actie nu uit. Een failure stuurt een follow-up bericht.
+  const result = await executeApprovedAction(action.id);
+  if (result.ok) {
+    await sendTextMessage({
+      companyId: input.companyId,
+      toPhone: input.userPhone,
+      text: `De factuur is verstuurd via Moneybird.${result.externalUrl ? `\n\n${result.externalUrl}` : ""}`,
+    });
+  } else {
+    await sendTextMessage({
+      companyId: input.companyId,
+      toPhone: input.userPhone,
+      text: `De factuur kon niet automatisch worden verstuurd: ${result.error}\n\nU kunt 'm in Moneybird zelf nog uitvoeren — wij kijken naar de oorzaak.`,
+    });
+  }
 }
