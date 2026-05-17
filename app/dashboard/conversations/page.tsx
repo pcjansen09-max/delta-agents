@@ -64,7 +64,8 @@ export default async function ConversationsPage() {
         </p>
       </header>
 
-      <ConversationsView conversations={enriched} />
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      <ConversationsView conversations={enriched as any} />
 
       <style>{`
         .cv-wrap { display: flex; flex-direction: column; gap: 40px; max-width: 1400px; }

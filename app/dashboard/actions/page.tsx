@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/auth";
 import { getAdminClient } from "@/lib/supabase-admin";
 import ActionsList from "@/components/dash/ActionsList";
+import type { AgentAction } from "@/types/database";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,7 @@ export default async function ActionsPage() {
 
   const { data: actions } = await admin
     .from("deltaagents_actions")
-    .select("id, type, status, payload, created_at, executed_at, error_message")
+    .select("*")
     .eq("company_id", session.company.id)
     .order("created_at", { ascending: false })
     .limit(100);
@@ -31,7 +32,7 @@ export default async function ActionsPage() {
         </p>
       </header>
 
-      <ActionsList actions={actions ?? []} />
+      <ActionsList actions={(actions ?? []) as unknown as AgentAction[]} />
 
       <style>{`
         .actions-wrap { display: flex; flex-direction: column; gap: 40px; max-width: 1200px; }

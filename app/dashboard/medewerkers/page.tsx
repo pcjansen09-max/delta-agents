@@ -1,6 +1,7 @@
 import { requireSession } from "@/lib/auth";
 import { getAdminClient } from "@/lib/supabase-admin";
 import EmployeesManager from "@/components/dash/EmployeesManager";
+import type { User } from "@/types/database";
 
 export const dynamic = "force-dynamic";
 
@@ -30,7 +31,7 @@ export default async function MedewerkersPage() {
         </p>
       </header>
 
-      <EmployeesManager initialUsers={users ?? []} />
+      <EmployeesManager initialUsers={(users ?? []) as unknown as User[]} />
 
       <style>{`
         .emp-wrap { display: flex; flex-direction: column; gap: 40px; max-width: 1200px; }
